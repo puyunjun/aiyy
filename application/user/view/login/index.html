@@ -1,0 +1,41 @@
+
+{extend name="layout"}
+
+{block name="content"}
+
+<div id="login">
+    <div class="login-1">
+        <form action="" name="ff1" method="post" onsubmit="return sub_fun()">
+            <li class="tt1"><input id="mobile_phone" name="username" type="text" class="txt1" value="" placeholder="请输入手机号"></li>
+            <li class="tt1"><input id="mobile_password" name="password" type="password" class="txt1" placeholder="请输入密码（至少6位）" value=""></li>
+            <li class="tt2"><input  class="tj" type="submit" value="登录"></li>
+            <li class="tt3"><p><a href="">立即注册</a></p><span><a href="">忘记密码？</a></span></li>
+        </form>
+    </div>
+    <div class="login-2">
+        <div class="logo2-1">其他账号登录</div>
+        <div class="logo2-2">
+            <ul>
+                <li><a href=""><img src="__ROOT____HOME_CSS__/wapcssjsimg/images/login-1.png" ></a></li>
+                <li><a href=""><img src="__ROOT____HOME_CSS__/wapcssjsimg/images/login-2.png" ></a></li>
+                <li><a href=""><img src="__ROOT____HOME_CSS__/wapcssjsimg/images/login-3.png" ></a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="foot_content"}
+{/block}
+
+{block name="page_js"}
+
+<script>
+
+    var url ='{$url_root}';
+    console.log(url)
+</script>
+<script src="__ROOT____HOME_JS__/user/login/index.js"></script>
+{/block}
