@@ -128,6 +128,5 @@ CREATE TABLE IF NOT EXISTS `dp_user_group_privilege`(
 
 /*
 控制会员权限
-
 */
 
