@@ -97,8 +97,12 @@ class Login extends Model
         session('user_auth_home', $auth);
         session('user_auth_sign_home', $this->dataAuthSign($auth));
 
-        // 保存用户节点权限
-
+        // 判断是否记住登录，下次自动登录
+        /*if ($rememberme) {
+            $signin_token = $user->username.$user->id.$user->last_login_time;
+            cookie('uid_home', $user->id, 24 * 3600 * 7);
+            cookie('signin_token_home', data_auth_sign($signin_token), 24 * 3600 * 7);
+        }*/
         return $user->id;  //用户登录标识主键id
     }
 

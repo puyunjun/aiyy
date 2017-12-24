@@ -1404,3 +1404,35 @@ if (!function_exists('generate_rand_str')) {
         return $str;
     }
 }
+
+//判断前台会员是否登录
+
+if (!function_exists('is_member_signin')) {
+    /**
+     * 判断是否登录
+     * @author 蔡伟明 <314013107@qq.com>
+     * @return mixed
+     */
+    function is_member_signin()
+    {
+        $user = session('user_auth_home');
+        if (empty($user)) {
+            // 判断是否记住登录
+            /*if (cookie('?uid_home') && cookie('?signin_token_home')) {
+                $UserModel = new HomeUser();
+                $user = $UserModel::get(cookie('uid_home'));
+                if ($user) {
+                    $signin_token = data_auth_sign($user['username'].$user['id'].$user['last_login_time']);
+                    if (cookie('signin_token_home') == $signin_token) {
+                        // 自动登录
+                        $UserModel->autoLogin($user);
+                        return $user['id'];
+                    }
+                }
+            };*/
+            return 0;
+        }else{
+            return session('user_auth_sign_home') == data_auth_sign($user) ? $user['uid'] : 0;
+        }
+    }
+}

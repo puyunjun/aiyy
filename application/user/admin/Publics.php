@@ -100,8 +100,9 @@ class Publics extends Common
                 $this->error($hook_result[0]['error']);
             }
         }
-
-        session(null);
+        //清除后台session
+        session('user_auth',null);
+        session('user_auth_sign',null);
         cookie('uid', null);
         cookie('signin_token', null);
 
