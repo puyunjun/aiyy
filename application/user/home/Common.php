@@ -29,7 +29,6 @@ class Common extends Home
 
     /**
      * 检查是否登录，没有登录则跳转到登录页面
-     * @author 蔡伟明 <314013107@qq.com>
      * @return int
      */
     final protected function isLogin()

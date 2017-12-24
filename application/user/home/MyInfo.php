@@ -9,7 +9,8 @@
 namespace app\user\home;
 
 use think\Controller;
-class MyInfo extends Controller
+use app\user\model\home\User;
+class MyInfo extends Common
 {
 
     public function _initialize()
@@ -19,6 +20,8 @@ class MyInfo extends Controller
 
     public function index(){
 
+        //当前用户基本信息
+        $this->assign('base_info',User::get(UID));
         return $this->fetch();
 
     }

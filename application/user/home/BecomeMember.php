@@ -10,7 +10,7 @@ namespace app\user\home;
 
 use think\Controller;
 
-class BecomeMember extends Controller
+class BecomeMember extends Common
 {
 
 
