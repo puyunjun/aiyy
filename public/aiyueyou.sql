@@ -126,3 +126,8 @@ CREATE TABLE IF NOT EXISTS `dp_user_group_privilege`(
    `create_time` CHAR (10) NOT NULL COMMENT '创建特权时间'
 );
 
+
+/*
+会员组权限控制
+*/
+
