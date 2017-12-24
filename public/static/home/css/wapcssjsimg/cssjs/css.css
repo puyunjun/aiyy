@@ -47,7 +47,7 @@ li{ padding:0px; margin:0px; list-style:none;}
 #list-index .list-index-lis .jj .tt1{ width:300px; height:40px; line-height:40px; padding:0px 15px; margin-top:10px; font-size:28px; float:left; overflow:hidden; }
 #list-index .list-index-lis .jj .tt1 p{ height:40px; padding-right:3px; float:left; overflow:hidden; }
 #list-index .list-index-lis .jj .tt1 span{ width:40px; height:40px; float:left; overflow:hidden; }
-#list-index .list-index-lis .jj .tt1 span.sex1{ background:url(../images/sex1.png) no-repeat center center; }
+#list-index .list-index-lis .jj .tt1 span.sex1{ background:url(../images/sexw.png) no-repeat center center; }
 #list-index .list-index-lis .jj .tt2{ width:300px; height:40px; line-height:40px; padding:0px 15px; font-size:22px; color:#6f6f6f; float:left; overflow:hidden; }
 #list-index .list-index-lis .jj .tt2 p{ height:40px; padding-right:7px; float:left; overflow:hidden; }
 #list-index .list-index-lis .jj .tt2 span{ width:auto; height:40px; background:url(../images/addr.png) no-repeat center left; padding-left:35px;  float:right; overflow:hidden; } 
