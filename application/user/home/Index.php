@@ -19,7 +19,7 @@ class Index extends Controller
     }
 
     public function index(){
-
+        /*用户首页方法*/
         $this->assign('user_base_info',$this->model->user_base_info());
         return  $this->fetch();
 
