@@ -4,7 +4,8 @@
 CREATE TABLE dp_user(
   `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
   `sys_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '约游id',
-  `groupid` INT (11) UNSIGNED NOT NULL COMMENT '会员组id',
+  `groupid` INT (11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '会员组id',
+  `city_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '城市地址id',
   `phone` CHAR(11) UNIQUE NOT NULL COMMENT '用户绑定手机号,首次进行登录进行绑定',
   `user_type` TINYINT(1) NOT NULL DEFAULT 3 COMMENT '用户类型,1=>推荐，2=>认证,3=>新人',
   `nickname` VARCHAR (50)  NOT NULL COMMENT '用户昵称',
@@ -12,7 +13,7 @@ CREATE TABLE dp_user(
   `member_id` VARCHAR(10) NOT NULL COMMENT '约游id',
   `autograph` VARCHAR (100) NOT NULL COMMENT '个性签名',
   `real_name` VARCHAR (20)  NOT NULL COMMENT '姓名',
-  `sex`  TINYINT(1) UNSIGNED NOT NULL COMMENT '性别,1=>男,2=>女',
+  `sex`  TINYINT(1) UNSIGNED NOT NULL DEFAULT 2 COMMENT '性别,1=>男,2=>女',
   `occupation_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '职业表id' ,
   `birthday` CHAR(10) NOT NULL COMMENT '生日',
   `qq` VARCHAR (15) NOT NULL COMMENT 'qq号码',
@@ -22,6 +23,7 @@ CREATE TABLE dp_user(
   `measurement` VARCHAR(50) NOT NULL COMMENT '三围',
   `weight` VARCHAR(3) NOT NULL COMMENT '体重',
   `account` DECIMAL (8,2) DEFAULT 0.00 COMMENT '用户余额',
+  `point` SMALLINT(6) UNSIGNED NOT NULL  DEFAULT 0 COMMENT '积分点数',
   `is_vip` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为vip用户,4=>非vip用户,1=>vip用户',
   `login_time` CHAR(10) NOT NULL COMMENT '最后一次登陆时间',
   `login_ip` VARCHAR (30) NOT NULL COMMENT '最后一次登录用户电脑ip地址',
@@ -39,9 +41,14 @@ CREATE TABLE dp_user(
   `credential`  VARCHAR (60) NOT NULL COMMENT '密码凭证（站内的保存密码，站外的不保存或保存token)',
   `status` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户状态,4=>用户被锁定,1=>正常用户',
   `create_time` CHAR(10)  NOT NULL COMMENT '注册时间',
+  `update_time` CHAR(10) NOT NULL COMMENT '修改时间',
   `regip` VARCHAR(20) NOT NULL COMMENT '注册ip地址'
  );
 
+
+/*
+会员组设计用v9系统的数据库改造
+*/
 
 
 /*
@@ -96,23 +103,23 @@ CREATE TABLE dp_recharge(
 
 
 /*
-会员组表
+会员组信息表
 */
 CREATE TABLE IF NOT EXISTS `dp_user_group` (
-  `groupid` tinyint(3) unsigned NOT NULL,
-  `name` char(15) NOT NULL,
-  `uid` INT (11) UNSIGNED NOT NULL COMMENT '会员id',
-  `issystem` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+  `group_name` char(15) NOT NULL COMMENT '会员组名称',
+  `issystem` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否为系统组',
   `starnum` tinyint(2) unsigned NOT NULL,
-  `point` smallint(6) unsigned NOT NULL,
-  `price_y` decimal(8,2) unsigned NOT NULL DEFAULT '0.00',      /*年费价格*/
-  `price_m` decimal(8,2) unsigned NOT NULL DEFAULT '0.00',      /*包月价格*/
-  `price_a` decimal(8,2) unsigned NOT NULL DEFAULT '0.00',      /*终身会员*/
-  `icon` char(30) NOT NULL,
-  `usernamecolor` char(7) NOT NULL,
-  `description` char(100) NOT NULL,
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `disabled` tinyint(1) unsigned NOT NULL DEFAULT '0'
+  `price_y` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格年费',      /*年费价格*/
+  `price_m` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格月费',      /*包月价格*/
+  `price_a` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格终身制费',      /*终身会员*/
+  `icon` char(30) NOT NULL COMMENT '会员图标',
+  `usernamecolor` char(7) NOT NULL COMMENT '会员名字颜色',
+  `description` char(100) NOT NULL COMMENT '相关描述',
+  `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' ,
+  `create_time` INT(10) UNSIGNED NOT NULL COMMENT '添加时间',
+  `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
+  `disabled` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否禁用'
 );
 
 /*
@@ -121,9 +128,30 @@ CREATE TABLE IF NOT EXISTS `dp_user_group` (
 CREATE TABLE IF NOT EXISTS `dp_user_group_privilege`(
    `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
    `group_id` INT (11) UNSIGNED NOT NULL COMMENT'会员组id',
-   `allow_privilege` VARCHAR (100) NOT NULL COMMENT '特权描述',
+   `allow_privilege` VARCHAR (100) NOT NULL COMMENT '允许的特权描述',
    `status` TINYINT (1) NOT NULL DEFAULT 1 COMMENT '特权是否启用,1=>启用,2=>禁用',
-   `create_time` CHAR (10) NOT NULL COMMENT '创建特权时间'
+   `create_time` INT(10) NOT NULL COMMENT '创建特权时间',
+   `update_time` INT(10) NOT NULL COMMENT '修改时间'
 );
 
+
+/*
+职业表
+*/
+CREATE TABLE  IF NOT EXISTS  `dp_profession`(
+    `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+    `profession_name` VARCHAR (30) NOT NULL COMMENT '职业名称',
+    `create_time` CHAR(10) NOT NULL COMMENT '添加时间',
+    `update_time` CHAR(10) NOT NULL COMMENT '修改时间'
+);
+
+/*
+城市地址表
+*/
+CREATE  TABLE IF NOT EXISTS `dp_city_address`(
+    `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+    `citye_name` VARCHAR (30) NOT NULL COMMENT '地址名称',
+    `create_time` CHAR(10)  NOT NULL COMMENT '添加时间',
+    `update_time` CHAR(10) NOT NULL COMMENT '修改时间'
+);
 
