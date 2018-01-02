@@ -22,6 +22,7 @@ class Index extends Common
 
     public function index(){
         /*用户首页方法*/
+
         $this->assign('user_base_info',$this->model->user_base_info());
 
         //var_dump(UserModel::user_privilege());exit;
@@ -33,9 +34,6 @@ class Index extends Common
 
     public function allow_privilege(){
         /*判断会员截止时间是否到期*/
-        if(!Session::get('user_auth_home')){
-            return json(array('status'=>false,'msg'=>'请登录'));
-        }
 
         $user_info = UserModel::user_privilege();
 

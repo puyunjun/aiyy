@@ -5,7 +5,7 @@
 /*
 * 判断会员权限相关信息
 * */
-var is_allow = true;
+var is_allow = false;
 function allow_privew(){
 
     $.ajax({
@@ -20,7 +20,7 @@ function allow_privew(){
                 alert(res.msg);
                 is_allow = false;
             }else{
-                is_allow = false;
+                is_allow = true;
             }
         }
     })
