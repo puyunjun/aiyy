@@ -34,7 +34,7 @@ class Index extends Home
             $this->redirect(config('home_default_module'). '/index/index');
         }
 
-        $config = [
+        /*$config = [
             'host'       => '127.0.0.1',
             'port'       => 6379,
             'password'   => '123456',
@@ -45,7 +45,7 @@ class Index extends Home
             'prefix'     => '',
         ];
 
-        $Redis=new Redis($config);
+        $Redis=new Redis($config);*/
         //$Redis->set("test","test");
         //echo  $Redis->get("test");
         return $this->fetch();
