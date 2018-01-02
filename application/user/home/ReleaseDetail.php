@@ -9,7 +9,7 @@
 namespace app\user\home;
 
 use think\Controller;
-class ReleaseDetail extends Controller
+class ReleaseDetail extends Common
 {
 
     public function _initialize()
@@ -18,6 +18,10 @@ class ReleaseDetail extends Controller
     }
 
     public function index(){
+
+       //判断用户是否有权限查看信息
+
+
         return $this->fetch();
     }
 

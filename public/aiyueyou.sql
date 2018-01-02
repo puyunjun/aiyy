@@ -5,6 +5,7 @@ CREATE TABLE dp_user(
   `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
   `sys_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '约游id',
   `groupid` INT (11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '会员组id',
+  `member_deadline` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '会员到期时间',
   `city_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '城市地址id',
   `phone` CHAR(11) UNIQUE NOT NULL COMMENT '用户绑定手机号,首次进行登录进行绑定',
   `user_type` TINYINT(1) NOT NULL DEFAULT 3 COMMENT '用户类型,1=>推荐，2=>认证,3=>新人',
@@ -110,9 +111,9 @@ CREATE TABLE IF NOT EXISTS `dp_user_group` (
   `group_name` char(15) NOT NULL COMMENT '会员组名称',
   `issystem` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否为系统组',
   `starnum` tinyint(2) unsigned NOT NULL,
-  `price_y` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格月费',      /*年费价格*/
-  `price_m` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格半年费',      /*包月价格*/
-  `price_a` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格年费',      /*终身会员*/
+  `price_y` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格月费',      /*月费价格*/
+  `price_m` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格半年费',      /*半年费价格*/
+  `price_a` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格年费',      /*年费会员*/
   `icon` char(30) NOT NULL COMMENT '会员图标',
   `usernamecolor` char(7) NOT NULL COMMENT '会员名字颜色',
   `description` char(100) NOT NULL COMMENT '相关描述',
@@ -128,8 +129,14 @@ CREATE TABLE IF NOT EXISTS `dp_user_group` (
 CREATE TABLE IF NOT EXISTS `dp_user_group_privilege`(
    `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
    `group_id` INT (11) UNSIGNED NOT NULL COMMENT'会员组id',
-   `allow_privilege` VARCHAR (100) NOT NULL COMMENT '允许的特权描述',
-   `status` TINYINT (1) NOT NULL DEFAULT 1 COMMENT '特权是否启用,1=>启用,2=>禁用',
+   `allow_priview_photo` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许查看照片,1=>允许,4=>禁止',
+   `allow_priview_video` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许查看视频,1=>允许,4=>禁止',
+   `allow_chat` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许聊天,1=>允许,4=>禁止',
+   `allow_insurance` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否享受保险,1=>是,4=>不是',
+   `allow_recommend` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否享受客服推荐,1=>是,4=>不是',
+   `allow_videoconferencing` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许真人视频,1=>允许,4=>禁止',
+   `allow_escort_recommend` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否享受高级伴游推荐，1=>是,4=>不是',
+   `allow_date` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许真人见面,1=>允许,4=>禁止',
    `create_time` INT(10) NOT NULL COMMENT '创建特权时间',
    `update_time` INT(10) NOT NULL COMMENT '修改时间'
 );
