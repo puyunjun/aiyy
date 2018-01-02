@@ -11,6 +11,7 @@ namespace app\user\home;
 use think\Controller;
 
 use app\user\model\home\Login as LoginModel;
+use think\Session;
 
 class Login extends Controller
 {
@@ -36,5 +37,14 @@ class Login extends Controller
 
     }
 
+    /*
+     * 退出登录
+     * */
+
+    public function login_out(){
+        Session::delete('user_auth_home');
+        Session::delete('user_auth_sign_home');
+        $this->redirect('index/Index/index');
+    }
 
 }

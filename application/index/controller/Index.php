@@ -11,6 +11,9 @@
 
 namespace app\index\controller;
 use think\cache\driver\Redis;
+use app\user\model\home\User As UserModel;
+use think\Session;
+
 /**
  * 前台首页控制器
  * @package app\index\controller
@@ -48,7 +51,10 @@ class Index extends Home
         $Redis=new Redis($config);*/
         //$Redis->set("test","test");
         //echo  $Redis->get("test");
+
+
         return $this->fetch();
 
     }
+
 }

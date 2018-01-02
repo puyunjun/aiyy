@@ -52,4 +52,21 @@ class User extends Model
             ->field('User.nickname,User.head_img,User.sys_id,User.id,User.sex')
             ->find();
     }
+
+
+    /*用户权限相关信息
+     * @param int $uid 当前会员的uid
+     *
+     * */
+    public static function user_privilege($uid = UID){
+            //返回会员组id，截至时间,以及允许权限信息
+
+            return self::where('U.id',$uid)
+                ->alias('U')
+                ->join('dp_user_group_privilege UP','UP.group_id = U.group_id','LEFT')
+                ->field('U.group_id,member_deadline')
+                ->field('allow_priview_photo,allow_priview_video,allow_chat')
+                ->find();
+
+    }
 }
