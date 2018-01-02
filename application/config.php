@@ -280,15 +280,5 @@ return [
 
     /*自定义网站应用根路径*/
     'root_url'=>str_replace('/index.php','',$_SERVER['SCRIPT_NAME']),
-
-    /*
-     * 配置会员权限积分点数
-     * */
-    'member'=>[
-        'general_point'=>0,         /*普通会员积分点数*/
-        'bronze_point'=>0,          /*青铜会员积分点数*/
-        'silver_point_m'=>29,        /*白银月费会员初始积分点数*/
-        'silver_point_half_y'=>157,  /*白银开通半年制会员初始积分点数*/
-        'silver_point_y'=>244,       /*白银开通年费会员初始积分点数*/
-    ],
+    
 ];
