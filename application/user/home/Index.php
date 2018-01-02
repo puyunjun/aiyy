@@ -8,7 +8,7 @@
 namespace app\user\home;
 use think\Controller;
 use app\user\model\home\User As UserModel;
-class Index extends Controller
+class Index extends Common
 {
     public $model;
     protected function _initialize()

@@ -9,7 +9,7 @@
 namespace app\user\home;
 
 use think\Controller;
-class News extends Controller
+class News extends Common
 {
 
 
