@@ -110,9 +110,9 @@ CREATE TABLE IF NOT EXISTS `dp_user_group` (
   `group_name` char(15) NOT NULL COMMENT '会员组名称',
   `issystem` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否为系统组',
   `starnum` tinyint(2) unsigned NOT NULL,
-  `price_y` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格年费',      /*年费价格*/
-  `price_m` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格月费',      /*包月价格*/
-  `price_a` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格终身制费',      /*终身会员*/
+  `price_y` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格月费',      /*年费价格*/
+  `price_m` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格半年费',      /*包月价格*/
+  `price_a` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格年费',      /*终身会员*/
   `icon` char(30) NOT NULL COMMENT '会员图标',
   `usernamecolor` char(7) NOT NULL COMMENT '会员名字颜色',
   `description` char(100) NOT NULL COMMENT '相关描述',

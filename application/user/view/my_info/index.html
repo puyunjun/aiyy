@@ -6,6 +6,9 @@
 {block name="page_title"}
 编辑资料
 {/block}
+{block name="page_button"}
+<dt><a href="">保存</a></dt>
+{/block}
 {block name="page_css"}
 <link rel="stylesheet" href="__HOME_CSS__/user/my_info/index.css">
 {/block}
@@ -18,7 +21,7 @@
                 {empty name="base_info.head_img"}
                 <img src="__HOME_CSS__/wapcssjsimg/images/sctx-1.png" >
                 {else /}
-                <img src="$base_info.head_img" >
+                <img src="$base_info.head_img">
                 {/empty}
             </p>
         </a>
