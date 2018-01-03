@@ -69,4 +69,5 @@ class User extends Model
                 ->find();
 
     }
+
 }

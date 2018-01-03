@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-01-03 10:30:30
+-- Generation Time: 2017-12-23 15:01:53
 -- 服务器版本： 10.1.9-MariaDB
 -- PHP Version: 7.0.1
 
@@ -560,9 +560,7 @@ INSERT INTO `dp_admin_user` (`id`, `username`, `nickname`, `password`, `email`, 
 CREATE TABLE IF NOT EXISTS `dp_user` (
   `id` int(11) unsigned NOT NULL COMMENT '主键',
   `sys_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '约游id',
-  `group_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '会员组id',
-  `member_deadline` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '会员到期时间',
-  `city_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '城市地址id',
+  `groupid` int(11) unsigned NOT NULL COMMENT '会员组id',
   `phone` char(11) NOT NULL COMMENT '用户绑定手机号,首次进行登录进行绑定',
   `user_type` tinyint(1) NOT NULL DEFAULT '3' COMMENT '用户类型,1=>推荐，2=>认证,3=>新人',
   `nickname` varchar(50) NOT NULL COMMENT '用户昵称',
@@ -570,7 +568,7 @@ CREATE TABLE IF NOT EXISTS `dp_user` (
   `member_id` varchar(10) NOT NULL COMMENT '约游id',
   `autograph` varchar(100) NOT NULL COMMENT '个性签名',
   `real_name` varchar(20) NOT NULL COMMENT '姓名',
-  `sex` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '性别,1=>男,2=>女',
+  `sex` tinyint(1) unsigned NOT NULL COMMENT '性别,1=>男,2=>女',
   `occupation_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '职业表id',
   `birthday` char(10) NOT NULL COMMENT '生日',
   `qq` varchar(15) NOT NULL COMMENT 'qq号码',
@@ -580,7 +578,6 @@ CREATE TABLE IF NOT EXISTS `dp_user` (
   `measurement` varchar(50) NOT NULL COMMENT '三围',
   `weight` varchar(3) NOT NULL COMMENT '体重',
   `account` decimal(8,2) DEFAULT '0.00' COMMENT '用户余额',
-  `point` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '积分点数',
   `is_vip` tinyint(1) unsigned NOT NULL DEFAULT '4' COMMENT '是否为vip用户,4=>非vip用户,1=>vip用户',
   `login_time` char(10) NOT NULL COMMENT '最后一次登陆时间',
   `login_ip` varchar(30) NOT NULL COMMENT '最后一次登录用户电脑ip地址',
@@ -592,8 +589,8 @@ CREATE TABLE IF NOT EXISTS `dp_user` (
 -- 转存表中的数据 `dp_user`
 --
 
-INSERT INTO `dp_user` (`id`, `sys_id`, `group_id`, `member_deadline`, `city_id`, `phone`, `user_type`, `nickname`, `head_img`, `member_id`, `autograph`, `real_name`, `sex`, `occupation_id`, `birthday`, `qq`, `address`, `height`, `interest`, `measurement`, `weight`, `account`, `point`, `is_vip`, `login_time`, `login_ip`, `login_addr_x`, `login_addr_y`) VALUES
-(1, 885071, 0, 0, 0, '15084341790', 3, '', '', '', '', '', 2, 0, '', '', '', '', '', '', '', '0.00', 0, 4, '1514946604', '2130706433', '当前经纬度x坐标', '当前经纬度y坐标');
+INSERT INTO `dp_user` (`id`, `sys_id`, `groupid`, `phone`, `user_type`, `nickname`, `head_img`, `member_id`, `autograph`, `real_name`, `sex`, `occupation_id`, `birthday`, `qq`, `address`, `height`, `interest`, `measurement`, `weight`, `account`, `is_vip`, `login_time`, `login_ip`, `login_addr_x`, `login_addr_y`) VALUES
+(1, 697051, 0, '15084341790', 3, '', '', '', '', '', 1, 0, '', '', '', '', '', '', '', '0.00', 4, '1514012251', '2130706433', '当前经纬度x坐标', '当前经纬度y坐标');
 
 -- --------------------------------------------------------
 
@@ -622,7 +619,6 @@ CREATE TABLE IF NOT EXISTS `dp_user_auth` (
   `credential` varchar(60) NOT NULL COMMENT '密码凭证（站内的保存密码，站外的不保存或保存token)',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '用户状态,4=>用户被锁定,1=>正常用户',
   `create_time` char(10) NOT NULL COMMENT '注册时间',
-  `update_time` char(10) NOT NULL COMMENT '修改时间',
   `regip` varchar(20) NOT NULL COMMENT '注册ip地址'
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -630,8 +626,8 @@ CREATE TABLE IF NOT EXISTS `dp_user_auth` (
 -- 转存表中的数据 `dp_user_auth`
 --
 
-INSERT INTO `dp_user_auth` (`id`, `uid`, `identity_type`, `identifier`, `credential`, `status`, `create_time`, `update_time`, `regip`) VALUES
-(1, 1, 'mobile', '15084341790', '$2y$10$e.eH10iR3zq90ADwgctkPu9EWsXet6cilKQ.Zu/F3BGdXBdHb21w.', 1, '1514946595', '', '2130706433');
+INSERT INTO `dp_user_auth` (`id`, `uid`, `identity_type`, `identifier`, `credential`, `status`, `create_time`, `regip`) VALUES
+(1, 1, 'mobile', '15084341790', '$2y$10$8idqHBGWL.Mi9LG4x.YDKe8SHRsII8KAsnzGBtJ6L9wgQPTHWpsV2', 1, '1513999902', '2130706433');
 
 -- --------------------------------------------------------
 
@@ -644,27 +640,6 @@ CREATE TABLE IF NOT EXISTS `dp_user_blacklist` (
   `user_id` int(11) unsigned NOT NULL COMMENT '发起拉黑的用户id',
   `black_user_id` int(11) unsigned NOT NULL COMMENT '被拉黑的用户id',
   `create_time` char(10) NOT NULL COMMENT '拉黑时间'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `dp_user_group_privilege`
---
-
-CREATE TABLE IF NOT EXISTS `dp_user_group_privilege` (
-  `id` int(11) unsigned NOT NULL COMMENT '主键',
-  `group_id` int(11) unsigned NOT NULL COMMENT '会员组id',
-  `allow_priview_photo` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否允许查看照片,1=>允许,4=>禁止',
-  `allow_priview_video` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否允许查看视频,1=>允许,4=>禁止',
-  `allow_chat` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否允许聊天,1=>允许,4=>禁止',
-  `allow_insurance` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否享受保险,1=>是,4=>不是',
-  `allow_recommend` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否享受客服推荐,1=>是,4=>不是',
-  `allow_videoconferencing` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否允许真人视频,1=>允许,4=>禁止',
-  `allow_escort_recommend` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否享受高级伴游推荐，1=>是,4=>不是',
-  `allow_date` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否允许真人见面,1=>允许,4=>禁止',
-  `create_time` int(10) NOT NULL COMMENT '创建特权时间',
-  `update_time` int(10) NOT NULL COMMENT '修改时间'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -787,12 +762,6 @@ ALTER TABLE `dp_user_blacklist`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `dp_user_group_privilege`
---
-ALTER TABLE `dp_user_group_privilege`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `dp_user_video`
 --
 ALTER TABLE `dp_user_video`
@@ -881,11 +850,6 @@ ALTER TABLE `dp_user_auth`
 -- AUTO_INCREMENT for table `dp_user_blacklist`
 --
 ALTER TABLE `dp_user_blacklist`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
---
--- AUTO_INCREMENT for table `dp_user_group_privilege`
---
-ALTER TABLE `dp_user_group_privilege`
   MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键';
 --
 -- AUTO_INCREMENT for table `dp_user_video`

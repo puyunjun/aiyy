@@ -11,7 +11,6 @@ CREATE TABLE dp_user(
   `user_type` TINYINT(1) NOT NULL DEFAULT 3 COMMENT '用户类型,1=>推荐，2=>认证,3=>新人',
   `nickname` VARCHAR (50)  NOT NULL COMMENT '用户昵称',
   `head_img` VARCHAR(100) NOT NULL COMMENT '用户头像',
-  `member_id` VARCHAR(10) NOT NULL COMMENT '约游id',
   `autograph` VARCHAR (100) NOT NULL COMMENT '个性签名',
   `real_name` VARCHAR (20)  NOT NULL COMMENT '姓名',
   `sex`  TINYINT(1) UNSIGNED NOT NULL DEFAULT 2 COMMENT '性别,1=>男,2=>女',
