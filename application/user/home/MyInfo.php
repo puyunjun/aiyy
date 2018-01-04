@@ -67,14 +67,14 @@ class MyInfo extends Common
            'nickname'   =>   request()->post('nickname'),                            // 昵称
            'autograph'  =>   request()->post('autograph'),                          //个性签名
            'real_name'  =>   request()->post('real_name'),                             //姓名
-           'city_id'    =>   request()->post('address'),                             //地址
+           'city_id'    =>   request()->post('city_id'),                             //地址
            'qq'    =>         request()->post('qq'),                                        //qq
            'height' =>        request()->post('height'),                                 //身高
            'measurement' =>  request()->post('measurement'),                          //三围
            'weight' =>        request()->post('weight'),                               //体重
            'interest' =>      request()->post('interest'),                          //爱好
            'occupation_id' => request()->post('occupation'),                          //职业
-           'address' => request()->post('haunts'),                          //出没地 ********
+           'address' => request()->post('address'),                          //出没地 ********
            'birthday' => strtotime(request()->post('birthday')),                          //生日
 
        ];

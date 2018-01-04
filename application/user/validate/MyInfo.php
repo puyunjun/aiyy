@@ -29,7 +29,7 @@ class MyInfo extends Validate
            'nickname'  => 'require|max:25',      // 昵称
             'autograph'  => 'require|max:50',      //个性签名
             'real_name'  => 'require|max:10',      //姓名
-           'address'=>'require',          //地址
+           'city_id'=>'require',          //地址
            'qq'=>'require|number|length:4,11',    //qq
             'height'=>'require|number|between:50,300', //身高
            'measurement'=>'require|max:50', //三围
@@ -48,7 +48,7 @@ class MyInfo extends Validate
             'autograph.max'     => '签名最多不能超过50个字符',     //个性签名
             'real_name.require' => '姓名必须',                      //姓名
             'real_name.max'     => '请输入正确姓名',               //姓名
-            'address.require' => '地址必须',                         // 地址
+            'city_id.require' => '地址必须',                         // 地址
             'qq.require' => 'qq必须',                                 // qq
             'qq.number'     => '请输入正确qq',                       //qq
             'qq.length'     => '请输入正确的qq号',                   //qq
