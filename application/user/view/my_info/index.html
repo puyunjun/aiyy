@@ -7,25 +7,33 @@
 编辑资料
 {/block}
 {block name="page_button"}
-<dt><a href="">保存</a></dt>
+<dt><a onclick="$('#smt').click()">保存</a></dt>
 {/block}
 {block name="page_css"}
 <link rel="stylesheet" href="__HOME_CSS__/user/my_info/index.css">
 {/block}
 {block name="content"}
+<form method="post" action="modify" enctype="multipart/form-data" id="form">
+    <input type="submit" hidden  id="smt"  >
+
+
 <div id="mi-xx">
     <div class="mi-xx-1">
-        <a href="">
+        <a onclick="$('#img').click()">
             <b>头像</b>
             <p>
                 {empty name="base_info.head_img"}
-                <img src="__HOME_CSS__/wapcssjsimg/images/sctx-1.png" >
+                <img id="imgg" src="__HOME_CSS__/wapcssjsimg/images/sctx-1.png" >
                 {else /}
-                <img src="$base_info.head_img">
+                <img id="imgg" src="__HOME_CSS__/wapcssjsimg/images/head/{$base_info.head_img}" >
                 {/empty}
             </p>
         </a>
+         <input id="img" type="file" style="display: none" name="image"/>
     </div>
+
+
+
     <div class="mi-xx-2">
         <ul>
             <li><b>昵称</b><!-- <p class="bai1">大米</p> --><input type="" name="nickname" class="bai1" placeholder="请输入" value="{$base_info.nickname}"/></li>
@@ -46,18 +54,18 @@
                 <b>生日</b>
                 <!-- <p class="bai1">1990-01-01</p> -->
                 {empty name="base_info.birthday"}
-                    <input type="" id="birthday" name="" class="datetime-picker" placeholder="请输入" value=""/>
+                    <input type="" id="birthday" name="birthday" class="datetime-picker" placeholder="请输入" value=""/>
                 {else /}
-                    <input type="" id="birthday" name="" class="datetime-picker" placeholder="请输入" value="{$base_info.birthday|date='Y-m-d',###}"/>
+                    <input type="" id="birthday" name="birthday" class="datetime-picker" placeholder="请输入" value="{$base_info.birthday|date='Y-m-d',###}  "/>
                 {/empty}
 
             </li>
-            <li><b>地址</b><!-- <p class="bai1">重庆</p> --><input type="" name="address" class="city-picker" placeholder="请输入" value="{$base_info.address}" /></li>
-            <li><b>职业</b><!-- <p class="bai1">高校学生</p> --><input type="" name="" class="job" placeholder="请输入" /></li>
+            <li><b>地址</b><!-- <p class="bai1">重庆</p> --><input type="" name="address"  class="city-picker" placeholder="请输入" value="{$base_info.city_id}" /></li>
+            <li><b>职业</b><!-- <p class="bai1">高校学生</p> --><input type="" name="occupation" class="job" placeholder="请输入" value="{$base_info.occupation_id}" /></li>
             <li><b>QQ</b><!-- <p>请输入</p> --><input type="" name="qq" class="bai1" placeholder="请输入" value="{$base_info.qq}"/></li>
             <li><b>手机</b><!-- <p>请输入</p> --><input type="" name="phone" class="bai1" placeholder="请输入" value="{$base_info.phone}"/></li>
             <li><b>爱好</b><!-- <p>请输入</p> --><input type="" name="interest" class="like" placeholder="请输入" value="{$base_info.interest}" /></li>
-            <li><b>常出没地</b><!-- <p>请选择</p> --><input type="" name="address" class="city-picker" placeholder="请选择" value="{$base_info.address}" /></li>
+            <li><b>常出没地</b><!-- <p>请选择</p> --><input type="text" name="haunts"  class="city-picker" placeholder="请选择" value="{$base_info.address}" /></li>
         </ul>
     </div>
 
@@ -85,10 +93,12 @@
         </div>
     </div>
 </div>
+</form>
 {/block}
 
 {block name="page_js"}
 <script src="__HOME_JS__/user/common.js"></script>
+<script src="__HOME_JS__/user/my_info/head.js"></script>
 
 
 <script type="text/javascript">
@@ -176,13 +186,13 @@
     }($);
 </script>
 <script src="__STATIC__/jquery-weui/js/city-picker.js"></script>
+
 <script>
     
     $(".city-picker").cityPicker({
         title: "请选择地址"
 
     });
-
     $(".job").picker({
         title: "请选择您的职业",
         cols: [
