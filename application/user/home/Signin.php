@@ -134,7 +134,6 @@ class Signin extends Controller
             'login_addr_x' => '当前经纬度x坐标',
             'login_addr_y' => '当前经纬度y坐标',
             'is_vip' => 4,
-            'occupation_id' => '0',                  /*职业id*/
             'sys_id' => mt_rand(10000, 100000),         /*系统分配的初始约游id*/
         );
 

@@ -39,8 +39,8 @@
     </div>
     <div class="mine-2">
         <ul>
-            <li><b>{if condition="$user_base_info.video_num == null"}0{else /}$user_base_info.video_num {/if}</b><p>视频</p></li>
-            <li><b>{if condition="$user_base_info.img_num == null"}0{else /}$user_base_info.img_num {/if}</b><p>照片</p></li>
+            <li><b>{if condition="$user_base_info.video_num == null"}0{else /}{$user_base_info.video_num} {/if}</b><p>视频</p></li>
+            <li><b>{if condition="$user_base_info.img_num == null"}0{else /}{$user_base_info.img_num} {/if}</b><p>照片</p></li>
             <li><b>{$user_base_info.attention_num}</b><p>关注</p></li>
             <li><b>{$user_base_info.attentioned_num}</b><p>粉丝</p></li>
         </ul>
