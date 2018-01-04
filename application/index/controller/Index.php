@@ -154,4 +154,5 @@ class Index extends Home
       $ossup =  new Ossupload();
       $ossup->index();
     }
+
 }

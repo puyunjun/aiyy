@@ -14,7 +14,7 @@ CREATE TABLE dp_user(
   `autograph` VARCHAR (100) NOT NULL COMMENT '个性签名',
   `real_name` VARCHAR (20)  NOT NULL COMMENT '姓名',
   `sex`  TINYINT(1) UNSIGNED NOT NULL DEFAULT 2 COMMENT '性别,1=>男,2=>女',
-  `occupation_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '职业表id' ,
+  `occupation_id` VARCHAR (50) NOT NULL DEFAULT 0 COMMENT '职业表id' ,
   `birthday` CHAR(10) NOT NULL COMMENT '生日',
   `qq` VARCHAR (15) NOT NULL COMMENT 'qq号码',
   `address` VARCHAR (50) NOT NULL COMMENT '常住地址',
@@ -158,5 +158,22 @@ CREATE  TABLE IF NOT EXISTS `dp_city_address`(
     `citye_name` VARCHAR (30) NOT NULL COMMENT '地址名称',
     `create_time` CHAR(10)  NOT NULL COMMENT '添加时间',
     `update_time` CHAR(10) NOT NULL COMMENT '修改时间'
+);
+
+
+/*
+会员发布信息表
+*/
+
+CREATE TABLE IF NOT EXISTS `dp_user_release`(
+    `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+    `uid` INT(11)  UNSIGNED NOT NULL COMMENT '用户id',
+    `release_object` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT'1=>男,2=>女,0=>不限',
+    `travel_start_time` INT(10) UNSIGNED NOT NULL COMMENT '出行时间',
+    `travel_total_time` INT(10) UNSIGNED NOT NULL COMMENT '出行天数',
+    `travel_tool` VARCHAR(50) NOT NULL COMMENT '出行方式',
+    `is_sincerity` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否交纳诚意金',
+    `sincerity_money` DECIMAL (8,2) UNSINGNED NOT NULL DEFAULT 0.00 COMMENT '诚意金数额',
+    `create_time` INT(10) UNSIGNED NOT NULL COMMENT '发布时间'
 );
 
