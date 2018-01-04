@@ -1,0 +1,9 @@
+{
+"AccessKeyID" : "LTAI51hYlhC2tcaI",
+"AccessKeySecret" : "MK0jX7tz4GKlxXEDRiL2ojD4un7bBA",
+"RoleArn" : "acs:ram::1457803921485409:role/aliyuntestappuser",
+"BucketName" : "puyunjun",
+"Endpoint" : "oss-cn-beijing.aliyuncs.com",
+"TokenExpireTime" : "900",
+"PolicyFile": "./ThinkPHP/library/Vendor/sts-server/policy/all_policy.txt"
+}

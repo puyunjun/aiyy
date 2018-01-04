@@ -37,6 +37,7 @@ class Member extends Admin
                     ['id', 'ID'],
                     ['username', '用户名'],
                     ['nickname', '昵称'],
+                    ['right_button', '操作', 'btn']
                 ])
                 ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
                 ->addRightButtons('edit,delete') // 批量添加右侧按钮

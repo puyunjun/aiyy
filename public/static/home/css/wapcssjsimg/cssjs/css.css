@@ -59,7 +59,7 @@ li{ padding:0px; margin:0px; list-style:none;}
 
 
 #foot_kong{ width:100%; height:125px; background-color:#161c26; }   
-#ft_fixed{display:-webkit-box;position:fixed;width:100%; height:125px; left:0px;bottom:0px; z-index:999999; }
+#ft_fixed{display:-webkit-box;position:fixed;width:100%; height:125px; left:0px;bottom:0px; z-index:100; }
 #ft_fixed .ft_fixed{ width:750px; height:100px; margin:0 auto; margin-top:25px; background-color:#1f2836;}
 #ft_fixed .ft_fixed li{ width:150px; height:100px; line-height:40px; color:#6c788a; font-size:20px; float:left; overflow:hidden; }  
 #ft_fixed .ft_fixed li a{ color:#6c788a; font-size:20px; }  

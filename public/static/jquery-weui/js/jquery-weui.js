@@ -5966,6 +5966,7 @@ Device/OS Detection
     dateSplit: '',  // 默认为空
     datetimeSplit: ' ',  // 日期和时间之间的分隔符，不可为空
     times: function () {
+      return false;
       return [  // 自定义的时间
         {
           values: (function () {

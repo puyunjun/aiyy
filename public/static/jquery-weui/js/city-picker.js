@@ -1,5 +1,5 @@
 // jshint ignore: start
-+function($){
+/*+function($){
 
 $.rawCitiesData = [
   {
@@ -1537,6 +1537,7 @@ $.rawCitiesData = [
           {
             "name":"孝义市",
             "code":"141181"
+
           },
           {
             "name":"汾阳市",
@@ -16486,7 +16487,7 @@ $.rawCitiesData = [
   }
 
 ];
-}($);
+}($);*/
 // jshint ignore: end
 
 /* global $:true */

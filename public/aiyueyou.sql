@@ -6,7 +6,7 @@ CREATE TABLE dp_user(
   `sys_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '约游id',
   `group_id` INT (11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '会员组id',
   `member_deadline` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '会员到期时间',
-  `city_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '城市地址id',
+  `city_id` VARCHAR (30)  NOT NULL DEFAULT 0 COMMENT '城市地址id字符串',
   `phone` CHAR(11) UNIQUE NOT NULL COMMENT '用户绑定手机号,首次进行登录进行绑定',
   `user_type` TINYINT(1) NOT NULL DEFAULT 3 COMMENT '用户类型,1=>推荐，2=>认证,3=>新人',
   `nickname` VARCHAR (50)  NOT NULL COMMENT '用户昵称',
@@ -109,7 +109,6 @@ CREATE TABLE IF NOT EXISTS `dp_user_group` (
   `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
   `group_name` char(15) NOT NULL COMMENT '会员组名称',
   `issystem` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否为系统组',
-  `starnum` tinyint(2) unsigned NOT NULL,
   `price_y` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格月费',      /*月费价格*/
   `price_m` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格半年费',      /*半年费价格*/
   `price_a` decimal(8,2) UNSIGNED NOT NULL DEFAULT '0.00'  COMMENT '会员价格年费',      /*年费会员*/

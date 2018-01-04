@@ -12,24 +12,27 @@ use think\Model;
 class Privilege extends Model
 {
 
-
-    protected  $data;
+    protected $name = 'user_group_privilege';
+    private  $allow_priview_data;
 
     public function __construct($data = [])
     {
         parent::__construct($data);
-        $this->data = UserModel::user_privilege();
+        $this->allow_priview_data = UserModel::user_privilege();
     }
 
     public function sel_privilege(){
 
         //用户权限信息
         $allow_priview_data =array(
-            'allow_priview_photo'=>$this->data->allow_priview_photo,
-            'allow_priview_video'=>$this->data->allow_priview_video,
-            'allow_chat'=>$this->data->allow_chat,
+            'allow_priview_photo'=>$this->allow_priview_data->allow_priview_photo,
+            'allow_priview_video'=>$this->allow_priview_data->allow_priview_video,
+            'allow_chat'=>$this->allow_priview_data->allow_chat,
         );
         return (object)$allow_priview_data;
     }
+
+
+    //视图联表查询即可
 
 }

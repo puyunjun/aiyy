@@ -29,13 +29,13 @@
     <div class="mi-xx-2">
         <ul>
             <li><b>昵称</b><!-- <p class="bai1">大米</p> --><input type="" name="nickname" class="bai1" placeholder="请输入" value="{$base_info.nickname}"/></li>
-            <li><b>约游ID</b><!-- <p class="bai1">135135</p> --><input type="" name="sys_id" class="bai1" placeholder="请输入" value="{$base_info.sys_id}"/></li>
+            <li><b>约游ID</b><!-- <p class="bai1">135135</p> --><input readonly type="" name="sys_id" class="bai1" placeholder="请输入" value="{$base_info.sys_id}"/></li>
             <li><b>个性签名</b><!-- <p>请输入</p> --><input type="" name="autograph" class="bai1" placeholder="请输入" value="{$base_info.autograph}" /></li>
             <li><b>姓名</b><!-- <p class="bai1">大米</p> --><input type="" name="real_name" class="bai1" placeholder="请输入" value="{$base_info.real_name}" /></li>
             <li>
                 <b>性别</b>
                 <!-- <p class="bai1">女</p> -->
-                <input type="" name="sex" class="bai1" placeholder="请输入" value='
+                <input readonly type="" name="sex" class="bai1" placeholder="请输入" value='
                 {switch name="base_info.sex" }
                 {case value="1"}男{/case}
                 {case value="2"}女{/case}
@@ -46,18 +46,18 @@
                 <b>生日</b>
                 <!-- <p class="bai1">1990-01-01</p> -->
                 {empty name="base_info.birthday"}
-                    <input type="" name="" class="bai1" placeholder="请输入" value=""/>
+                    <input type="" id="birthday" name="" class="datetime-picker" placeholder="请输入" value=""/>
                 {else /}
-                    <input type="" name="" class="bai1" placeholder="请输入" value="{$base_info.birthday|date='Y-m-d',###}"/>
+                    <input type="" id="birthday" name="" class="datetime-picker" placeholder="请输入" value="{$base_info.birthday|date='Y-m-d',###}"/>
                 {/empty}
 
             </li>
-            <li><b>地址</b><!-- <p class="bai1">重庆</p> --><input type="" name="address" class="bai1" placeholder="请输入" value="{$base_info.address}" /></li>
-            <li><b>职业</b><!-- <p class="bai1">高校学生</p> --><input type="" name="" class="bai1" placeholder="请输入" /></li>
+            <li><b>地址</b><!-- <p class="bai1">重庆</p> --><input type="" name="address" class="city-picker" placeholder="请输入" value="{$base_info.address}" /></li>
+            <li><b>职业</b><!-- <p class="bai1">高校学生</p> --><input type="" name="" class="job" placeholder="请输入" /></li>
             <li><b>QQ</b><!-- <p>请输入</p> --><input type="" name="qq" class="bai1" placeholder="请输入" value="{$base_info.qq}"/></li>
             <li><b>手机</b><!-- <p>请输入</p> --><input type="" name="phone" class="bai1" placeholder="请输入" value="{$base_info.phone}"/></li>
-            <li><b>爱好</b><!-- <p>请输入</p> --><input type="" name="interest" class="bai1" placeholder="请输入" value="{$base_info.interest}" /></li>
-            <li><b>常住地</b><!-- <p>请选择</p> --><input type="" name="address" class="bai1" placeholder="请选择" value="{$base_info.address}" /></li>
+            <li><b>爱好</b><!-- <p>请输入</p> --><input type="" name="interest" class="like" placeholder="请输入" value="{$base_info.interest}" /></li>
+            <li><b>常出没地</b><!-- <p>请选择</p> --><input type="" name="address" class="city-picker" placeholder="请选择" value="{$base_info.address}" /></li>
         </ul>
     </div>
 
@@ -72,11 +72,9 @@
         <div class="mi-xx-zp-1"><b>照片</b></div>
         <div class="mi-xx-zp-2">
             <ul>
-                <li><a href="" onclick="$('#img').click()"></a></li>
+                <li> <img src="__HOME_CSS__/wapcssjsimg/images/sctx-1.png" ></li>
+                <li><a onclick="$('#img').click()"></a></li>
                 <input id="img" type="file" style="display: none"/>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
             </ul>
         </div>
     </div>
@@ -91,6 +89,142 @@
 
 {block name="page_js"}
 <script src="__HOME_JS__/user/common.js"></script>
+
+
+<script type="text/javascript">
+    $(".datetime-picker").datetimePicker();
+    +function($){
+        $.rawCitiesData = [
+            /*{
+                "name":"北京",
+                "code":"110000",
+                "sub": [
+                    {
+                        "name": "北京市",
+                        "code": "110000",
+                        "sub":[
+                            {
+                                "name":"东城区",
+                                "code":"110101"
+                            },
+                            {
+                                "name":"西城区",
+                                "code":"110102"
+                            },
+                            {
+                                "name":"朝阳区",
+                                "code":"110105"
+                            },
+                            {
+                                "name":"丰台区",
+                                "code":"110106"
+                            },
+                            {
+                                "name":"石景山区",
+                                "code":"110107"
+                            },
+                            {
+                                "name":"海淀区",
+                                "code":"110108"
+                            },
+                            {
+                                "name":"门头沟区",
+                                "code":"110109"
+                            },
+                            {
+                                "name":"房山区",
+                                "code":"110111"
+                            },
+                            {
+                                "name":"通州区",
+                                "code":"110112"
+                            },
+                            {
+                                "name":"顺义区",
+                                "code":"110113"
+                            },
+                            {
+                                "name":"昌平区",
+                                "code":"110114"
+                            },
+                            {
+                                "name":"大兴区",
+                                "code":"110115"
+                            },
+                            {
+                                "name":"怀柔区",
+                                "code":"110116"
+                            },
+                            {
+                                "name":"平谷区",
+                                "code":"110117"
+                            },
+                            {
+                                "name":"密云县",
+                                "code":"110228"
+                            },
+                            {
+                                "name":"延庆县",
+                                "code":"110229"
+                            }
+                        ]
+                    }
+                ]
+            },*/
+            {"name":"\u5317\u4eac","code":"110000","sub":[{"name":"\u5317\u4eac\u5e02","code":"110000","sub":[{"name":"\u4e1c\u57ce\u533a","code":"110101"},{"name":"\u897f\u57ce\u533a","code":"110102"},{"name":"\u671d\u9633\u533a","code":"110105"},{"name":"\u4e30\u53f0\u533a","code":"110106"},{"name":"\u77f3\u666f\u5c71\u533a","code":"110107"},{"name":"\u6d77\u6dc0\u533a","code":"110108"},{"name":"\u95e8\u5934\u6c9f\u533a","code":"110109"},{"name":"\u623f\u5c71\u533a","code":"110111"},{"name":"\u901a\u5dde\u533a","code":"110112"},{"name":"\u987a\u4e49\u533a","code":"110113"},{"name":"\u660c\u5e73\u533a","code":"110114"},{"name":"\u5927\u5174\u533a","code":"110115"},{"name":"\u6000\u67d4\u533a","code":"110116"},{"name":"\u5e73\u8c37\u533a","code":"110117"},{"name":"\u5bc6\u4e91\u53bf","code":"110228"},{"name":"\u5ef6\u5e86\u53bf","code":"110229"}]}]}
+        ];
+    }($);
+</script>
+<script src="__STATIC__/jquery-weui/js/city-picker.js"></script>
+<script>
+    
+    $(".city-picker").cityPicker({
+        title: "请选择地址"
+
+    });
+
+    $(".job").picker({
+        title: "请选择您的职业",
+        cols: [
+            {
+                textAlign: 'center',
+                values: ['记者', '教师', '医护人员', '法官', '学生', '白领', '工人', '厨师', '美发师', '出租司机', '其他']
+            }
+        ]
+    });
+
+    $(".like").select({
+        title: "您的爱好",
+        multi: true,
+        max: 3,
+        items: [
+            {
+                title: "画画",
+                value: 1
+            },
+            {
+                title: "打球",
+                value: 2
+            },
+            {
+                title: "唱歌",
+                value: 3
+            },
+            {
+                title: "游泳",
+                value: 4
+            },
+            {
+                title: "健身",
+                value: 5
+            },
+            {
+                title: "睡觉",
+                value: 6
+            },
+        ]
+    });
+</script>
 {/block}
 
 

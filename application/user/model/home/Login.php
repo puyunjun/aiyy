@@ -25,8 +25,10 @@ class Login extends Model
      * @param string $username 用户名
      * @param string $password 登录密码
      * @param string $login_type 登录方式
+     * @param string $x  当前经度坐标
+     * @param string $y 当前纬度坐标
      * */
-    public function login($username = '', $password = '',$login_type = '')
+    public function login($username = '', $password = '',$x='',$y='',$login_type = '')
     {
         $username = trim($username);
         $password = trim($password);
@@ -59,7 +61,9 @@ class Login extends Model
                 //最新登录信息
                 $last_info_arr= [
                     'login_time' => request()->time(),
-                    'login_ip' => get_client_ip(1)
+                    'login_ip' => get_client_ip(1),
+                    'login_addr_x' => $x,
+                    'login_addr_y' => $y
                 ];
                 if (Db::name('user')->data($last_info_arr)->where('id',$uid)->update()) {
                     // 保存成功进入登录页面
