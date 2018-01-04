@@ -1,6 +1,6 @@
 'use strict';
 
-var appServer = "http://"+window.location.host+"/Home/Sts/index";
+var appServer = "http://"+window.location.host+"/index/Index/ossserver";
 var bucket = 'puyunjun';
 var region = 'oss-cn-beijing';
 
