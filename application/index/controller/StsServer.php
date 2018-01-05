@@ -10,7 +10,7 @@ namespace app\index\controller;
 
 include_once VENDOR_PATH.'sts-server/aliyun-php-sdk-core/Config.php';
 use Sts\Request\V20150401 as Sts;
-class Ossupload
+class StsServer
 {
 
 

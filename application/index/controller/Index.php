@@ -151,7 +151,7 @@ class Index extends Home
     public function ossserver(){
         //require_once VENDOR_PATH.'/sts-server/sts.php';   //已配置好  windows环境可用
         //调用搭建的服务函数获取临时帐号
-      $ossup =  new Ossupload();
+      $ossup =  new StsServer();
       $ossup->index();
     }
 

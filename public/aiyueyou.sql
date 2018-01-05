@@ -59,6 +59,7 @@ CREATE TABLE dp_user_video(
   `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
   `uid` INT (11) UNSIGNED NOT NULL COMMENT '关联用户表主键',
   `video_url` VARCHAR (50) NOT NULL COMMENT '文件储存地址',
+  `upload_ip` VARCHAR (50) NOT NULL COMMENT '上传ip地址',
   `video_type` TINYINT(1) NOT NULL COMMENT '文件类型,1=>图片，2=>视频',
   `create_time` CHAR(10) NOT NULL COMMENT '上传时间'
 );
@@ -127,6 +128,7 @@ CREATE TABLE IF NOT EXISTS `dp_user_group` (
 CREATE TABLE IF NOT EXISTS `dp_user_group_privilege`(
    `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
    `group_id` INT (11) UNSIGNED NOT NULL COMMENT'会员组id',
+   `allow_priview_list` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许进入伴游详情,1=>允许,4=>禁止',
    `allow_priview_photo` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许查看照片,1=>允许,4=>禁止',
    `allow_priview_video` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许查看视频,1=>允许,4=>禁止',
    `allow_chat` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否允许聊天,1=>允许,4=>禁止',
