@@ -10,6 +10,7 @@ namespace app\user\home;
 
 use think\Controller;
 use app\user\model\home\User;
+use app\user\model\home\Privilege;
 use think\Db;
 use think\File;
 use app\user\validate\MyInfo As UserMyInfo;
@@ -63,26 +64,20 @@ class MyInfo extends Common
 
           $res_up =  $this->uploadHeadImg($file->getPathname());
           $data['head_img'] = $res_up['info']['url'];
-            /*$info = $file->move(ROOT_PATH . 'public' . DS . 'static'. DS . 'home'. DS . 'css'. DS . 'wapcssjsimg'. DS . 'images'. DS . 'head');
-            if ($info) {
-                $data['head_img'] = $info->getSaveName();
-            } else {
-                echo $file->getError();
-            }*/
+
         }
         $validate = $this->validate($data,'MyInfo');
         if($validate !== true ){
             return json($validate);
         }
-             /* $result =  Db::name('user')
-                ->where('id',$id)
-                ->update($data);*/
+
+        if(User::user_privilege(UID)->group_id === 0){
+            //权限判断 查找分组id
+           $group_id = Privilege::where(array('allow_priview_list'=>1,'allow_priview_photo'=>4))->value('group_id');
+           $data['group_id'] = $group_id;
+        }
 
         $result = User::where('id',UID)->update($data);
-        if(User::get(array('id'=>UID))->group_id === 0){
-                $data['group_id'] = 1;
-        }
-        //return file_get_contents(url('index/index/index','',true,true));
         if($result !== false){
             return json(true);
         }
@@ -102,10 +97,8 @@ class MyInfo extends Common
            'interest' =>      request()->post('interest'),                          //爱好
            'occupation_id' => request()->post('occupation'),                          //职业
            'address' => request()->post('address'),                          //出没地 ********
-           'birthday' => strtotime(request()->post('birthday')),                          //生日
-
+           'birthday' => strtotime(request()->post('birthday'))?strtotime(request()->post('birthday')):'',                          //生日
        ];
-
        return $data;
    }
 

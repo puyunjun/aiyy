@@ -41,6 +41,7 @@ class User extends Model
 
 
         return $this->alias('User')
+            ->where('User.id',UID)
             ->join(['dp_user_attention'=>'attention'],'attention.user_followid=User.id','LEFT')
             ->join(['dp_user_attention'=>'attentioned'],'attentioned.user_id=User.id','LEFT')
             ->join([$subsql_img=> 'img'],'img.uid=User.id','LEFt')
@@ -65,7 +66,7 @@ class User extends Model
                 ->alias('U')
                 ->join('dp_user_group_privilege UP','UP.group_id = U.group_id','LEFT')
                 ->field('U.group_id,member_deadline')
-                ->field('allow_priview_photo,allow_priview_video,allow_chat')
+                ->field('allow_priview_list,allow_priview_photo,allow_priview_video,allow_chat')
                 ->find();
 
     }

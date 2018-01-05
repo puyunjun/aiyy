@@ -37,15 +37,11 @@ class Index extends Common
 
         $user_info = UserModel::user_privilege();
 
-            //判断会员是否有权限查看
-            if($user_info->allow_priview_photo == 0){
+            //判断会员是否有权限查看 详情
+            if($user_info->allow_priview_list == 4 || $user_info->allow_priview_list == 0){
                   $data = array('status'=>false,'msg'=>'无法查看，权限太低，请升级会员或者完善资料');
                   return json($data);
             }
-            //判断会员是否到期
-            if($user_info->member_deadline < time()){
-                return json(array('status'=>false,'msg'=>'会员已到期，无法查看'));
-            }
-
+            return json(1);
     }
 }

@@ -131,8 +131,8 @@ class Signin extends Controller
             'sex' => intval(request()->post('sex')),
             'login_time' => request()->time(),
             'login_ip' => get_client_ip(1),
-            'login_addr_x' => '当前经纬度x坐标',
-            'login_addr_y' => '当前经纬度y坐标',
+            'login_addr_x' => '',
+            'login_addr_y' => '',
             'is_vip' => 4,
             'sys_id' => mt_rand(10000, 100000),         /*系统分配的初始约游id*/
         );
@@ -143,7 +143,8 @@ class Signin extends Controller
             'credential' => strip_tags(request()->post('password')),       /*用户凭证，手机号保存密码,用model层hash加密*/
             'identity_type' => 'mobile',  /*会员注册默认使用手机号注册*/
             'status' => 1,             /*会员起始状态，1=>正常*/
-            'regip' => get_client_ip(1)
+            'regip' => get_client_ip(1),
+            'update_time'=> ''
         );
         return $data;
     }

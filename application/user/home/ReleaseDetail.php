@@ -25,7 +25,9 @@ class ReleaseDetail extends Common
        //判断用户是否有权限查看信息
 
         if(request()->isGet()){
-            if(!self::$model->sel_privilege()->allow_priview_photo){
+            //进入详情页面的权限
+            $privilege_list = self::$model->sel_privilege()->allow_priview_list;
+            if($privilege_list == 4 || $privilege_list == 0){
                 //权限不足，直接返回首页或者上一页
                    $this->redirect(isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'index/Index/index');
             }

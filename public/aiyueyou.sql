@@ -6,30 +6,31 @@ CREATE TABLE dp_user(
   `sys_id` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '约游id',
   `group_id` INT (11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '会员组id',
   `member_deadline` INT(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '会员到期时间',
-  `city_id` VARCHAR (30)  NOT NULL  COMMENT '城市地址id字符串',
+  `city_id` VARCHAR (30) NOT NULL DEFAULT '' COMMENT '城市地址id字符串',
   `phone` CHAR(11) UNIQUE NOT NULL COMMENT '用户绑定手机号,首次进行登录进行绑定',
   `user_type` TINYINT(1) NOT NULL DEFAULT 3 COMMENT '用户类型,1=>推荐，2=>认证,3=>新人',
-  `nickname` VARCHAR (50)  NOT NULL COMMENT '用户昵称',
-  `head_img` VARCHAR(100) NOT NULL COMMENT '用户头像',
-  `autograph` VARCHAR (100) NOT NULL COMMENT '个性签名',
-  `real_name` VARCHAR (20)  NOT NULL COMMENT '姓名',
+  `nickname` VARCHAR (50)  NOT NULL DEFAULT '' COMMENT '用户昵称',
+  `head_img` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '用户头像',
+  `autograph` VARCHAR (100) NOT NULL DEFAULT '' COMMENT '个性签名',
+  `real_name` VARCHAR (20)  NOT NULL DEFAULT '' COMMENT '姓名',
   `sex`  TINYINT(1) UNSIGNED NOT NULL DEFAULT 2 COMMENT '性别,1=>男,2=>女',
-  `occupation_id` VARCHAR (50) NOT NULL  COMMENT '职业表id' ,
-  `birthday` CHAR(10) NOT NULL COMMENT '生日',
-  `qq` VARCHAR (15) NOT NULL COMMENT 'qq号码',
-  `address` VARCHAR (50) NOT NULL COMMENT '常住地址',
-  `height` CHAR(3) NOT NULL COMMENT '身高，单位cm',
-  `interest` VARCHAR(50) NOT NULL COMMENT '爱好',
-  `measurement` VARCHAR(50) NOT NULL COMMENT '三围',
-  `weight` VARCHAR(3) NOT NULL COMMENT '体重',
+  `occupation_id` VARCHAR (50) NOT NULL DEFAULT ''  COMMENT '职业表id' ,
+  `birthday` CHAR(10) NOT NULL DEFAULT '' COMMENT '生日',
+  `qq` VARCHAR (15) NOT NULL DEFAULT '' COMMENT 'qq号码',
+  `address` VARCHAR (50) NOT NULL DEFAULT '' COMMENT '常住地址',
+  `height` CHAR(3) NOT NULL DEFAULT '' COMMENT '身高，单位cm',
+  `interest` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '爱好',
+  `measurement` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '三围',
+  `weight` VARCHAR(3) NOT NULL DEFAULT '' COMMENT '体重',
   `account` DECIMAL (8,2) DEFAULT 0.00 COMMENT '用户余额',
   `point` SMALLINT(6) UNSIGNED NOT NULL  DEFAULT 0 COMMENT '积分点数',
   `is_vip` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为vip用户,4=>非vip用户,1=>vip用户',
-  `login_time` CHAR(10) NOT NULL COMMENT '最后一次登陆时间',
-  `login_ip` VARCHAR (30) NOT NULL COMMENT '最后一次登录用户电脑ip地址',
-  `login_addr_x` VARCHAR(50) NOT NULL COMMENT '最后一次登录经纬度x坐标',
-  `login_addr_y` VARCHAR(50) NOT NULL COMMENT '最后一次登录经纬度y坐标'
-);
+  `is_escort` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为伴游,4=>非伴游用户,1=>伴游用户',
+  `login_time` CHAR(10) NOT NULL DEFAULT '' COMMENT '最后一次登陆时间',
+  `login_ip` VARCHAR (30) NOT NULL DEFAULT '' COMMENT '最后一次登录用户电脑ip地址',
+  `login_addr_x` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '最后一次登录经纬度x坐标',
+  `login_addr_y` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '最后一次登录经纬度y坐标'
+)ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 /*
 用户授权认证表
 */
@@ -41,7 +42,7 @@ CREATE TABLE dp_user(
   `credential`  VARCHAR (60) NOT NULL COMMENT '密码凭证（站内的保存密码，站外的不保存或保存token)',
   `status` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户状态,4=>用户被锁定,1=>正常用户',
   `create_time` CHAR(10)  NOT NULL COMMENT '注册时间',
-  `update_time` CHAR(10) NOT NULL COMMENT '修改时间',
+  `update_time` CHAR(10) NOT NULL DEFAULT '' COMMENT '修改时间',
   `regip` VARCHAR(20) NOT NULL COMMENT '注册ip地址'
  );
 
@@ -118,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `dp_user_group` (
   `description` char(100) NOT NULL COMMENT '相关描述',
   `sort` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' ,
   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '添加时间',
-  `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
+  `update_time` INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '修改时间',
   `disabled` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否禁用'
 );
 

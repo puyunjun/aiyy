@@ -49,19 +49,19 @@ function sub_fun(){
 
                 $.hideLoading();
                 if(re.status === false){
-                    layer.msg(re.msg,{icon: 2})
+                    layer.msg(re.msg)
                 }else if(re.status === true){
-                    layer.msg(re.msg,{icon: 1})
+                    layer.msg(re.msg)
                     $.toast('正在跳转', 'text');
                     window.location.href='http://'+window.location.host+url+'/user/Login/index'
                 }else if(re.code === 202){
-                    layer.msg(re.msg,{icon: 1})
+                    layer.msg(re.msg)
                 }
 
             },
             error:function(e){
                 $.hideLoading();
-                layer.msg('服务器发生错误',{icon: 2})
+                layer.msg('服务器发生错误')
             }
         })
     },500);
