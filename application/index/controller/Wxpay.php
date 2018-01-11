@@ -45,10 +45,13 @@ class Wxpay  extends Controller
         }
         //TODO 根据订单号 out_trade_no 来查询订单数据
         $out_trade_no = $wxData['out_trade_no'];
-        $attach = $wxData['attach'];   //附带升级会员组id
+        $attach = $wxData['attach'];   //附带升级会员组id  以及会员id
         //此处为举例
-
-        $re = Db::name('user')->where('id',5)->update(array('group_id'=>"$attach"));
+        //升级会员等级业务更新
+        $attach_info = json_decode($attach);
+        $group_id = $attach_info->group_id;
+        $uid = $attach_info->uid;
+        $re = Db::name('user')->where('id',"$uid")->update(array('group_id'=>"$group_id"));
         /*if (!$order || $order->pay_status == 1){
             $resultObj ->setData('return_code','SUCCESS');
             $resultObj ->setData('return_msg','OK');
@@ -65,17 +68,24 @@ class Wxpay  extends Controller
     public function index(){
         //获取订单信息  会员升级或者其他订单信息
         $member_fee_info = $this->get_become_member_data()['upgrade_member'];
+        //获取用户id
 
+        $member_fee_info['uid'] = $this->get_become_member_data()['uid'];
         //①、获取用户openid
         $tools = new JsApiPay();
         $openId = $tools->getOpenid($member_fee_info);
         $order_info = json_decode(request()->param('state'));
         $body_info = $order_info->body_info;    //交易信息商品名
-        $group_id = $order_info->attach;        //附带信息，升级id或者充值附带信息
+        $attach  = json_encode(
+            array(
+                'group_id'=>$order_info->group_id,
+            'uid'=>$order_info->uid)
+        );   //附带信息
+
         //②、统一下单
         $input = new WxPayUnifiedOrder();
         $input->SetBody($body_info);
-        $input->SetAttach($group_id);
+        $input->SetAttach($attach);
         $input->setOutTradeNo(WxPayConfig::MCHID.date("YmdHis"));
         $input->SetTotalfee("1");           //测试阶段写为1
         $input->SetTimestart(date("YmdHis"));
@@ -100,7 +110,7 @@ class Wxpay  extends Controller
         //获取选择的会员组id
         //会员升级订单信息  若为其他支付信息则另外获取信息.
         $group_id = intval(request()->post('kt'));
-
+        $uid = intval(request()->post('get_uid'));
         //开通,默认开通月费
         $price_type = 'price_y';
 
@@ -114,9 +124,10 @@ class Wxpay  extends Controller
         return $data =[
             'upgrade_member'=>[
                 'money'=>$member_fee_info[$price_type],
-                'attach'=>$group_id,
+                'group_id'=>$group_id,
                 'body_info'=>"升级".$member_fee_info['group_name']
             ],
+            'uid'=>$uid,
 
         ];
         //调用支付方法
