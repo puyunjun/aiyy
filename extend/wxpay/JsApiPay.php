@@ -50,7 +50,7 @@ class JsApiPay
             $url = $this->__createOauthUrlForCode($baseUrl);
             //定义携带的参数
             $state = json_encode($order_info);
-            $url = str_replace("STATE", $state, $url);
+            $url = $order_info ? str_replace("STATE", $state, $url) : 'STATE';
             header("Location: $url");
             exit();
         } else {
