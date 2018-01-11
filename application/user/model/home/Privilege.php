@@ -9,6 +9,7 @@
 namespace app\user\model\home;
 use app\user\model\home\User As UserModel;
 use think\Model;
+use think\Db;
 class Privilege extends Model
 {
 
@@ -34,6 +35,7 @@ class Privilege extends Model
     }
 
 
-    //视图联表查询即可
+
+
 
 }

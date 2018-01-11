@@ -29,25 +29,39 @@
 </section>
 
 
-<form action="?333" name="ff1" method="post">
+
     <div id="kaitong">
         <div class="kaitong-1"><dl>
             <dt><img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg" ></dt><dd>hi大米，开通会员，即刻体验约游会员专属权益！</dd></dl></div>
+       {volist name="member_group" id="vo"}
+        <form action="{:url('index/wxpay/index','','')}" method="post" >
         <div class="kaitong-2">
-            <div class="kaitong-2-1"><dl><dt><img src="__HOME_CSS__/wapcssjsimg/images/kthy-1.png" >钻石VIP</dt><dd>1280元/年</dd></dl></div>
+            <div class="kaitong-2-1">
+                <dl>
+                    <dt><img src="__HOME_CSS__/wapcssjsimg/images/kthy-1.png" >{$vo.group_name}</dt>
+                    {if condition="$vo.price_y neq 0 || $vo.price_m neq 0 || $vo.price_a neq 0"}
+                    <dd>{$vo.price_y}元/月 {$vo.price_m}元/半年 {$vo.price_a}元/年</dd>
+                    {elseif condition="$vo.prestore neq 0"}
+                    <dd>预存{$vo.prestore}即可</dd>
+                    <dd>赠送{$vo.gift_money}</dd>
+                    {/if}
+                </dl>
+            </div>
             <div class="kaitong-2-2">
                 <ul>
-                    <li>查看照片</li>
-                    <li>查看联系方式</li>
-                    <li>无限发送私信</li>
+                    {volist name="$vo.privilege" id="val"}
+                    <li>{$val}</li>
+                    {/volist}
                 </ul>
             </div>
-            <div class="kaitong-2-3"><input type="submit" name="kthy" value="开通会员" ></div>
+            <input name="kt" id="kt" value="{$vo.id}" type="hidden"/>
+            <input name="get_openid"  value="{php} echo UID; {/php}" type="hidden"/>
+            <div class="kaitong-2-3"><input type="submit"  value="开通会员" ></div>
         </div>
-
-
+        </form>
+        {/volist}
     </div>
-</form>
+
 
 
 
@@ -63,4 +77,7 @@
     </div>
 </div>
 </body>
+
+<script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
+
 </html>

@@ -97,4 +97,54 @@ function make_menu(){
         return $output;
     }
 
+
+
+    public function  get_code_openid(){
+
+        //获取code
+        $code = $_GET["code"];
+        $appid = "wx1800872e18acc8f7";
+        $secret = "03b564744dffd2cc239250437ee139db";
+
+
+        //第一步:取全局access_token
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$secret";
+        $token = $this->getJson($url);
+
+        //第二步:取得openid
+        $oauth2Url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code";
+        $oauth2 = $this->getJson($oauth2Url);
+
+        //第三步:根据全局access_token和openid查询用户信息
+        $access_token = $token["access_token"];
+        $openid = $oauth2['openid'];
+        $get_user_info_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access_token&openid=$openid&lang=zh_CN";
+        $userinfo = $this->getJson($get_user_info_url);
+        var_dump($userinfo);
+     }
+
+
+    public function getJson($url){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output, true);
+    }
+
+    public function get_code(){
+        //$scope='snsapi_userinfo';//需要授权
+        $appid='wx1800872e18acc8f7';
+        $redirect_uri = urlencode('http://teacherpu.top/index/Wxapi/get_code_openid');
+        //https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+        $url ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+
+        header("Location:".$url);
+
+        exit;
+    }
+
 }

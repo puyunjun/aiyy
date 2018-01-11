@@ -8,7 +8,7 @@
 
 namespace app\user\home;
 
-use think\Controller;
+use app\user\model\home\PrivilegeGroup;
 
 class BecomeMember extends Common
 {
@@ -21,6 +21,9 @@ class BecomeMember extends Common
 
     public function index(){
 
+       $this->assign('member_group',(new PrivilegeGroup())->sel_need_fee());
+
+        //会员组权限
         $this->view->engine->layout(false);
 
         return $this->fetch();
