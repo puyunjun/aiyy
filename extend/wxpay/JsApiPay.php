@@ -38,7 +38,7 @@ class JsApiPay
      * 通过跳转获取用户的openid，跳转流程如下：
      * 1、设置自己需要调回的url及其其他参数，跳转到微信服务器https://open.weixin.qq.com/connect/oauth2/authorize
      * 2、微信服务处理完成之后会跳转回用户redirect_uri地址，此时会带上一些参数，如：code
-     * @param array() $order_info 订单相关参数
+     * @param array() $order_info 订单或者其他相关参数
      * @return string 用户的openid
      */
     public function getOpenid($order_info = array())
@@ -50,14 +50,14 @@ class JsApiPay
             $url = $this->__createOauthUrlForCode($baseUrl);
             //定义携带的参数
             $state = json_encode($order_info);
-            $url = $order_info ? str_replace("STATE", $state, $url) : 'STATE';
+            $url = $order_info ? str_replace("STATE", $state, $url) : $url;
             header("Location: $url");
             exit();
         } else {
             //获取code码，以获取openid
             $code = $_GET['code'];
             $openid = $this->getOpenidFromMp($code);
-            return $openid;
+            return $openid;   //信息数组
         }
     }
 
@@ -120,8 +120,9 @@ class JsApiPay
         //取出openid
         $data = json_decode($res, true);
         $this->data = $data;
-        $openid = $data['openid'];
-        return $openid;
+        //$openid = $data['openid'];
+        //return $openid;
+        return $data;
     }
 
     /**

@@ -73,7 +73,7 @@ class Wxpay  extends Controller
         $member_fee_info['uid'] = $this->get_become_member_data()['uid'];
         //①、获取用户openid
         $tools = new JsApiPay();
-        $openId = $tools->getOpenid($member_fee_info);
+        $openId = $tools->getOpenid($member_fee_info)['openid'];  //获取微信openid
         $order_info = json_decode(request()->param('state'));
         $body_info = $order_info->body_info;    //交易信息商品名
         $attach  = json_encode(

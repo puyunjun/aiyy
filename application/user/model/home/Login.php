@@ -32,49 +32,34 @@ class Login extends Model
     {
         $username = trim($username);
         $password = trim($password);
-
+        $map['status'] = 1;
         //登录方式判断
         if(preg_match("/^1\d{10}$/", $username)){
             //  手机登录，与站内保存密码进行匹配
             $map['identifier']=$username;
-        }elseif($login_type == 'weixin'){
+            // 查找用户
+            $user = $this::get($map);
+
+            if (!$user) {
+                return  json(array('status'=>false,'msg'=>'用户不存在或被禁用！'));
+            } else {
+                //手机验证登录接口
+                return $this->mobile_login($password,$user,$x,$y);
+            }
+        }elseif($login_type === 'weixin'){
             //接入微信登录认证
-            return ;
+            $map['identifier']=$username;
+            // 查找用户
+            $user = $this::get($map);
+            return $this->wx_login($user);
         }elseif($login_type == 'qq'){
             //接入qq登录认证
             return ;
         }
 
-        $map['status'] = 1;
 
-        // 查找用户
-        $user = $this::get($map);
 
-        if (!$user) {
-            return  json(array('status'=>false,'msg'=>'用户不存在或被禁用！'));
-        } else {
-            if (!Hash::check((string)$password, $user->credential)) {
-                return  json(array('status'=>false,'msg'=>'密码错误！'));
-            } else {
 
-                $uid = $user['uid'];
-                //最新登录信息
-                $last_info_arr= [
-                    'login_time' => request()->time(),
-                    'login_ip' => get_client_ip(1),
-                    'login_addr_x' => $x,
-                    'login_addr_y' => $y
-                ];
-                if (Db::name('user')->data($last_info_arr)->where('id',$uid)->update()) {
-                    // 保存成功进入登录页面
-                    return $this->autoLogin($this::get(['uid'=>$uid]),Db::name('user')->where('id',$uid)->find());
-                } else {
-                    // 更新登录信息失败
-                    $this->error = '登录信息更新失败，请重新登录！';
-                    return  json(array('status'=>false,'msg'=> $this->error));
-                }
-            }
-        }
 
     }
 
@@ -150,4 +135,61 @@ class Login extends Model
     }
 
 
+
+    //手机登录验证方法
+    /*
+     * @param string $password  用户输入的密码
+     * @param  object $user 站内用户信息对象
+     * @param string $x  当前经度坐标
+     * @param string $y 当前纬度坐标
+     * */
+    public function mobile_login($password = '',$user,$x = '',$y = ''){
+        if (!Hash::check((string)$password, $user->credential)) {
+            return  json(array('status'=>false,'msg'=>'密码错误！'));
+        } else {
+
+            $uid = $user->uid;
+            //最新登录信息
+            $last_info_arr= [
+                'login_time' => request()->time(),
+                'login_ip' => get_client_ip(1),
+                'login_addr_x' => $x,
+                'login_addr_y' => $y
+            ];
+            if (Db::name('user')->data($last_info_arr)->where('id',$uid)->update()) {
+                // 保存成功进入登录页面
+                return $this->autoLogin($this::get(['uid'=>$uid]),Db::name('user')->where('id',$uid)->find());
+            } else {
+                // 更新登录信息失败
+                $this->error = '登录信息更新失败，请重新登录！';
+                return  json(array('status'=>false,'msg'=> $this->error));
+            }
+        }
+    }
+
+
+    /*微信登录验证方法
+     * @param  object $user 站内用户信息对象
+     * @param string $x  当前经度坐标
+     * @param string $y 当前纬度坐标
+     * */
+
+    public function wx_login($user,$x='',$y=''){
+        $uid = $user->uid;
+        //最新登录信息
+        $last_info_arr= [
+            'login_time' => request()->time(),
+            'login_ip' => get_client_ip(1),
+            'login_addr_x' => $x,
+            'login_addr_y' => $y
+        ];
+
+        if (Db::name('user')->data($last_info_arr)->where('id',$uid)->update() !== false) {
+            // 保存成功进入登录页面
+            return $this->autoLogin($this::get(['uid'=>$uid]),Db::name('user')->where('id',$uid)->find());
+        } else {
+            // 更新登录信息失败 $this->error = '登录信息更新失败，请重新登录！';
+            return false;
+        }
+    }
 }
