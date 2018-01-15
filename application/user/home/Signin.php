@@ -153,22 +153,17 @@ class Signin extends Controller
     }
 
 
-    //第三方注册
+    //第三方注册 微信
 
     public function third_party_sign(){
         //微信登录授权
         $wx = new JsApiPay();
-
-        //获取openid相爱信息数组
-        $openId_arr = $wx->getOpenid(array('sex'=>0));  //初始为未知性别  绑定手机号的时候设置性别并无法更改
-        $openId  = isset($openId_arr['openid']) ? $openId_arr['openid'] : '';
-        //获取临时access_token
-        $access_token  = isset($openId_arr['access_token']) ? $openId_arr['access_token'] : '';
+        //获取微信详细信息
+        $userInfo = $wx->_getUserInfo();
+        $openId = isset($userInfo['openid']) ? $userInfo['openid'] : '';
+        $access_token = isset($userInfo['token']['access_token']) ? $userInfo['token']['access_token'] : '';
         //过期时间
-        $exp_time = isset($openId_arr['expires_in']) ? $openId_arr['expires_in']: '';
-        $state = json_decode(request()->param('state'));
-        $sex = $state->sex;
-
+        $exp_time = isset($userInfo['token']['expires_in']) ? $userInfo['token']['expires_in']: '';
         if(!$openId){
             //获取到openid
                 echo "<script>alert('微信服务器繁忙')</script>";
@@ -183,13 +178,12 @@ class Signin extends Controller
             if(!$uid = Db::name('user_auth')->where($map)->value('uid')){
                 //用户uid不存在，进行注册添加
                 //整合用户基础信息
-                $data = $this->get_wei_data($openId,$access_token,1);
+                $data = $this->get_wei_data($userInfo);
                 $user_base_info = $data['user'];
-
                 //添加用户基础信息
                 $newUid = self::$model->add_user_base($user_base_info);
                 //用户约游id在用户绑定手机号的时候进行分配,用户未绑定则不分配
-                //self::$model->where('id', $newUid)->setField('sys_id', $user_base_info['sys_id'] . $newUid);
+                self::$model->where('id', $newUid)->setField('sys_id', $user_base_info['sys_id'] . $newUid);
                 // var_dump($user_base_info);  exit;
                 if ($newUid) {
                     //返回用户注册新增主键id,在添加用户认证信息表
@@ -208,35 +202,42 @@ class Signin extends Controller
                     } else echo "<script>alert('服务器繁忙，稍后再试')</script>";$this->redirect('user/Signin/index');
 
                 }
+            }else{
+                //若用户存在直接登录即可
+                if( $re =$this->login_model->login($openId,'','','','weixin')){
+                    $this->redirect('http://'.$_SERVER['HTTP_HOST'].'/index/Index/index',302);
+                }else{
+                    echo "<script>alert('服务器繁忙，稍后再试')</script>";$this->redirect('user/Signin/index');
+                };
             }
         }
     }
 
     /*
      * 获取使用微信注册用户信息  return arr $data
-     * @param string $openid            用户openid，唯一标识
-     * @param string $access_token      微信平台机器access_token临时凭证
-     * @param int $sex  用户选择的性别
+     * @param array $userInfo 微信用户详细信息数组
      * */
-    private  function get_wei_data($openid,$access_token = '',$sex){
+    private  function get_wei_data($userInfo){
         $data = [];
 
         /*会员个人相关信息*/
         $data['user'] = array(
-            'phone' => $openid,       /*用户未绑定手机的时候即为微信openid*/
-            'sex' => $sex,
+            'phone' => $userInfo['openid'],       /*用户未绑定手机的时候即为微信openid*/
+            'sex' => $userInfo['sex'],
+            'head_img'=>$userInfo['headimgurl'],
+            'nickname'=>urlencode($userInfo['nickname']),
             'login_time' => request()->time(),
             'login_ip' => get_client_ip(1),
             'login_addr_x' => '',
             'login_addr_y' => '',
             'is_vip' => 4,                  //起始为非vip用户
-            //'sys_id' => mt_rand(10000, 100000),         /*系统分配的初始约游id 微信注册暂时不分配约游id*/
+            'sys_id' => mt_rand(10000, 100000),         /*系统分配的初始约游id 微信注册暂时不分配约游id*/
         );
 
         /*会员认证信息*/
         $data['user_auth'] = array(
-            'identifier' => $openid,
-            'credential' => $access_token,       /*用户凭证，手机号保存密码,用model层hash加密*/
+            'identifier' => $userInfo['openid'],
+            'credential' => $userInfo['token']['access_token'],   /*用户凭证*/
             'identity_type' => 'weixin',  /*会员注册默认使用手机号注册*/
             'status' => 1,             /*会员起始状态，1=>正常*/
             'regip' => get_client_ip(1),

@@ -29,7 +29,16 @@ class MyInfo extends Common
     }
     public function index(){
         //当前用户基本信息
-        $this->assign('base_info',User::get(UID));
+        $userInfo = User::get(UID);
+        $length = strlen($userInfo['phone']);
+        $mobile = preg_match_all("/^1[34578]\d{9}$/", $userInfo['phone'], $mobiles);
+        if($mobile === intval(0) || $length != 11 ){
+            $userInfo->phone = '手机未绑定';
+        }
+
+        //解码用户昵称
+        $userInfo->nickname = urldecode($userInfo->nickname );
+        $this->assign('base_info',$userInfo);
         $id= User::get(UID)['id'];
         $wd=Db::name('user_video')->where('uid',$id)->select();
         $this->assign("video_url", $wd);

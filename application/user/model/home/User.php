@@ -40,7 +40,7 @@ class User extends Model
         $subsql_video = UserVideo::where('video_type=2')->field('uid,count(id) as  video_num')->group('video_type')->buildSql();
 
 
-        return $this->alias('User')
+        $re = $this->alias('User')
             ->where('User.id',UID)
             ->join(['dp_user_attention'=>'attention'],'attention.user_followid=User.id','LEFT')
             ->join(['dp_user_attention'=>'attentioned'],'attentioned.user_id=User.id','LEFT')
@@ -52,6 +52,10 @@ class User extends Model
             ->field('video.video_num')
             ->field('User.nickname,User.head_img,User.sys_id,User.id,User.sex')
             ->find();
+
+            //解码用户昵称
+        $re['nickname'] = urldecode($re['nickname']);
+        return $re;
     }
 
 
