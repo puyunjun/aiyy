@@ -27,10 +27,11 @@ class ReleaseDetail extends Common
         if(request()->isGet()){
             //进入详情页面的权限
             $privilege_list = self::$model->sel_privilege()->allow_priview_list;
-            if($privilege_list == 4 || $privilege_list == 0){
+            //青铜权限取消判断
+            /*if($privilege_list == 4 || $privilege_list == 0){
                 //权限不足，直接返回首页或者上一页
                    $this->redirect(isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'index/Index/index');
-            }
+            }*/
         }
 
         return $this->fetch();

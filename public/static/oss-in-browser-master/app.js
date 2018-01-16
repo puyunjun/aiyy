@@ -47,7 +47,7 @@ var progress = function (p) {
     bar.style.width = Math.floor(p * 100) + '%';
     bar.innerHTML = Math.floor(p * 100) + '%';
     done();
-  }
+  };
 };
 
 var uploadFile = function (client) {

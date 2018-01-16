@@ -737,9 +737,56 @@ box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0px 1px 0 rgba(255,255,255,0.2);
 #list .list_jobb dl dt p{  height:30px; float:right; overflow:hidden; font-size:12px; }
 #list .list_jobb dl dd { width:96%; height:25px; margin:5px 2%; line-height:25px;  font-size:14px; float:left; overflow:hidden;}
 #list .list_jobb dl dd b{ height:25px; float:left; overflow:hidden; font-weight:normal; }
-#list .list_jobb dl dd p{ height:25px; float:right; overflow:hidden;} 
- 
+#list .list_jobb dl dd p{ height:25px; float:right; overflow:hidden;}
 
+
+/*��Ϊ����*/
+#cwby{ width:750px; height:auto; text-align:center; overflow:hidden;}
+#cwby .cwby-1{ width:750px; height:auto; float:left; text-align:center; overflow:hidden;}
+#cwby .cwby-1 ul{ width:750px; height:auto; margin-bottom:20px; float:left; text-align:center; overflow:hidden;}
+#cwby .cwby-1 li{ width:650px; height:80px; padding-top:20px; padding:0px 50px; margin-bottom:1px; background-color:#1f2836; float:left; text-align:center; overflow:hidden;}
+#cwby .cwby-1 li.tt1{ width:650px; height:80px; line-height:80px;  float:left; text-align:center;  overflow:hidden;}
+#cwby .cwby-1 li.tt1 b{ width:140px; height:80px; float:left; overflow:hidden; color:#6e83a3; font-size:32px; text-align:left; font-weight:normal;  }
+#cwby .cwby-1 li.tt1 p{ width:510px; height:80px; float:left;  overflow:hidden; color:#6e83a3; font-size:32px;}
+#cwby .cwby-1 li.tt1 p .txt1{ width:510px; height:80px; line-height:80px; text-align:right; border:0px;background:none;  font-size:32px; color:#fff; overflow:hidden;}
+#cwby .cwby-1 li.tt1 p .select1{ float:right; height:80px; line-height:80px; text-align:right; border:0px;background:none;  font-size:32px; color:#fff; overflow:hidden;}
+
+
+#cwby .cwby-1 li.tt2{ width:650px; height:80px; line-height:80px;  float:left; text-align:center;  overflow:hidden;}
+#cwby .cwby-1 li.tt2 b{ width:140px; height:80px; float:left; overflow:hidden; color:#6e83a3; font-size:32px; text-align:left; font-weight:normal;  }
+#cwby .cwby-1 li.tt2 p{ width:510px; height:80px; float:left;  overflow:hidden; color:#6e83a3; font-size:32px;}
+#cwby .cwby-1 li.tt2 p .txt1{ width:320px; height:80px; line-height:80px; text-align:left; border:0px;background:none;  font-size:32px; color:#fff; overflow:hidden;}
+#cwby .cwby-1 li.tt2 p a{ float:right; color:#fd4c9d;}
+
+#cwby .cwby-1 li.tt3{ width:650px; height:100px; line-height:100px; margin:0px; padding:20px 50px; background:none;  float:left; text-align:center;  overflow:hidden;}
+#cwby .cwby-1 li.tt3 .tj{ width:650px; height:100px; line-height:100px; text-align:center; border:0px; border-radius:20px; background:url(../images/login-tj.png) repeat; font-size:36px; color:#fff; overflow:hidden;}
+#cwby .cwby-1 li.tishi1{ width:650px; height:40px; line-height:40px; padding:10px 50px; background:none;  float:left; border-bottom:0px; color:#7085a6; font-size:28px; text-align:center; overflow:hidden;}
+#cwby .cwby-1 li.tishi1 a{  color:#fd4c9d; }
+
+#cwby .cwby-1 li.sfz{ width:650px; height:390px; margin:0px; padding:20px 50px;   float:left; text-align:center;  overflow:hidden;  }
+#cwby .cwby-1 li.sfz p{ width:630px; height:390px; margin:9x; border:#6e83a3 1px dashed; background:none;  float:left; text-align:center;  overflow:hidden;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    font-size:24px; color:#6e83a3; }
+#cwby .cwby-1 li.sfz .bg1{ background:url(../images/sfz1.png) no-repeat center center ; }
+#cwby .cwby-1 li.sfz .bg2{ background:url(../images/sfz2.png) no-repeat center center ; }
+#cwby .cwby-1 li.sfz .bg3{ background:url(../images/sfz3.png) no-repeat center center ; }
+
+
+#cwby .cwby-1 li.sfz p em{ width:630px; height:80px; line-height:80px; padding-top:310px; float:left; overflow:hidden; font-size:24px; color:#6e83a3; font-style:normal; }
+
+
+#cwby .cwby-1 li.sfz input[type=file]{ width:628px; height:388px; float:left;overflow:hidden; position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
 
 
 
