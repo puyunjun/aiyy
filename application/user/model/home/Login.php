@@ -51,7 +51,7 @@ class Login extends Model
             $map['identifier']=$username;
             // 查找用户
             $user = $this::get($map);
-            return $this->wx_login($user);
+            return $this->wx_login($user,$x,$y);
         }elseif($login_type == 'qq'){
             //接入qq登录认证
             return ;
@@ -183,7 +183,6 @@ class Login extends Model
             'login_addr_x' => $x,
             'login_addr_y' => $y
         ];
-
         if (Db::name('user')->data($last_info_arr)->where('id',$uid)->update() !== false) {
             // 保存成功进入登录页面
             return $this->autoLogin($this::get(['uid'=>$uid]),Db::name('user')->where('id',$uid)->find());

@@ -26,7 +26,7 @@ class MyInfo extends Validate
 
 
     protected  $rule = [
-           'nickname'  => 'require|max:25',      // 昵称
+           'nickname'  => 'require|max:100',      // 昵称
             'autograph'  => 'require|max:50',      //个性签名
             'real_name'  => 'require|max:10',      //姓名
            'city_id'=>'require',          //地址
@@ -42,8 +42,8 @@ class MyInfo extends Validate
 
 
     protected    $message = [
-            'nickname.require' => '名称必须',                    // 昵称
-            'nickname.max'     => '名称最多不能超过25个字符',      // 昵称
+            'nickname.require' => '昵称必须',                    // 昵称
+            'nickname.max'     => '昵称过长',      // 昵称
             'autograph.require' => '签名必须',                      //个性签名
             'autograph.max'     => '签名最多不能超过50个字符',     //个性签名
             'real_name.require' => '姓名必须',                      //姓名

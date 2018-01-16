@@ -15,6 +15,7 @@ use app\user\model\home\Sign as SignInModel;
 use wxpay\JsApiPay;
 use think\Db;
 use app\user\model\home\Login;
+use app\index\controller\MapIp;
 class Signin extends Controller
 {
 
@@ -170,7 +171,10 @@ class Signin extends Controller
                 $this->redirect('user/Signin/index');
         }else{
             //判断是否用微信登录，若登陆过直接进入个人页面或者首页
-
+            //获取用户经纬度信息
+            $location = MapIp::instance()->location_byip();
+            $x = $location['lng'];
+            $y = $location['lat'];
             $map = [
                 'identity_type' => 'weixin',
                 'identifier' => $openId,
@@ -193,7 +197,7 @@ class Signin extends Controller
                     if ($authId) {
                         //微信第三方注册成功  进入自动登录
 
-                        if( $re =$this->login_model->login($openId,'','','','weixin')){
+                        if( $re =$this->login_model->login($openId,'',$x,$y,'weixin')){
                             $this->redirect('http://'.$_SERVER['HTTP_HOST'].'/index/Index/index',302);
                         }else{
                             echo "<script>alert('服务器繁忙，稍后再试')</script>";$this->redirect('user/Signin/index');
@@ -204,7 +208,7 @@ class Signin extends Controller
                 }
             }else{
                 //若用户存在直接登录即可
-                if( $re =$this->login_model->login($openId,'','','','weixin')){
+                if( $re = $this->login_model->login($openId,'',$x,$y,'weixin')){
                     $this->redirect('http://'.$_SERVER['HTTP_HOST'].'/index/Index/index',302);
                 }else{
                     echo "<script>alert('服务器繁忙，稍后再试')</script>";$this->redirect('user/Signin/index');
@@ -231,7 +235,7 @@ class Signin extends Controller
             'login_addr_x' => '',
             'login_addr_y' => '',
             'is_vip' => 4,                  //起始为非vip用户
-            'sys_id' => mt_rand(10000, 100000),         /*系统分配的初始约游id 微信注册暂时不分配约游id*/
+            'sys_id' => mt_rand(10000, 100000),         /*系统分配的初始约游id */
         );
 
         /*会员认证信息*/
