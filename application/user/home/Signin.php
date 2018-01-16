@@ -138,6 +138,7 @@ class Signin extends Controller
             'login_addr_x' => '',
             'login_addr_y' => '',
             'is_vip' => 4,
+            'is_bind_phone' => 1,
             'sys_id' => mt_rand(10000, 100000),         /*系统分配的初始约游id*/
         );
 
@@ -198,7 +199,8 @@ class Signin extends Controller
                         //微信第三方注册成功  进入自动登录
 
                         if( $re =$this->login_model->login($openId,'',$x,$y,'weixin')){
-                            $this->redirect('http://'.$_SERVER['HTTP_HOST'].'/index/Index/index',302);
+                            //首次注册未绑定手机号
+                            $this->redirect('http://'.$_SERVER['HTTP_HOST'].'/index/Index/index/bindphone/1',302);
                         }else{
                             echo "<script>alert('服务器繁忙，稍后再试')</script>";$this->redirect('user/Signin/index');
                         }
@@ -209,7 +211,15 @@ class Signin extends Controller
             }else{
                 //若用户存在直接登录即可
                 if( $re = $this->login_model->login($openId,'',$x,$y,'weixin')){
-                    $this->redirect('http://'.$_SERVER['HTTP_HOST'].'/index/Index/index',302);
+                    //判断用户是否绑定手机号
+                    $is_bind = self::$model->where('id',$re)->value('is_bind_phone');
+                    if($is_bind === 0){
+                        //未绑定
+                        $param_bind = '/bindphone/1';
+                    }else{
+                        $param_bind = '';
+                    }
+                    $this->redirect('http://'.$_SERVER['HTTP_HOST'].'/index/Index/index'.$param_bind,302);
                 }else{
                     echo "<script>alert('服务器繁忙，稍后再试')</script>";$this->redirect('user/Signin/index');
                 };

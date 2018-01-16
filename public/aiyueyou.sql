@@ -26,6 +26,7 @@ CREATE TABLE dp_user(
   `point` SMALLINT(6) UNSIGNED NOT NULL  DEFAULT 0 COMMENT '积分点数',
   `is_vip` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为vip用户,4=>非vip用户,1=>vip用户',
   `is_escort` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为伴游,4=>非伴游用户,1=>伴游用户',
+  `is_bind_phone` TINYINT (1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户是否绑定手机号,0=>未绑定,1=>绑定',
   `login_time` CHAR(10) NOT NULL DEFAULT '' COMMENT '最后一次登陆时间',
   `login_ip` VARCHAR (30) NOT NULL DEFAULT '' COMMENT '最后一次登录用户电脑ip地址',
   `login_addr_x` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '最后一次登录经纬度x坐标',
