@@ -43,24 +43,44 @@ var applyTokenDo = function (func) {
 
 var progress = function (p) {
   return function (done) {
+    console.log(p+'bbb');
     var bar = document.getElementById('progress-bar');
     bar.style.width = Math.floor(p * 100) + '%';
     bar.innerHTML = Math.floor(p * 100) + '%';
     done();
   };
 };
-
+var j =0;
 var uploadFile = function (client) {
-  var file = document.getElementById('file').files[0];
-  var key = document.getElementById('object-key-file').value.trim() || 'object';
-  console.log(file.name + ' => ' + key);
+  var fileobj = document.getElementById('file').files;
+    var keyobj = document.getElementById('object-key-file').value.trim();
+  for(var i=0;i<fileobj.length;i++){
+      var file = document.getElementById('file').files[i];
+      var key = document.getElementById('object-key-file').value.trim()+i;
+      //console.log(file.name + ' => ' + key);
 
-  return client.multipartUpload(key, file, {
-    progress: progress
-  }).then(function (res) {
-    console.log('upload success: %j', res);
-    return listFiles(client);
-  });
+       client.multipartUpload(keyobj+i, fileobj[i], {
+          progress: function (p,i) {
+              return function (done) {
+                  console.log(i)
+                  console.log(p+'bbb');
+
+
+                  var bar = document.getElementById('progress-bar'+j);
+                  if(p === 1){
+                      j++;
+                  }
+                  bar.style.width = Math.floor(p * 100) + '%';
+                  bar.innerHTML = Math.floor(p * 100) + '%';
+                  done();
+              };
+          },
+      }).then(function (res) {
+          console.log('upload success: %j', res);
+       return    listFiles(client);
+      });
+  }
+
 };
 
 var uploadContent = function (client) {
