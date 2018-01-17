@@ -184,3 +184,20 @@ CREATE TABLE IF NOT EXISTS `dp_user_release`(
     `create_time` INT(10) UNSIGNED NOT NULL COMMENT '发布时间'
 );
 
+
+/*
+会员认证表
+*/
+DROP TABLE IF EXISTS `dp_user_ identity`;
+CREATE TABLE `dp_user_ identity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) unsigned NOT NULL COMMENT '用户id',
+  `id_card_num` varchar(50) NOT NULL COMMENT '省份证号码',
+  `sfz_font_img` varchar(100) NOT NULL COMMENT '身份证正面照',
+  `sfz_back_img` varchar(100) NOT NULL COMMENT '身份证背面照',
+  `sfz_hand_img` varchar(100) NOT NULL COMMENT '手持身份证正面照',
+  `create_time` int(11) UNSIGNED NOT NULL COMMENT '添加时间',
+  `update_time` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS=1;
