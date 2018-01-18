@@ -28,6 +28,8 @@ class MyInfo extends Common
         self::$OssUpload = AliyunOss::getinstance()->OssUpload();
     }
     public function index(){
+
+
         //当前用户基本信息
         $userInfo = User::get(UID);
         $length = strlen($userInfo['phone']);
@@ -109,6 +111,9 @@ class MyInfo extends Common
            'birthday' => strtotime(request()->post('birthday'))?strtotime(request()->post('birthday')):'',                          //生日
        ];
        return $data;
+   }
+   private function mody(){
+       return json(123);
    }
 
 

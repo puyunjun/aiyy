@@ -7,18 +7,18 @@
 
 <div id="yyxx">
     <div class="yyxx-1">
-        <div class="yyxx-1-1"><img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg" ></div>
-        <div class="yyxx-1-2">大米<p>♀</p></div>
-        <div class="yyxx-1-3">重庆 19岁  165cm   与您距离：5km</div>
+        <div class="yyxx-1-1"><img src="{$user.head_img}" ></div>
+        <div class="yyxx-1-2">{$user.real_name}<p>♀</p></div>
+        <div class="yyxx-1-3">{$user.address} {$user.birthday}岁  {$user.height}cm   与您距离：5km</div>
         <div class="yyxx-1-4">欢迎私聊</div>
     </div>
     <div class="yyxx-2">
-        <div class="tt"><b>生活照</b><p>共16张</p></div>
+        <div class="tt"><b>生活照</b><p>共{$user.count}张</p></div>
         <div class="lis">
             <ul>
-                <li class="on"><img src="__HOME_CSS__/wapcssjsimg/images/photo1.jpg" ></li>
-                <li class="on"><img src="__HOME_CSS__/wapcssjsimg/images/photo1.jpg" ></li>
-                <li class="on"><img src="__HOME_CSS__/wapcssjsimg/images/photo1.jpg" ></li>
+                {volist name="video" id="vo"}
+                <li class="on"><img src="{$vo.video_url}" ></li>
+                {/volist}
             </ul>
         </div>
         <div class="tishi">由于用户设置照片保护，需客户钱包至少拥有1000.00元余额才可以查看生活照。<br>注意：押金可以随时提取，或用于之丰富伴游费用</div>
@@ -27,14 +27,14 @@
 
     <div class="yyxx-3">
         <div class="tt"><b>视频</b> </div>
-        <div class="lis on"><img src="__HOME_CSS__/wapcssjsimg/images/video1.jpg" width="750" height="420"></div>
+        <div class="lis on"><img src="{$sp.video_url}" width="750" height="420"></div>
     </div>
     <div class="yyxx-4">
         <div class="tt"><b>资料</b> </div>
         <div class="lis">
             <ul>
-                <li><b>身高</b><p>168cm</p></li>
-                <li><b>职业</b><p>学生</p></li>
+                <li><b>身高</b><p>{$user.height}cm</p></li>
+                <li><b>职业</b><p>{$user.occupation_id}</p></li>
                 <li><b>服务</b><p>本地  全国</p></li>
                 <li><b>语言</b><p>中文</p></li>
             </ul>

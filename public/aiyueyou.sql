@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `dp_user_release`(
 /*
 会员认证表
 */
-DROP TABLE IF EXISTS `dp_user_ identity`;
+DROP TABLE IF EXISTS `dp_user_identity`;
 CREATE TABLE `dp_user_ identity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) unsigned NOT NULL COMMENT '用户id',
