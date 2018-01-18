@@ -41,31 +41,21 @@ var applyTokenDo = function (func) {
   });
 };
 
-var progress = function (p) {
-  return function (done) {
-    console.log(p+'bbb');
-    var bar = document.getElementById('progress-bar');
-    bar.style.width = Math.floor(p * 100) + '%';
-    bar.innerHTML = Math.floor(p * 100) + '%';
-    done();
-  };
-};
 var j =0;
+var all_progress = 0;  //设置总进度数量,上传完毕后进行ajax提交程序
+var up_data = new FormData();   //创建表单提交项
 var uploadFile = function (client) {
-  var fileobj = document.getElementById('file').files;
-    var keyobj = document.getElementById('object-key-file').value.trim();
+  var fileobj = [];
+
+  for(var m=0;m<$('input[type=file]').length;m++){
+      fileobj.push($('input[type=file]').eq(m)[0].files[0]);
+  }
+  var keyobj = 'authentication/obj';
+  console.log(fileobj)
   for(var i=0;i<fileobj.length;i++){
-      var file = document.getElementById('file').files[i];
-      var key = document.getElementById('object-key-file').value.trim()+i;
-      //console.log(file.name + ' => ' + key);
-
        client.multipartUpload(keyobj+i, fileobj[i], {
-          progress: function (p,i) {
+          progress: function (p) {
               return function (done) {
-                  console.log(i)
-                  console.log(p+'bbb');
-
-
                   var bar = document.getElementById('progress-bar'+j);
                   if(p === 1){
                       j++;
@@ -76,83 +66,47 @@ var uploadFile = function (client) {
               };
           },
       }).then(function (res) {
+          //console.log('upload success: %j', res);
           console.log('upload success: %j', res);
-       return    listFiles(client);
+
+           up_data.append($('input[type=file]').eq(all_progress).attr('name'),res.res.requestUrls[0].substring(0,res.res.requestUrls[0].indexOf('?')));
+           //console.log(up_data);
+          all_progress++;
+
+          if(all_progress === fileobj.length){
+              //加入身份证号码
+              up_data.append('id_card_num',$('#id_card_num').val());
+              $.ajax({
+                  url:'http://'+window.location.host+'/user/Authentication/up_authenticate',
+                  dataType:'JSON',
+                  data:up_data,
+                  processData: false,  // 不处理数据
+                  contentType: false,   // 不设置内容类型
+                  type:'post',
+                  success:function(res){
+                        if(res){
+                            layer.msg('添加成功',function () {
+                                //window.location.href='http://'+window.location.host+'/user/index/index';
+                            });
+                        }
+                  }
+              });
+          }
       });
   }
 
-};
+    if(all_progress === fileobj.length){
 
-var uploadContent = function (client) {
-  var content = document.getElementById('file-content').value.trim();
-  var key = document.getElementById('object-key-content').value.trim() || 'object';
-  console.log('content => ' + key);
-
-  return client.put(key, new Buffer(content)).then(function (res) {
-    return listFiles(client);
-  });
-};
-
-var listFiles = function (client) {
-  var table = document.getElementById('list-files-table');
-  console.log('list files');
-
-  return client.list({
-    'max-keys': 100
-  }).then(function (result) {
-    var objects = result.objects.sort(function (a, b) {
-      var ta = new Date(a.lastModified);
-      var tb = new Date(b.lastModified);
-      if (ta > tb) return -1;
-      if (ta < tb) return 1;
-      return 0;
-    });
-
-    var numRows = table.rows.length;
-    for (var i = 1; i < numRows; i ++) {
-      table.deleteRow(table.rows.length - 1);
     }
-
-    for (var i = 0; i < Math.min(3, objects.length); i ++) {
-      var row = table.insertRow(table.rows.length);
-      row.insertCell(0).innerHTML = objects[i].name;
-      row.insertCell(1).innerHTML = objects[i].size;
-      row.insertCell(2).innerHTML = objects[i].lastModified;
-    }
-  });
 };
-
-var downloadFile = function (client) {
-  var object = document.getElementById('dl-object-key').value.trim();
-  var filename = document.getElementById('dl-file-name').value.trim();
-  console.log(object + ' => ' + filename);
-
-  var result = client.signatureUrl(object, {
-    response: {
-      'content-disposition': 'attachment; filename="' + filename + '"'
-    }
-  });
-  window.location = result;
-
-  return result;
-};
-
 window.onload = function () {
-  document.getElementById('file-button').onclick = function () {
-    applyTokenDo(uploadFile);
-  }
-
-  document.getElementById('content-button').onclick = function () {
-    applyTokenDo(uploadContent);
-  }
-
-  document.getElementById('list-files-button').onclick = function () {
-    applyTokenDo(listFiles);
-  }
-
-  document.getElementById('dl-button').onclick = function () {
-    applyTokenDo(downloadFile);
-  }
-
-  applyTokenDo(listFiles);
+  document.getElementById('uploadFile_bt').onclick = function () {
+      for(var m=0;m<$('input[type=file]').length;m++){
+          if($('input[type=file]').eq(m).val() === ''){
+              alert('请将照片信息添加完整');
+              return false;
+          }
+      }
+     applyTokenDo(uploadFile);
+  };
 };

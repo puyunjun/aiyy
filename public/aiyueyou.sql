@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `dp_user_release`(
 /*
 会员认证表
 */
-DROP TABLE IF EXISTS `dp_user_ identity`;
+DROP TABLE IF EXISTS `dp_user_identity`;
 CREATE TABLE `dp_user_ identity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) unsigned NOT NULL COMMENT '用户id',
@@ -198,6 +198,7 @@ CREATE TABLE `dp_user_ identity` (
   `sfz_hand_img` varchar(100) NOT NULL COMMENT '手持身份证正面照',
   `create_time` int(11) UNSIGNED NOT NULL COMMENT '添加时间',
   `update_time` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '修改时间',
+  `status`  TINYINT(1) UNSIGNED DEFAULT 3 NOT NULL COMMENT '审核状态,1=>审核成功,2=>审核失败,3=>审核中',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET FOREIGN_KEY_CHECKS=1;
