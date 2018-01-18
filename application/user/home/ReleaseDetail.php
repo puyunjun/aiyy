@@ -10,6 +10,7 @@ namespace app\user\home;
 
 use think\Controller;
 use app\user\model\home\Privilege;
+use think\Db;
 class ReleaseDetail extends Common
 {
 
@@ -20,21 +21,41 @@ class ReleaseDetail extends Common
         self::$model = new Privilege;
     }
 
-    public function index(){
-
+    public function index($id){
        //判断用户是否有权限查看信息
 
-        if(request()->isGet()){
-            //进入详情页面的权限
-            $privilege_list = self::$model->sel_privilege()->allow_priview_list;
-            //青铜权限取消判断
-            /*if($privilege_list == 4 || $privilege_list == 0){
-                //权限不足，直接返回首页或者上一页
-                   $this->redirect(isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'index/Index/index');
-            }*/
-        }
+//        $user=Db::name('user')
+//            ->alias('a')
+//            ->join('__USER_VIDEO__ w','a.id = w.uid')
+//            ->where('a.id',$id)
+//            ->find();
+         $user=Db::name('user')->where('id',$id)->find();
+         $video=Db::name('user_video')->where("uid=$id and video_type=1")->select();
+         $sp=Db::name('user_video')->where("uid=$id and video_type=2")->find();
+                $a = date('Y', time());
+                $b = date('Y', $user["birthday"]);    //求出年龄
+                $user['birthday'] = abs($a - $b);
+                $str=$user["address"];
+                $arr_str=explode(" ",$str);//以空格为拆分条件
+                $user['address'] = $arr_str[0];
 
-        return $this->fetch();
+                 $count = count($video);
+                 $user['count']=$count;
+                 $this->assign('video',$video);
+                 $this->assign('user',$user);
+                 $this->assign('sp',$sp);
+
+//                 //if(request()->isGet()){
+//            //进入详情页面的权限
+//            $privilege_list = self::$model->sel_privilege()->allow_priview_list;
+//            //青铜权限取消判断
+//            /*if($privilege_list == 4 || $privilege_list == 0){
+//                //权限不足，直接返回首页或者上一页
+//                   $this->redirect(isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'index/Index/index');
+//            }*/
+//                //}
+
+       return $this->fetch();
     }
 
 

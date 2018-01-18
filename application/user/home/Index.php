@@ -22,7 +22,6 @@ class Index extends Common
 
     public function index(){
         /*用户首页方法*/
-
         $this->assign('user_base_info',$this->model->user_base_info());
 
         //var_dump(UserModel::user_privilege());exit;

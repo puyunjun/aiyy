@@ -13,6 +13,7 @@ namespace app\index\controller;
 use think\cache\driver\Redis;
 use app\user\model\home\User As UserModel;
 use think\Session;
+use think\Db;
 
 /**
  * 前台首页控制器
@@ -32,6 +33,7 @@ class Index extends Home
 
     public function index()
     {
+
         // 默认跳转模块
         if (config('home_default_module') != 'index') {
             $this->redirect(config('home_default_module'). '/index/index');
@@ -57,8 +59,27 @@ class Index extends Home
         //$Redis->set("test","test");
         //echo  $Redis->get("test");
 
+        //$sql = "select * from user left join user_video on id=uid where is_escort =1";
+        //$result = Db::query('select * from dp_user left join dp_user_video on id=uid where is_escort =1 ');
+                                                                    //计算出年龄
+                                                                    //取出地址
 
-        return $this->fetch();
+       $name= Db::name('user')->where("is_escort=1")->select();
+        foreach( $name as $k=>$v1 )
+            {
+                    $a = date('Y', time());
+                    $b = date('Y', $v1["birthday"]);    //求出年龄
+                    $name[$k]['birthday'] = abs($a - $b);
+
+
+                    $str=$v1["address"];
+                    $arr_str=explode(" ",$str);//以空格为拆分条件
+                    $name[$k]['address'] = $arr_str[0];
+
+
+            }
+       $this->assign('name',$name);
+       return $this->fetch();
 
     }
 
