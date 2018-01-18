@@ -23,28 +23,6 @@ class ReleaseDetail extends Common
 
     public function index($id){
        //判断用户是否有权限查看信息
-
-//        $user=Db::name('user')
-//            ->alias('a')
-//            ->join('__USER_VIDEO__ w','a.id = w.uid')
-//            ->where('a.id',$id)
-//            ->find();
-         $user=Db::name('user')->where('id',$id)->find();
-         $video=Db::name('user_video')->where("uid=$id and video_type=1")->select();
-         $sp=Db::name('user_video')->where("uid=$id and video_type=2")->find();
-                $a = date('Y', time());
-                $b = date('Y', $user["birthday"]);    //求出年龄
-                $user['birthday'] = abs($a - $b);
-                $str=$user["address"];
-                $arr_str=explode(" ",$str);//以空格为拆分条件
-                $user['address'] = $arr_str[0];
-
-                 $count = count($video);
-                 $user['count']=$count;
-                 $this->assign('video',$video);
-                 $this->assign('user',$user);
-                 $this->assign('sp',$sp);
-
 //                 //if(request()->isGet()){
 //            //进入详情页面的权限
 //            $privilege_list = self::$model->sel_privilege()->allow_priview_list;
