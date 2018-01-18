@@ -86,7 +86,7 @@ var uploadFile = function (client) {
                   success:function(res){
                         if(res){
                             layer.msg('添加成功',function () {
-                                //window.location.href='http://'+window.location.host+'/user/index/index';
+                                window.location.href='http://'+window.location.host+'/user/index/index';
                             });
                         }
                   }

@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `dp_user_release`(
 会员认证表
 */
 DROP TABLE IF EXISTS `dp_user_identity`;
-CREATE TABLE `dp_user_ identity` (
+CREATE TABLE `dp_user_identity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) unsigned NOT NULL COMMENT '用户id',
   `id_card_num` varchar(50) NOT NULL COMMENT '省份证号码',
