@@ -78,7 +78,7 @@ li{ padding:0px; margin:0px; list-style:none;}
 #ft_fixed .ft_fixed li:nth-child(5):hover a:before{ content:""; width:100%; height:60px; background:url(../images/ft-4.png) no-repeat bottom center;  float:left; overflow:hidden;}  
 
 
-#top{ width:750px;  height:auto;  position:fixed; top:0px; z-index:99999;background: #1f2836; border-bottom: #161c26 1px solid; }
+#top{ width:750px;  height:auto;  position:fixed; top:0px; z-index:9998;background: #1f2836; border-bottom: #161c26 1px solid; }
 #top .top{ width:750px; height:90px; line-height:90px; float:left; text-align:center; overflow:hidden; position:relative; z-index:11;}
 #top .top dt { width:100px; height:90px; float:left; overflow:hidden;  } 
 #top .top dt a{ width:100px; height:90px; float:left; overflow:hidden;  } 
