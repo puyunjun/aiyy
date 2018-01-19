@@ -44,16 +44,19 @@ var applyTokenDo = function (func) {
 var j =0;
 var all_progress = 0;  //设置总进度数量,上传完毕后进行ajax提交程序
 var up_data = new FormData();   //创建表单提交项
+var key_arr_obi =[];
 var uploadFile = function (client) {
   var fileobj = [];
 
   for(var m=0;m<$('input[type=file]').length;m++){
       fileobj.push($('input[type=file]').eq(m)[0].files[0]);
   }
-  var keyobj = 'authentication/obj';
+
   console.log(fileobj)
   for(var i=0;i<fileobj.length;i++){
-       client.multipartUpload(keyobj+i, fileobj[i], {
+      var keyobj = 'authentication/'+get_date()+'/'+new Date().getTime()+i+'.png';
+        key_arr_obi[i] = keyobj;
+       client.multipartUpload(keyobj, fileobj[i], {
           progress: function (p) {
               return function (done) {
                   var bar = document.getElementById('progress-bar'+j);
@@ -67,9 +70,18 @@ var uploadFile = function (client) {
           },
       }).then(function (res) {
           //console.log('upload success: %j', res);
-          console.log('upload success: %j', res);
-
-           up_data.append($('input[type=file]').eq(all_progress).attr('name'),res.res.requestUrls[0].substring(0,res.res.requestUrls[0].indexOf('?')));
+          //console.log('upload success: %j', res);
+          //console.log(i);
+          console.log(key_arr_obi);
+            var img_url = res.res.requestUrls[0].indexOf('?')>-1 ? res.res.requestUrls[0].substring(0,res.res.requestUrls[0].indexOf('?')) : res.res.requestUrls[0];
+           //获取url最后一位数字，即为对应输入框id标号
+           var last_num = img_url.substring(img_url.lastIndexOf('.')-1,img_url.lastIndexOf('.'));
+           //console.log(last_num);
+           //利用最后标识(即为第几个文件名的值)赋值
+           //console.log(img_url.lastIndexOf('.'));
+            up_data.append($('input[type=file]').eq(last_num).attr('name'),img_url);    //对应文件名  important
+           //console.log($('input[type=file]').eq(all_progress).attr('name'));
+           //console.log(img_url);
            //console.log(up_data);
           all_progress++;
 
@@ -84,9 +96,11 @@ var uploadFile = function (client) {
                   contentType: false,   // 不设置内容类型
                   type:'post',
                   success:function(res){
+
+                      //console.log(res);
                         if(res){
                             layer.msg('添加成功',function () {
-                                window.location.href='http://'+window.location.host+'/user/index/index';
+                                //window.location.href='http://'+window.location.host+'/user/index/index';
                             });
                         }
                   }
@@ -107,6 +121,18 @@ window.onload = function () {
               return false;
           }
       }
+      if($('#id_card_num').val() ===''){
+          alert('请填写身份证号码');
+          return false;
+      }
      applyTokenDo(uploadFile);
   };
 };
+
+
+//获取日期
+function get_date(){
+    var d = new Date();
+    var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+    return str;
+}
