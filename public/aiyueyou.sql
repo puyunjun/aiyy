@@ -23,7 +23,7 @@ CREATE TABLE dp_user(
   `measurement` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '三围',
   `weight` VARCHAR(3) NOT NULL DEFAULT '' COMMENT '体重',
   `account` DECIMAL (8,2) DEFAULT 0.00 COMMENT '用户余额',
-  `point` SMALLINT(6) UNSIGNED NOT NULL  DEFAULT 0 COMMENT '积分点数',
+  `point` DECIMAL (8,2) UNSIGNED NOT NULL  DEFAULT 0.00 COMMENT '积分点数',
   `is_vip` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为vip用户,4=>非vip用户,1=>vip用户',
   `is_escort` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为伴游,4=>非伴游用户,1=>伴游用户',
   `is_bind_phone` TINYINT (1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户是否绑定手机号,0=>未绑定,1=>绑定',
@@ -206,3 +206,21 @@ CREATE TABLE `dp_user_identity` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET FOREIGN_KEY_CHECKS=1;
+
+
+/*
+用户升级会员记录表
+*/
+
+CREATE TABLE dp_upgrade_member(
+  `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+  `uid` INT(11)  UNSIGNED NOT NULL COMMENT '用户id',
+  `total_money` DECIMAL (8,2) UNSIGNED DEFAULT 0.00  COMMENT '消费金额',
+  `font_group_id` INT(11) UNSIGNED NOT NULL COMMENT '升级前所属会员组id',
+  `back_group_id` INT(11) UNSIGNED NOT NULL COMMENT '升级后所属会员组id',
+  `recharge_type` VARCHAR(20)  NOT NULL COMMENT '消费类型',
+  `status` TINYINT(1) UNSIGNED NOT NULL COMMENT '消费状态1=>成功,4=>失败',
+  `create_time` CHAR (10)  NOT NULL COMMENT '消费时间',
+  `create_ip` VARCHAR(20) NOT NULL COMMENT '消费ip地址'
+);
+

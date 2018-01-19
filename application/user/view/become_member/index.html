@@ -30,12 +30,12 @@
 <section id="top_kong"></section>
 
 
-<form name="ff1" method="post" id="form">
+<form name="ff1" method="post" id="form" onsubmit="return sub()">
     <div id="huangg">
 
         <div class="huiyuan-1"><dl>
             <img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >
-            <dt>白银会员</dt><dd>已有<b>{$count_num}</b>人购买</dd></dl></div>
+            <dt>{$data.group_name}会员</dt><dd>已有<b>{$data.people_num}</b>人购买</dd></dl></div>
         <div class="huangg-2">
             <ul>
                 <li><b>使用账户余额</b><p ><input onclick=fun("{:url('user/index/pay','','')}") name="shiyong" type="radio" value="1" src="__HOME_CSS__/wapcssjsimg/images/inputradio.png" ></p></li>
@@ -52,6 +52,7 @@
             <div class="huangg-4-1">成为会员即表示同意《游约会员协议》</div>
         </div>
         <input name="kt" id="kt" value="{$data.id}" type="hidden"/>
+        <input name="price_type"  value="{$price_type}" type="hidden"/>
         <input name="get_uid"  value="{php} echo UID; {/php}" type="hidden"/>
 
     </div>
@@ -74,12 +75,23 @@
 </body>
 
 <script>
+
+    //声明是否选择支付方式初始值
+    var pay_type=false;
     /*
     * 支付跳转页面方法
     * @param  string action_url 提交跳转地址
     * */
     function fun(action_url){
         document.getElementById('form').setAttribute('action',action_url)
+        pay_type = true;
+    }
+
+    function sub(){
+        if(!pay_type){
+            alert('请选择支付方式')
+        }
+        return pay_type;
     }
 </script>
 </html>

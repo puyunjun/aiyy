@@ -45,13 +45,30 @@ class Wxpay  extends Controller
         }
         //TODO 根据订单号 out_trade_no 来查询订单数据
         $out_trade_no = $wxData['out_trade_no'];
-        $attach = $wxData['attach'];   //附带升级会员组id  以及会员id
+        $attach = $wxData['attach'];   //附带升级会员组id  以及会员id  金额
         //此处为举例
         //升级会员等级业务更新
         $attach_info = json_decode($attach);
         $group_id = $attach_info->group_id;
         $uid = $attach_info->uid;
-        $re = Db::name('user')->where('id',"$uid")->update(array('group_id'=>"$group_id"));
+        $point = $attach_info->money;   //用户积分点  积分为用户微信消费金额总额
+        //更新用户积分点数
+
+         $res = Db::name('user')->where('id',"$uid")->setInc('point',$point);
+
+         //更新用户权限组
+         $re = Db::name('user')->where('id',"$uid")
+                                ->update(array('group_id'=>"$group_id"));
+        if($re!== false && $res){
+            //返回SUCCESS给微信服务器
+            /*程序执行完后必须打印输出“SUCCESS”（不包含引号）。如果商户反馈给支付宝的字符不是SUCCESS这7个字符，微信服务器会不断重发通知，直到超过24小时22分钟。
+            一般情况下，25小时以内完成8次通知（通知的间隔频率一般是：4m,10m,10m,1h,2h,6h,15h）；
+            导致数据库一直更新或者增加
+            */
+            $resultObj ->setData('return_code','SUCCESS');
+            $resultObj ->setData('return_msg','OK');
+            return $resultObj->toXml();
+        }
         /*if (!$order || $order->pay_status == 1){
             $resultObj ->setData('return_code','SUCCESS');
             $resultObj ->setData('return_msg','OK');
@@ -71,23 +88,26 @@ class Wxpay  extends Controller
         //获取用户id
 
         $member_fee_info['uid'] = $this->get_become_member_data()['uid'];
+
         //①、获取用户openid
         $tools = new JsApiPay();
         $openId = $tools->getOpenid($member_fee_info)['openid'];  //获取微信openid
         $order_info = json_decode(request()->param('state'));
         $body_info = $order_info->body_info;    //交易信息商品名
+        $money = bcmul($order_info->money,100,0);        //交易金额  微信是以分为单位
         $attach  = json_encode(
             array(
                 'group_id'=>$order_info->group_id,
-            'uid'=>$order_info->uid)
-        );   //附带信息
+            'uid'=>$order_info->uid,
+             'money'=>$order_info->money )
+        );   //附带信息    money 传入以便修改用户积分
 
         //②、统一下单
         $input = new WxPayUnifiedOrder();
         $input->SetBody($body_info);
         $input->SetAttach($attach);
         $input->setOutTradeNo(WxPayConfig::MCHID.date("YmdHis"));
-        $input->SetTotalfee("1");           //测试阶段写为1
+        $input->SetTotalfee($money);           //测试阶段写为1
         $input->SetTimestart(date("YmdHis"));
         $input->SetTimeexpire(date("YmdHis", time() + 600));
         $input->SetGoodstag("test");
@@ -101,6 +121,7 @@ class Wxpay  extends Controller
 
         $this->assign('jsApiParameters',$jsApiParameters);
         $this->assign('editAddress',$editAddress);
+        $this->assign('money',$order_info->money);
         return $this->fetch();
     }
 
@@ -110,16 +131,19 @@ class Wxpay  extends Controller
         //获取选择的会员组id
         //会员升级订单信息  若为其他支付信息则另外获取信息.
         $group_id = intval(request()->post('kt'));
-        $uid = intval(request()->post('get_uid'));
-        //开通,默认开通月费
-        $price_type = 'price_y';
 
+        $uid = intval(request()->post('get_uid'));
+
+        $price_type = request()->post('price_type') ? request()->post('price_type') : '';
+            //拼接sql语句  防止微信接口调用返回后无法获取数据而导致报错
+        $field = $price_type ? $price_type.',group_name' : '';
+        //开通
         $map = [
             'id'=>$group_id,
         ];
         //获取该会员组所需的费用
 
-        $member_fee_info = Db::name('user_group')->where($map)->field("$price_type,group_name")->find();
+        $member_fee_info = Db::name('user_group')->where($map)->field($field)->find();
 
         return $data =[
             'upgrade_member'=>[

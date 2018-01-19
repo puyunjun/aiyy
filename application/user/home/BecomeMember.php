@@ -26,16 +26,19 @@ class BecomeMember extends Common
             $get_data = request()->param();
             //查询相应会员价格
             if(isset($get_data['price_type'])){
-                $re = PrivilegeGroup::where('id',$get_data['id'])->value($get_data['price_type']);
-                $this->assign('data',$get_data);
-                $this->assign('price',$re);
+                $re = PrivilegeGroup::where('p.id',$get_data['id'])
+                    ->alias('p')
+                    ->join('dp_user u','u.group_id = p.id','LEFT')
+                    ->field("p.id,p.group_name,p.".$get_data['price_type'])
+                    ->field('count(u.id) as people_num')
+                    ->find();
+               // var_dump($re->getLastSql());exit;
+                $this->assign('data',$re);
+                $this->assign('price',$re[$get_data['price_type']]);
+                $this->assign('price_type',$get_data['price_type']);
                 //查询属于当前会员人数  通过积分点数判断
 
                 //系统设置每个积分为充值或者升级会员金额总数
-
-                $count_num = User::where('point','>=',$re)->count('id');
-
-                $this->assign('count_num',$count_num);
             }else{
                 $re = PrivilegeGroup::where('id',$get_data['id'])->value($get_data['price_type']);
             }
