@@ -118,6 +118,10 @@ CREATE TABLE IF NOT EXISTS `dp_user_group` (
   `prestore` DECIMAL (8,2) UNSIGNED NOT NULL DEFAULT  '0.00' COMMENT '会员需要预存金额',  /*会员需预存金额*/
   `gift_money` DECIMAL (8,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT '赠送金额',
   `member_type` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '会员组类型,1=>线上会员,2=>线下会员',
+  `discount_y` decimal(3,1) UNSIGNED NOT NULL DEFAULT '0.0' COMMENT '月会员折扣',
+  `discount_m` decimal(3,1) UNSIGNED NOT NULL DEFAULT '0.0' COMMENT '半年会员折扣',
+  `discount_a` decimal(3,1) UNSIGNED NOT NULL DEFAULT '0.0' COMMENT '年会员折扣',
+  `discount_pre` decimal(3,1) UNSIGNED NOT NULL DEFAULT '0.0' COMMENT '线下会员折扣',
   `icon` char(30) NOT NULL COMMENT '会员图标',
   `usernamecolor` char(7) NOT NULL COMMENT '会员名字颜色',
   `description` char(100) NOT NULL COMMENT '相关描述',

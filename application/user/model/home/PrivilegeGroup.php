@@ -33,8 +33,14 @@ class PrivilegeGroup extends Model
                         ->field('g.id,g.group_name,g.price_y,g.price_m,g.price_a,g.prestore,g.gift_money,g.icon')
                         ->field('g.usernamecolor,gp.allow_priview_photo,gp.allow_priview_video')
                         ->field('gp.allow_chat,gp.allow_insurance,gp.allow_recommend,gp.allow_videoconferencing,gp.allow_escort_recommend,gp.allow_date')
+                        ->field('g.member_type,g.discount_y,g.discount_m,g.discount_a,g.discount_pre')
                         ->select();
+
+        //重新构造数据结构
+        $new_result = array();
         foreach ($result as $k=>$v){
+
+            //构造相应权限
             if ($v['allow_insurance'] == 1) $result[$k]['privilege'][] = '享受客服保险';
             else unset($result[$k]['allow_insurance']);
             if ($v['allow_priview_photo'] == 1) $result[$k]['privilege'][] = '查看照片';
@@ -51,8 +57,49 @@ class PrivilegeGroup extends Model
             else unset($result[$k]['allow_escort_recommend']);
             if ($v['allow_date'] == 1) $result[$k]['privilege'][] = '真人见面';
             else unset($result[$k]['allow_date']);
+
+            if ($v['member_type'] === 1){
+                //线上会员    重新构造数据结构
+                //月费用  对应 月折扣一组
+
+                //月折扣组  删除其他费用及折扣组即可
+                $result[$k]['price_y'] =  $result[$k];
+                unset($result[$k]['price_y']['price_m']);
+                unset($result[$k]['price_y']['price_a']);
+                unset($result[$k]['price_y']['discount_m']);
+                unset($result[$k]['price_y']['discount_a']);
+                //收录月折扣数组
+                $new_result[$k]['discount']['price_y']  = $result[$k]['price_y'];
+
+
+                //半年折扣组  同样删除其他
+                $result[$k]['price_m'] =  $result[$k];
+                unset($result[$k]['price_m']['price_y']);
+                unset($result[$k]['price_m']['price_a']);
+                unset($result[$k]['price_m']['discount_y']);
+                unset($result[$k]['price_m']['discount_a']);
+                //收录半年折扣数组
+                $new_result[$k]['discount']['price_m']  = $result[$k]['price_m'];
+
+                //年折扣组  同样删除其他
+                $result[$k]['price_a'] =  $result[$k];
+                unset($result[$k]['price_a']['price_y']);
+                unset($result[$k]['price_a']['price_m']);
+                unset($result[$k]['price_a']['discount_y']);
+                unset($result[$k]['price_a']['discount_m']);
+                //收录年折扣数组
+                $new_result[$k]['discount']['price_a'] = $result[$k]['price_a'];
+
+            }
+
+
+            if($v['member_type'] === 2){
+                //收录线下会员组
+                $new_result[$k] = $result[$k];
+            }
         }
-        return $result;
+            //var_dump($new_result);exit;
+        return $new_result;
     }
 
 }

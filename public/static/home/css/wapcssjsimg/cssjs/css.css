@@ -194,43 +194,67 @@ background-position: -40px 0;
 #fabu .fabu-3{ width:750px; height:auto; padding:25px 0px; display:block; text-align:center; overflow:hidden; background-color:#161c26;} 
 #fabu .fabu-3 .fabu-3-1{ width:650px; height:auto; padding:0px 50px; display:block; text-align:left; overflow:hidden; line-height:40px; color:#7085a6; font-size:26px; } 
 #fabu .fabu-3 .fabu-3-2{ width:650px; height:auto; padding:50px; display:block; text-align:left; overflow:hidden;  } 
-#fabu .fabu-3 .fabu-3-2 .tj{ width:650px; height:100px; line-height:100px; text-align:center; border:0px; border-radius:20px; background:url(../images/login-tj.png) repeat; font-size:36px; color:#fff; overflow:hidden;} 
-
+#fabu .fabu-3 .fabu-3-2 .tj{ width:650px; height:100px; line-height:100px; text-align:center; border:0px; border-radius:20px; background:url(../images/login-tj.png) repeat; font-size:36px; color:#fff; overflow:hidden;}
 
 
 
 
 
 #huangg{ width:750px; height:auto; text-align:center; overflow:hidden;}
-#huangg .huangg-1{ width:750px; height:500px; background:url(../images/huangg-1.jpg) no-repeat; display:block; text-align:center; overflow:hidden; } 
-#huangg .huangg-1 dl{ width:750px; height:360px; padding:70px 0px; float:left; text-align:center; overflow:hidden; } 
+#huangg .huangg-1{ width:750px; height:500px; background:url(../images/huangg-1.jpg) no-repeat; display:block; text-align:center; overflow:hidden; }
+#huangg .huangg-1 dl{ width:750px; height:360px; padding:70px 0px; float:left; text-align:center; overflow:hidden; }
 #huangg .huangg-1 img{ height:180px; }
 #huangg .huangg-1 dt{ width:100%; height:100px; line-height:100px; float:left; overflow:hidden; color:#fff; font-size:36px; font-weight:bold; }
 #huangg .huangg-1 dd{ width:100%; height:50px; float:left; overflow:hidden; color:#fff; font-size:30px; }
 
-#huangg .huangg-2{ width:750px; height:auto; display:block; text-align:center; overflow:hidden; border-bottom:#161c26 20px solid;} 
+#huangg .huiyuan-1{ width:750px; height:500px; background:url(../images/huangg-1.jpg) no-repeat; display:block; text-align:center; overflow:hidden; }
+#huangg .huiyuan-1 dl{ width:750px; height:360px; padding:70px 0px; float:left; text-align:center; overflow:hidden; }
+#huangg .huiyuan-1 img{ height:180px; }
+#huangg .huiyuan-1 dt{ width:100%; height:100px; line-height:100px; float:left; overflow:hidden; color:#fff; font-size:36px; font-weight:bold; }
+#huangg .huiyuan-1 dd{ width:100%; height:50px; float:left; overflow:hidden; color:#fff; font-size:30px; }
+
+
+
+#huangg .huangg-2{ width:750px; height:auto; display:block; text-align:center; overflow:hidden; border-bottom:#161c26 20px solid;}
 #huangg .huangg-2 ul li{ width:650px; height:95px; padding:0px 50px; line-height:95px; display:block; overflow:hidden; border-bottom:#161c26 1px solid;}
 #huangg .huangg-2 ul li b{ width:300px; height:95px; padding-left:100px; background:url(../images/shiyong1.png) no-repeat left; float:left; overflow:hidden; color:#fff; font-size:32px; text-align:left; font-weight:normal;}
 #huangg .huangg-2 ul li p{ width:41px; height:41px; margin:27px 0px; float:right; /*background-image: url(../images/inputradio.png); background-size:80px 40px;background-position: 0px 0px;*/
-}   
+}
 /*#huangg .huangg-2 ul li p.on {
 background-position: -40px 0;
 }*/
-#huangg .huangg-2 ul li p  input{ width:40px; height:40px; float:right; overflow:hidden; /*opacity: 0;cursor: pointer;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter: alpha(opacity=0);*/}  
+#huangg .huangg-2 ul li p  input{ width:40px; height:40px; float:right; overflow:hidden; /*opacity: 0;cursor: pointer;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter: alpha(opacity=0);*/}
 
 
-#huangg .huangg-3{ width:750px; height:auto; display:block; text-align:center; overflow:hidden; border-bottom:#161c26 20px solid;} 
+#huangg .huangg-3{ width:750px; height:auto; display:block; text-align:center; overflow:hidden; border-bottom:#161c26 20px solid;}
 #huangg .huangg-3 ul li{ width:650px; height:95px; padding:0px 50px; line-height:95px; display:block; overflow:hidden; border-bottom:#161c26 1px solid;}
 #huangg .huangg-3 ul li b{ width:300px; height:95px; padding-left:100px;  float:left; overflow:hidden; color:#fff; font-size:32px; text-align:left; font-weight:normal;}
 #huangg .huangg-3 ul li:nth-child(1) b{ background:url(../images/shiyong2.png) no-repeat left; }
 #huangg .huangg-3 ul li:nth-child(2) b{ background:url(../images/shiyong3.png) no-repeat left; }
 #huangg .huangg-3 ul li:nth-child(3) b{ background:url(../images/shiyong4.png) no-repeat left; }
-#huangg .huangg-3 ul li p{ width:41px; height:41px; margin:27px 0px; float:right; }   
-#huangg .huangg-3 ul li p  input{ width:40px; height:40px; float:right; overflow:hidden; }  
+#huangg .huangg-3 ul li p{ width:41px; height:41px; margin:27px 0px; float:right; }
+#huangg .huangg-3 ul li p  input{ width:40px; height:40px; float:right; overflow:hidden; }
 
 
-#huangg .huangg-4{ width:750px; height:auto; padding:25px 0px; display:block; text-align:center; overflow:hidden; background-color:#161c26;} 
-#huangg .huangg-4 .huangg-4-1{ width:650px; height:auto; padding:0px 50px; display:block; text-align:left; overflow:hidden; line-height:40px; color:#7085a6; font-size:26px; } 
+#huangg .huangg-4{ width:750px; height:auto; padding:25px 0px; display:block; text-align:center; overflow:hidden; background-color:#161c26;}
+#huangg .huangg-4 .huangg-4-1{ width:650px; height:auto; padding:0px 50px; display:block; text-align:left; overflow:hidden; line-height:40px; color:#7085a6; font-size:26px; }
+
+#kaitongvip{ width:750px; height:auto; text-align:center; overflow:hidden;}
+#kaitongvip .kaitongvip-1{ width:750px; height:500px; background:url(../images/huangg-1.jpg) no-repeat; display:block; text-align:center; overflow:hidden; }
+#kaitongvip .kaitongvip-1 dl{ width:750px; height:340px; padding:80px 0px; float:left; text-align:center; overflow:hidden; }
+#kaitongvip .kaitongvip-1 img{ width:140px; height:140px; margin:20px 0px; border-radius:70px; }
+#kaitongvip .kaitongvip-1 dt{ width:100%; height:50px; line-height:50px; float:left; overflow:hidden; color:#fff; font-size:36px; }
+#kaitongvip .kaitongvip-1 dd{ width:100%; height:50px; float:left; overflow:hidden; color:#fff; font-size:36px; }
+#kaitongvip .kaitongvip-2{ width:750px; height:auto; display:block; text-align:center; overflow:hidden; }
+#kaitongvip .kaitongvip-2 dl{ width:670px; padding:30px 40px; border-bottom:#151c26 2px solid; background-color:#1f2837; display:block; text-align:center; overflow:hidden; }
+#kaitongvip .kaitongvip-2 dl dt{ width:520px; height:140px; float:left;  text-align:left;  }
+#kaitongvip .kaitongvip-2 dl dt b{ width:520px; height:45px; line-height:45px; color:#fff; font-size:38px; font-weight:normal;  float:left; overflow:hidden; }
+#kaitongvip .kaitongvip-2 dl dt b img{ width:45px; height:45px; margin-right:20px; float:left; }
+#kaitongvip .kaitongvip-2 dl dt p{ width:520px; height:40px; line-height:40px; color:#fff; font-size:28px; float:left; overflow:hidden; }
+#kaitongvip .kaitongvip-2 dl dt p em{ color:#e4be7f; font-size:28px; font-style:normal; }
+#kaitongvip .kaitongvip-2 dl dt span{ width:520px; height:70px; line-height:35px; color:#6c788a; font-size:20px; float:left; overflow:hidden; }
+#kaitongvip .kaitongvip-2 dl dd{ width:150px; height:55px; margin:42px 0px;  float:left;  text-align:left;  }
+#kaitongvip .kaitongvip-2 dl dd a{ width:150px; height:55px; line-height:55px; background:url(../images/kaitongvip-b.png) no-repeat; border-radius:30px; text-align:center; float:left; color:#926824; font-size:30px;}
 
 
 #jiesuan{display:-webkit-box;position:fixed;width:100%; height:110px; left:0px;bottom:0px; z-index:999999; }

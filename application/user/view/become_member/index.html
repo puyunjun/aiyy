@@ -16,68 +16,70 @@
     <link rel="stylesheet" href="__HOME_CSS__/wapcssjsimg/cssjs/css.css">
 
 </head>
-<body style="background:url('__HOME_CSS__/wapcssjsimg/images/kaitong-bg.jpg') no-repeat #161c26; background-position:0px 88px; background-size:750px auto;">
+<body>
 
-<section id="top-kaitong">
-    <div class="top-kaitong">
+<section id="top">
+    <div class="top">
         <dl>
-            <dt class="arrw-4"><a href="javascript:history.go(-1);"></a></dt>
-            <dd></dd>
-            <dt class="arrw-5"><a href=""></a></dt>
+            <dt class="arrw-1"><a href="javascript:history.go(-1);"></a></dt>
+            <dd>选择支付方式</dd>
+            <dt class="arrw-3"><a href=""></a></dt>
         </dl>
     </div>
 </section>
+<section id="top_kong"></section>
 
 
+<form name="ff1" method="post" id="form">
+    <div id="huangg">
 
-    <div id="kaitong">
-        <div class="kaitong-1"><dl>
-            <dt><img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg" ></dt><dd>hi大米，开通会员，即刻体验约游会员专属权益！</dd></dl></div>
-       {volist name="member_group" id="vo"}
-        <form action="{:url('index/wxpay/index','','')}" method="post" >
-        <div class="kaitong-2">
-            <div class="kaitong-2-1">
-                <dl>
-                    <dt><img src="__HOME_CSS__/wapcssjsimg/images/kthy-1.png" >{$vo.group_name}</dt>
-                    {if condition="$vo.price_y neq 0 || $vo.price_m neq 0 || $vo.price_a neq 0"}
-                    <dd>{$vo.price_y}元/月 {$vo.price_m}元/半年 {$vo.price_a}元/年</dd>
-                    {elseif condition="$vo.prestore neq 0"}
-                    <dd>预存{$vo.prestore}即可</dd>
-                    <dd>赠送{$vo.gift_money}</dd>
-                    {/if}
-                </dl>
-            </div>
-            <div class="kaitong-2-2">
-                <ul>
-                    {volist name="$vo.privilege" id="val"}
-                    <li>{$val}</li>
-                    {/volist}
-                </ul>
-            </div>
-            <input name="kt" id="kt" value="{$vo.id}" type="hidden"/>
-            <input name="get_uid"  value="{php} echo UID; {/php}" type="hidden"/>
-            <div class="kaitong-2-3"><input type="submit"  value="开通会员" ></div>
+        <div class="huiyuan-1"><dl>
+            <img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >
+            <dt>白银会员</dt><dd>已有<b>{$count_num}</b>人购买</dd></dl></div>
+        <div class="huangg-2">
+            <ul>
+                <li><b>使用账户余额</b><p ><input onclick=fun("{:url('user/index/pay','','')}") name="shiyong" type="radio" value="1" src="__HOME_CSS__/wapcssjsimg/images/inputradio.png" ></p></li>
+            </ul>
         </div>
-        </form>
-        {/volist}
+        <div class="huangg-3">
+            <ul>
+                <li><b>微信支付</b><p class="on"><input onclick=fun("{:url('index/wxpay/index','','')}") name="shiyong" type="radio" value="2" ></p></li>
+                <li><b>支付宝</b><p class="on"><input onclick=fun("{:url('index/wxpay/index','','')}") name="shiyong" type="radio" value="3" ></p></li>
+                <li><b>银行卡</b><p class="on"><input onclick=fun("{:url('index/wxpay/index','','')}") name="shiyong" type="radio" value="4" ></p></li>
+            </ul>
+        </div>
+        <div class="huangg-4">
+            <div class="huangg-4-1">成为会员即表示同意《游约会员协议》</div>
+        </div>
+        <input name="kt" id="kt" value="{$data.id}" type="hidden"/>
+        <input name="get_uid"  value="{php} echo UID; {/php}" type="hidden"/>
+
+    </div>
+
+    <section id="foot_kong"></section>
+    <div id="jiesuan">
+        <div class="jiesuan">
+            <dl>
+                <dt><b>总计：</b>￥{$price}</dt>
+                <dd><input type="submit" name="js" value="确认支付" ></dd>
+            </dl>
+        </div>
     </div>
 
 
 
+</form>
 
 
-<section id="foot_kong"></section>
-<div id="ft_fixed">
-    <div class="ft_fixed">
-        <li class="hover"><a href="/">约TA</a></li>
-        <li><a href="/">旅途</a></li>
-        <li><a href="/">发布</a></li>
-        <li><a href="/">消息</a></li>
-        <li><a href="/">我的</a></li>
-    </div>
-</div>
 </body>
 
-<script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
-
+<script>
+    /*
+    * 支付跳转页面方法
+    * @param  string action_url 提交跳转地址
+    * */
+    function fun(action_url){
+        document.getElementById('form').setAttribute('action',action_url)
+    }
+</script>
 </html>

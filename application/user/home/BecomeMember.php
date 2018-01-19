@@ -9,6 +9,7 @@
 namespace app\user\home;
 
 use app\user\model\home\PrivilegeGroup;
+use app\user\model\home\User;
 
 class BecomeMember extends Common
 {
@@ -21,12 +22,46 @@ class BecomeMember extends Common
 
     public function index(){
 
-       $this->assign('member_group',(new PrivilegeGroup())->sel_need_fee());
+        if(request()->isGet()){
+            $get_data = request()->param();
+            //查询相应会员价格
+            if(isset($get_data['price_type'])){
+                $re = PrivilegeGroup::where('id',$get_data['id'])->value($get_data['price_type']);
+                $this->assign('data',$get_data);
+                $this->assign('price',$re);
+                //查询属于当前会员人数  通过积分点数判断
 
-        //会员组权限
+                //系统设置每个积分为充值或者升级会员金额总数
+
+                $count_num = User::where('point','>=',$re)->count('id');
+
+                $this->assign('count_num',$count_num);
+            }else{
+                $re = PrivilegeGroup::where('id',$get_data['id'])->value($get_data['price_type']);
+            }
+        }
+
+       //$this->assign('member_group',(new PrivilegeGroup())->sel_need_fee());
+
+
         $this->view->engine->layout(false);
 
         return $this->fetch();
 
     }
+
+
+
+    /*
+     * 成为会员可选择的列表页面
+     * */
+
+    public function member_list(){
+
+        $this->assign('member_group',(new PrivilegeGroup())->sel_need_fee());
+          //var_dump((new PrivilegeGroup())->sel_need_fee());  exit;
+        $this->view->engine->layout(false);
+            return $this->fetch();
+    }
+
 }

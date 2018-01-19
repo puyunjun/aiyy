@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="target-densitydpi=750,width=750,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="applicable-device" content="mobile">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <!--uc浏览器判断到页面上文字居多时，会自动放大字体优化移动用户体验。添加以下头部可以禁用掉该优化-->
+    <meta name="wap-font-scale" content="no">
+    <title>约游</title>
+    <meta name="keywords" content="约游">
+    <meta name="description" content="约游">
+
+    <link rel="stylesheet" href="__HOME_CSS__/wapcssjsimg/cssjs/css.css">
+
+</head>
+<body>
+
+<section id="top">
+    <div class="top">
+        <dl>
+            <dt class="arrw-1"><a href="javascript:history.go(-1);"></a></dt>
+            <dd>开通会员</dd>
+            <dt class="arrw-3"><a href=""></a></dt>
+        </dl>
+    </div>
+</section>
+<section id="top_kong"></section>
+
+
+<div id="kaitongvip">
+    <div class="kaitongvip-1"><dl> <img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg" > <dt>hi大米，开通会员，</dt><dd>即刻体验约游会员专属权益！</dd></dl></div>
+    <div class="kaitongvip-2">
+        {foreach name="member_group" key="k" item="vo"}
+            {if condition = "isset($vo.discount)"}
+                {foreach name="vo.discount" key="key" item="value"}
+                <dl>
+                    <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >{$value.group_name}</b>
+
+                        <p>
+
+                            <em>
+                                {if condition = "isset($value.price_y)"}    1个月  {$value.price_y|intval}
+                                {elseif condition="isset($value.price_m)" /} 半年 {$value.price_m|intval}
+                                {elseif condition="isset($value.price_a)" /} 一年 {$value.price_a|intval}
+                                {/if}
+                                元
+
+                            </em>
+                                {if condition = "isset($value.discount_y)"}{if condition="$value.discount_y eq 0"}（无折扣）{else/}（{$value.discount_y}折）{/if}
+                                {elseif condition="isset($value.discount_m)" /} {if condition="$value.discount_m eq 0"}（无折扣）{else/}（{$value.discount_m}折）{/if}
+                                {elseif condition="isset($value.discount_a)" /} {if condition="$value.discount_a eq 0"}（无折扣）{else/}（{$value.discount_a}折）{/if}
+                                {/if}
+                        </p>
+                        <span>
+                            {foreach name="value.privilege" item="val" key="ko"}
+                                {$val}
+                            {/foreach}
+                        </span>
+                    </dt>
+                    <dd><a href="{:url('user/become_member/index',['id'=>$value.id,'price_type'=>$key])}">开通</a></dd>
+                </dl>
+                {/foreach}
+                {else/}
+                <dl>
+                    <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-2.png" >{$vo.group_name}</b>
+                        <p><em>预存{$vo.prestore|intval}送{$vo.gift_money|intval} </em> 会员实存{$vo.prestore+$vo.gift_money}</p><span>查看照片/视频/聊天（约TA）/保险/享受客服推荐</span>
+                    </dt>
+                    <dd><a href="{:url('user/become_member/index',['id'=>$vo.id,'price_type'=>'prestore'])}">开通</a></dd>
+                </dl>
+            {/if}
+        {/foreach}
+        <dl>
+            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >白银会员</b><p><em>半年157元</em>（9折）</p><span>查看照片/视频/聊天（约TA）</span></dt>
+            <dd><a href="">开通</a></dd>
+        </dl>
+        <dl>
+            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >白银会员</b><p><em>1年244元</em>（7折）</p><span>查看照片/视频/聊天（约TA）</span></dt>
+            <dd><a href="">开通</a></dd>
+        </dl>
+        <dl>
+            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-2.png" >白银会员</b><p><em>预存10000送2000 </em> 会员实存12000</p><span>查看照片/视频/聊天（约TA）/保险/享受客服推荐</span></dt>
+            <dd><a href="">开通</a></dd>
+        </dl>
+        <dl>
+            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-3.png" >白银会员</b><p><em>预存30000送8000 </em>会员实存38000</p><span>查看照片/视频/聊天（约TA）/真人视频/保险<br>享受客服推荐</span></dt>
+            <dd><a href="">开通</a></dd>
+        </dl>
+        <dl>
+            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-4.png" >白银会员</b><p><em>预存100000送50000 </em>会员实存150000</p><span>查看照片/视频/聊天（约TA）/真人视频/保险<br>享受客服推荐/真人见面3-5人</span></dt>
+            <dd><a href="">开通</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+
+
+
+
+<section id="foot_kong"></section>
+<div id="ft_fixed">
+    <div class="ft_fixed">
+        <li class="hover"><a href="/">约TA</a></li>
+        <li><a href="/">旅途</a></li>
+        <li><a href="/">发布</a></li>
+        <li><a href="/">消息</a></li>
+        <li><a href="/">我的</a></li>
+    </div>
+</div>
+
+</body>
+</html>
