@@ -4,15 +4,19 @@
 发布
 {/block}
 {block name="content"}
-<form action="" name="ff1" method="post">
+<form action="release" name="ff1" method="post" id="myform">
     <div id="fabu">
         <div class="fabu-1"><b>成为VIP会员</b><p>将会有18名女神约你</p></div>
         <div class="fabu-2">
             <ul>
+                <!--<li><b>约游对象</b><p><input type="" value="" name="release_object"></p></li>-->
+                <!--<li><b>出行方式</b><p><input type="" value="" name="travel_tool"></p></li>-->
+                <!--<li><b>出行时间</b><p><input type="" value="" name="travel_start_time"></p></li>-->
+                <!--<li><b>出行天数</b><p><input type="text" value="" name="travel_total_time"></p></li>-->
                 <li><b>约游对象</b><p><a href="">请选择</a></p></li>
                 <li><b>出行方式</b><p><a href="">请选择</a></p></li>
                 <li><b>出行时间</b><p><a href="">请选择</a></p></li>
-                <li><b>出行天数</b><p><a href="">请选择</a></p></li>
+                <li><b>出行天数</b><p><input type="text" value="10" name="travel_total_time"></p></li>
             </ul>
         </div>
         <div class="fabu-cyj">
@@ -22,13 +26,15 @@
         </div>
         <div class="fabu-3">
             <div class="fabu-3-1">支付诚意金或成为VIP会员会提高您的约会成功率请填写真实信息 </div>
-            <div class="fabu-3-2"><input name="tj" class="tj" type="submit" value="确认发布"></div>
+            <div class="fabu-3-2"><input  id="ajaxPost" name="tj" class="tj" type="submit" value="确认发布"></div>
         </div>
     </div>
 </form>
+
 {/block}
-
-
 {block name="page_js"}
-    <script type="text/javascript" src="__HOME_JS__/user/release/index.js"></script>
+<script type="text/javascript" src="__HOME_JS__/user/release/index.js"></script>
+<script type="text/javascript" src="__HOME_JS__/user/release/ajax.js"></script>
 {/block}
+
+

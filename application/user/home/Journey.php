@@ -9,6 +9,8 @@
 namespace app\user\home;
 
 use think\Controller;
+use think\Db;
+
 class Journey extends Controller
 {
 
@@ -19,12 +21,42 @@ class Journey extends Controller
 
 
     public function index(){
+        $journey=Db::name('user')
+            ->alias('a')
+            ->join('__USER_RELEASE__ w','a.id = w.uid')
+            ->select();
+
+        foreach( $journey as $k=>$v1 )
+        {
+            $a = date('Y', time());
+            $b = date('Y', $v1["birthday"]);//求年龄
+            $journey[$k]['birthday'] = abs($a - $b);
+        }
+        $this->assign("journey", $journey);
         return $this->fetch();
     }
 
 
-    public function journey_detail(){
+    public function journey_detail($id){
+        $journey=Db::name('user')
+            ->alias('a')
+            ->join('__USER_RELEASE__ w','a.id = w.uid')
+            ->where('a.id',$id)
+            ->find();
+        $this->assign("journey", $journey);
 
+        $ts = $journey['travel_total_time'];           //获取出行天数
+        $begin_time =$journey['travel_start_time'];         //出行时间 时间戳
+        $sj = strtotime("+$ts day", $begin_time);    //算出出行时间到出游天数后的时间
+        $timediff = $sj-$begin_time;                      //算出还有多长时间结束
+        $days = intval($timediff/86400);
+        $data['days']=$days;
+
+        $a = date('Y', time());
+        $b = date('Y', $journey["birthday"]);//求年龄
+        $data['birthday'] = abs($a - $b);
+        $this->assign("data",$data);
         return $this->fetch();
     }
+
 }
