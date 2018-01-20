@@ -84,7 +84,8 @@
                 <a href="{:url('user/MyInfo/show', ['id' =>'12'])}"><li><b>三围</b><input type="" readonly  name="measurement" class="bai1" placeholder="请输入" value="{$base_info.measurement}"/></li></a>
                 <a href="{:url('user/MyInfo/show', ['id' =>'13'])}"><li><b>体重</b><input type="" readonly  name="weight" class="bai1" placeholder="请输入" value="{$base_info.weight}"/></li></a>
             </ul>
-        </div>    <div class="mi-xx-zp">
+        </div>
+    <div class="mi-xx-zp">
         <div class="mi-xx-zp-1"><b>照片</b></div>
         <div class="mi-xx-zp-2">
             <div class="container" id='test'>
@@ -93,6 +94,13 @@
                     <div class="z_file">
                         <input type="file" name="file" id="file" value="" accept="image/*" multiple onchange="imgChange('z_photo','z_file');" />
                     </div>
+                    {volist name="photo_url_arr" id="photo_vo"}
+                    <div class="z_addImg">
+                        <img src="{$photo_vo}" style="cursor:pointer">
+                        <i class="iconfont icon-cuowu"></i>
+                        <div class="jqmeter-container" ></div>
+                    </div>
+                    {/volist}
                 </div>
                 <!--  上传 取消 -->
                 <div class="sc">
@@ -227,6 +235,11 @@
 <script src="__HOME_JS__/user/videojs-ie8.js"></script>
 
 
+<script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
+<script src="__STATIC__/ali-oss-master/dist/aliyun-oss-sdk.min.js"></script>
+<!--<script type="text/javascript" src="http://gosspublic.alicdn.com/aliyun-oss-sdk.min.js"></script>-->
+<script type="text/javascript" src="__HOME_JS__/user/my_info/ossup_app.js"></script>
+
 <script>
     
     $(".city-picker").cityPicker({
@@ -279,6 +292,7 @@
 
 <script type="text/javascript">
 
+    var sign_id = "{$base_info.id}";   //用户签名id  本页全局有效
     //px转换为rem
     (function(doc, win) {
         var docEl = doc.documentElement,
@@ -298,6 +312,7 @@
         doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
 
+    var  a=0;
     function imgChange(obj1, obj2) {
         //获取点击的文本框
         var file = document.getElementById("file");
@@ -315,7 +330,7 @@
             var img = document.createElement("img");
             img.setAttribute("src", imgArr[i]);
             img.setAttribute("style", "cursor:pointer");
-            img.setAttribute("onclick","priview_img()");
+            //img.setAttribute("onclick","priview_img()");
             var imgAdd = document.createElement("div");
             imgAdd.setAttribute("class", "z_addImg");
 
@@ -323,7 +338,8 @@
             imggb.setAttribute("class", "iconfont icon-cuowu");
             var jindu = document.createElement("div");
             jindu.setAttribute("class", "jqmeter-container");
-
+            jindu.setAttribute("id", "jqmeter-container"+a);
+            a++;
             imgAdd.appendChild(img);
             imgAdd.appendChild(imggb);
             imgAdd.appendChild(jindu);
@@ -331,6 +347,21 @@
         };
 
         imgRemove();
+        //直接加载图片预览
+        priview_img();
+
+        //调用上传接口
+        up_photo();
+
+        /*$(function(){
+            $('.jqmeter-container').jQMeter({
+                goal:'$2,000',
+                raised:'$2,000',
+                width:'100%',
+                height:'20px'
+            });
+            $('.iconfont.icon-cuowu').hide();
+        });*/
     };
 
     function imgRemove() {
@@ -394,7 +425,8 @@
             }
         });
     }
-
+    priview_img();
+    imgRemove();
 </script>
 {/block}
 
