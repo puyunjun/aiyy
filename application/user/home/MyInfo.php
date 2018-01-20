@@ -8,6 +8,7 @@
 
 namespace app\user\home;
 
+use app\admin\model\Config;
 use think\Controller;
 use app\user\model\home\User;
 use app\user\model\home\Privilege;
@@ -52,6 +53,8 @@ class MyInfo extends Common
         //视频传值
         $this->assign("video_url_arr", isset($meta_data['video'])?$meta_data['video']:array());
 
+        //配置阿里云上传文件夹名
+        $this->assign('dir_name',config('dir_name'));
         return $this->fetch();
     }
 

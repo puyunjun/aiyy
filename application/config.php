@@ -280,5 +280,10 @@ return [
 
     /*自定义网站应用根路径*/
     'root_url'=>str_replace('/index.php','',$_SERVER['SCRIPT_NAME']),
-    
+
+
+    /*
+     * 定义阿里云上传文件夹名称     字符串 若有下级文件夹例：a/b
+     * */
+    'dir_name' => 'grphoto',
 ];

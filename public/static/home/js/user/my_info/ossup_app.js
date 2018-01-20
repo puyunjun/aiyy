@@ -48,6 +48,10 @@ var uploadFile = function (client) {
     var fileobj = [];           //当前选择上传照片的对象集合
     var img_href = [];          //当前上传成功的照片url数组对象集合
     var current_num = 0;        //当前上传照片的个数进度
+
+
+    var img_url ='';
+
     for(var m=0;m<document.getElementById("file").files.length;m++){
         fileobj.push(document.getElementById("file").files[m]);
     }
@@ -55,9 +59,8 @@ var uploadFile = function (client) {
     //console.log(fileobj);
 
     for(var i=0;i<fileobj.length;i++){
-        var keyobj = 'grphoto/'+get_date()+'/'+sign_id+new Date().getTime()+i+'.png';
-
-        console.log(fileobj[i]);
+        var keyobj = dir_name+'/'+get_date()+'/'+sign_id+new Date().getTime()+i+'.png';
+        //console.log(fileobj[i]);
         var part_size = '';  //定义分片大小
         if(fileobj[i].size >= 1000*1024){
             //大于1M图片则分片200kb上传
@@ -70,6 +73,7 @@ var uploadFile = function (client) {
                     var bar = document.getElementById('jqmeter-container'+j);
                     if(p === 1){
                         j++;
+
                     }
                     bar.style.width = Math.floor(p * 100) + '%';
                     bar.innerHTML = Math.floor(p * 100) + '%';
@@ -79,12 +83,11 @@ var uploadFile = function (client) {
         }).then(function (res) {
 
             //获取上传成功的url连接
-            var img_url = res.res.requestUrls[0].indexOf('?')>-1 ? res.res.requestUrls[0].substring(0,res.res.requestUrls[0].indexOf('?')) : res.res.requestUrls[0];
+             img_url = res.res.requestUrls[0].indexOf('?')>-1 ? res.res.requestUrls[0].substring(0,res.res.requestUrls[0].indexOf('?')) : res.res.requestUrls[0];
 
             img_href[current_num] = img_url;  //收录当前上传成功图片的url
 
             current_num++;  //当前上传成功进度++
-
 
            if(current_num === fileobj.length){
 
@@ -97,9 +100,9 @@ var uploadFile = function (client) {
                     type:'post',
                     success:function(res){
 
-                        console.log(res);
                         if(res){
-                            layer.msg('添加成功',function () {
+
+                            layer.msg(res,function () {
                                 //window.location.href='http://'+window.location.host+'/user/index/index';
                             });
                         }
@@ -109,13 +112,31 @@ var uploadFile = function (client) {
 
 
         });
+
     }
+            //收录当前添加成功的图片url 集合
+    //console.log(all_photo_object[0])
 };
 
+
+//删除方法
+//返回promise 对象  需要再次调用得出结果   即  .then(function(value){console.log(value)})
+var deleteFile = function(client){
+    var result = client.deleteMulti(object_name, {
+        quiet: true
+            });
+    return result;
+
+}
 function up_photo(){
-        applyTokenDo(uploadFile);
+       applyTokenDo(uploadFile);
 }
 
+//删除图片
+
+function delete_photo(){
+  return  applyTokenDo(deleteFile);
+}
 //获取日期
 function get_date(){
     var d = new Date();
