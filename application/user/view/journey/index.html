@@ -7,122 +7,38 @@
 {block name="content"}
 <div id="lvtu">
     <div class="lvtu_lis">
-        <a href="{:url('user/Journey/journey_detail')}">
+        {volist name="journey" id="vo"}
+        <a href="{:url('user/Journey/journey_detail',['id' => $vo['uid']])}">
+            <input type="text"  hidden value="{$vo.uid}">
             <div class="lt-kk">
                 <div class="lt-kk-1">
-                    <div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" width="90" height="90"></div>
+                    <div class="pic"><img src="{$vo.head_img}" width="90" height="90"></div>
                     <div class="tit">
-                        <div class="tit-1"><b>关小路</b> | 职业投资人</div>
-                        <div class="tit-2">42岁.30-50w.北京</div>
+                        <div class="tit-1"><b>{$vo.nickname}</b> | 职业{$vo.occupation_id}</div>
+                        <div class="tit-2">{$vo.birthday}岁.12w.{$vo.address}</div>
                     </div>
                     <div class="gz"><a href="">+  关注</a></div>
                 </div>
                 <div class="lt-kk-2">
                     <div class="info">
                         <ul>
+                            {if condition= "$vo.release_object  eq 1"}
+                            <li>・邀约对象：男</li>
+                            {elseif condition="$vo.release_object  eq 2"}
+                            <li>・邀约对象：女</li>
+                            {elseif condition="$vo.release_object  eq 0"}
                             <li>・邀约对象：不限</li>
-                            <li>・出行方式：越野自驾</li>
-                            <li>・费&nbsp;&nbsp;&nbsp;&nbsp;用：吃住包</li>
+                            {/if}
+                            <li>・出行方式：{$vo.travel_tool}</li>
+                            <li>・费&nbsp;&nbsp;&nbsp;&nbsp;用：100</li>
                         </ul>
-                        <div class="date">2017-12-02  10：20：09发布</div>
+                        <div class="date">{$vo.create_time|date='Y-m-d H:i:s',###}发布</div>
                     </div>
                     <div class="gxq"><a href=""><p>感兴趣</p></a></div>
                 </div>
             </div>
         </a>
-        <a href="">
-            <div class="lt-kk">
-                <div class="lt-kk-1">
-                    <div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" width="90" height="90"></div>
-                    <div class="tit">
-                        <div class="tit-1"><b>关小路</b> | 职业投资人</div>
-                        <div class="tit-2">42岁.30-50w.北京</div>
-                    </div>
-                    <div class="gz"><a href="">+  关注</a></div>
-                </div>
-                <div class="lt-kk-2">
-                    <div class="info">
-                        <ul>
-                            <li>・邀约对象：不限</li>
-                            <li>・出行方式：越野自驾</li>
-                            <li>・费&nbsp;&nbsp;&nbsp;&nbsp;用：吃住包</li>
-                        </ul>
-                        <div class="date">2017-12-02  10：20：09发布</div>
-                    </div>
-                    <div class="gxq"><a href=""><p>感兴趣</p></a></div>
-                </div>
-            </div>
-        </a>
-        <a href="">
-            <div class="lt-kk">
-                <div class="lt-kk-1">
-                    <div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" width="90" height="90"></div>
-                    <div class="tit">
-                        <div class="tit-1"><b>关小路</b> | 职业投资人</div>
-                        <div class="tit-2">42岁.30-50w.北京</div>
-                    </div>
-                    <div class="gz"><a href="">+  关注</a></div>
-                </div>
-                <div class="lt-kk-2">
-                    <div class="info">
-                        <ul>
-                            <li>・邀约对象：不限</li>
-                            <li>・出行方式：越野自驾</li>
-                            <li>・费&nbsp;&nbsp;&nbsp;&nbsp;用：吃住包</li>
-                        </ul>
-                        <div class="date">2017-12-02  10：20：09发布</div>
-                    </div>
-                    <div class="gxq"><a href=""><p>感兴趣</p></a></div>
-                </div>
-            </div>
-        </a>
-        <a href="">
-            <div class="lt-kk">
-                <div class="lt-kk-1">
-                    <div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" width="90" height="90"></div>
-                    <div class="tit">
-                        <div class="tit-1"><b>关小路</b> | 职业投资人</div>
-                        <div class="tit-2">42岁.30-50w.北京</div>
-                    </div>
-                    <div class="gz"><a href="">+  关注</a></div>
-                </div>
-                <div class="lt-kk-2">
-                    <div class="info">
-                        <ul>
-                            <li>・邀约对象：不限</li>
-                            <li>・出行方式：越野自驾</li>
-                            <li>・费&nbsp;&nbsp;&nbsp;&nbsp;用：吃住包</li>
-                        </ul>
-                        <div class="date">2017-12-02  10：20：09发布</div>
-                    </div>
-                    <div class="gxq"><a href=""><p>感兴趣</p></a></div>
-                </div>
-            </div>
-        </a>
-        <a href="">
-            <div class="lt-kk">
-                <div class="lt-kk-1">
-                    <div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" width="90" height="90"></div>
-                    <div class="tit">
-                        <div class="tit-1"><b>关小路</b> | 职业投资人</div>
-                        <div class="tit-2">42岁.30-50w.北京</div>
-                    </div>
-                    <div class="gz"><a href="">+  关注</a></div>
-                </div>
-                <div class="lt-kk-2">
-                    <div class="info">
-                        <ul>
-                            <li>・邀约对象：不限</li>
-                            <li>・出行方式：越野自驾</li>
-                            <li>・费&nbsp;&nbsp;&nbsp;&nbsp;用：吃住包</li>
-                        </ul>
-                        <div class="date">2017-12-02  10：20：09发布</div>
-                    </div>
-                    <div class="gxq"><a href=""><p>感兴趣</p></a></div>
-                </div>
-            </div>
-        </a>
-
+        {/volist}
     </div>
 
 </div>

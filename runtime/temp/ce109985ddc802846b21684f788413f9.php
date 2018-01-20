@@ -1,17 +1,33 @@
-{layout name="layout"}
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:71:"D:\phpstudy\WWW\aiyy\public/../application/user\view\my_info\index.html";i:1516416988;s:54:"D:\phpstudy\WWW\aiyy\application\user\view\layout.html";i:1516357688;}*/ ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="target-densitydpi=750,width=750,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="applicable-device" content="mobile">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <!--uc浏览器判断到页面上文字居多时，会自动放大字体优化移动用户体验。添加以下头部可以禁用掉该优化-->
+    <meta name="wap-font-scale" content="no">
+    <title>爱约游</title>
+    <meta name="keywords" content="约游">
+    <meta name="description" content="约游">
 
 
-{extend name="layout"}
+    <!--layer组件css-->
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
 
+    <!-- 引入jquery weui-->
+    <link rel="stylesheet" href="__STATIC__/jquery-weui/lib/weui.min.css">
 
+    <link rel="stylesheet" href="__STATIC__/jquery-weui/css/jquery-weui.min.css">
 
-{block name="page_title"}
-编辑资料
-{/block}
-{block name="page_button"}
-<dt><a onclick="$('#smt').click()">保存</a></dt>
-{/block}
-{block name="page_css"}
+    <link rel="stylesheet" href="__HOME_CSS__/wapcssjsimg/cssjs/css.css">
+
+    <link rel="stylesheet" href="__HOME_CSS__/wapcssjsimg/cssjs/swiper.min.css">
+    <script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
+    
 <link rel="stylesheet" href="__HOME_CSS__/user/my_info/index.css">
 
 <link rel="stylesheet" type="text/css" href="__HOME_CSS__/wapcssjsimg/cssjs/default.css">
@@ -20,8 +36,28 @@
 <link rel="stylesheet" type="text/css" href="__HOME_CSS__/wapcssjsimg/cssjs/tupian.css">
 <link rel="stylesheet" type="text/css" href="__HOME_CSS__/wapcssjsimg/cssjs/video-js.css">
 
-{/block}
-{block name="content"}
+
+
+</head>
+<body style="background-color:#161c26;">
+
+<section id="top">
+    <div class="top">
+        <dl>
+            <dt class="arrw-1"><a href="javascript:history.go(-1);"></a></dt>
+            <dd>
+编辑资料
+</dd>
+            
+<dt><a onclick="$('#smt').click()">保存</a></dt>
+
+        </dl>
+    </div>
+</section>
+
+<section id="top_kong"></section>
+
+
 <form method="post" action="modify" enctype="multipart/form-data" id="form">
     <input type="submit" hidden  id="smt"  >
 
@@ -31,11 +67,11 @@
             <a onclick="$('#img').click()">
                 <b>头像</b>
                 <p>
-                    {empty name="base_info.head_img"}
+                    <?php if(empty($base_info['head_img']) || (($base_info['head_img'] instanceof \think\Collection || $base_info['head_img'] instanceof \think\Paginator ) && $base_info['head_img']->isEmpty())): ?>
                     <img id="imgg" src="__HOME_CSS__/wapcssjsimg/images/sctx-1.png" >
-                    {else /}
-                    <img id="imgg" src="{$base_info.head_img}" >
-                    {/empty}
+                    <?php else: ?>
+                    <img id="imgg" src="<?php echo $base_info['head_img']; ?>" >
+                    <?php endif; ?>
                 </p>
             </a>
             <input id="img" type="file" style="display: none" name="image"/>
@@ -45,44 +81,41 @@
 
         <div class="mi-xx-2">
             <ul>
-                <a href="{:url('user/MyInfo/show', ['id' =>'1'])}"><li><b>昵称</b>      <input type="" readonly  name="nickname" class="bai1" placeholder="请输入" value="{$base_info.nickname}"/></li></a>
-                <li><b>约游ID</b>    <input readonly type="" name="sys_id" class="bai1" placeholder="请输入" value="{$base_info.sys_id}"/></li>
-                <a href="{:url('user/MyInfo/show', ['id' =>'2'])}"><li><b>个性签名</b>  <input type="" readonly  name="autograph" class="bai1" placeholder="请输入" value="{$base_info.autograph}" /></li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'3'])}"><li><b>姓名</b>      <input type="" readonly  name="real_name" class="bai1" placeholder="请输入" value="{$base_info.real_name}" /></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'1']); ?>"><li><b>昵称</b>      <input type="" readonly  name="nickname" class="bai1" placeholder="请输入" value="<?php echo $base_info['nickname']; ?>"/></li></a>
+                <li><b>约游ID</b>    <input readonly type="" name="sys_id" class="bai1" placeholder="请输入" value="<?php echo $base_info['sys_id']; ?>"/></li>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'2']); ?>"><li><b>个性签名</b>  <input type="" readonly  name="autograph" class="bai1" placeholder="请输入" value="<?php echo $base_info['autograph']; ?>" /></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'3']); ?>"><li><b>姓名</b>      <input type="" readonly  name="real_name" class="bai1" placeholder="请输入" value="<?php echo $base_info['real_name']; ?>" /></li></a>
                 <li>
                     <b>性别</b>
                     <!-- <p class="bai1">女</p> -->
                     <input readonly type="" name="sex" class="bai1" placeholder="请输入" value='
-                {switch name="base_info.sex" }
-                {case value="1"}男{/case}
-                {case value="2"}女{/case}
-                {default /}女
-                {/switch}' />
+                <?php switch($base_info['sex']): case "1": ?>男<?php break; case "2": ?>女<?php break; default: ?>女
+                <?php endswitch; ?>' />
                 </li>
-                <a href="{:url('user/MyInfo/show', ['id' =>'4'])}" ><li >
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'4']); ?>" ><li >
                     <b>生日</b>
                     <!-- <p class="bai1">1990-01-01</p> -->
-                    {empty name="base_info.birthday"}
+                    <?php if(empty($base_info['birthday']) || (($base_info['birthday'] instanceof \think\Collection || $base_info['birthday'] instanceof \think\Paginator ) && $base_info['birthday']->isEmpty())): ?>
                     <input type=""   id="birthday" name="birthday"  placeholder="请输入" value=""/>
-                    {else /}
-                    <input type=""   id="birthday" name="birthday"  placeholder="请输入" value="{$base_info.birthday|date='Y-m-d',###}  "/>
-                    {/empty}
+                    <?php else: ?>
+                    <input type=""   id="birthday" name="birthday"  placeholder="请输入" value="<?php echo date('Y-m-d',$base_info['birthday']); ?>  "/>
+                    <?php endif; ?>
 
                 </li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'5' ])}">     <li><b>地址</b><input type=""  name="city_id"   placeholder="请输入" value="{$base_info.city_id}"  /></li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'6' ])}">     <li><b>职业</b><input type=""  name="occupation_id"  placeholder="请输入" value="{$base_info.occupation_id}" /></li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'7' ])}">     <li><b>QQ</b><input type="" readonly  name="qq" class="bai1" placeholder="请输入" value="{$base_info.qq}"/></li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'8' ])}">     <li><b>手机</b><input type="" readonly  name="phone" class="bai1" placeholder="请输入" value="{$base_info.phone}"/></li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'9' ])}">     <li><b>爱好</b><input type=""  name="interest"  placeholder="请输入" value="{$base_info.interest}" /></li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'10'])}">    <li><b>常出没地</b><input type="text" name="address"   placeholder="请选择" value="{$base_info.address}" /></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'5' ]); ?>">     <li><b>地址</b><input type=""  name="city_id"   placeholder="请输入" value="<?php echo $base_info['city_id']; ?>"  /></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'6' ]); ?>">     <li><b>职业</b><input type=""  name="occupation_id"  placeholder="请输入" value="<?php echo $base_info['occupation_id']; ?>" /></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'7' ]); ?>">     <li><b>QQ</b><input type="" readonly  name="qq" class="bai1" placeholder="请输入" value="<?php echo $base_info['qq']; ?>"/></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'8' ]); ?>">     <li><b>手机</b><input type="" readonly  name="phone" class="bai1" placeholder="请输入" value="<?php echo $base_info['phone']; ?>"/></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'9' ]); ?>">     <li><b>爱好</b><input type=""  name="interest"  placeholder="请输入" value="<?php echo $base_info['interest']; ?>" /></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'10']); ?>">    <li><b>常出没地</b><input type="text" name="address"   placeholder="请选择" value="<?php echo $base_info['address']; ?>" /></li></a>
             </ul>
         </div>
 
         <div class="mi-xx-2">
             <ul>
-                <a href="{:url('user/MyInfo/show', ['id' =>'11'])}"><li><b>身高</b><input type="" readonly  name="height" class="bai1" placeholder="请输入" value="{$base_info.height}"/></li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'12'])}"><li><b>三围</b><input type="" readonly  name="measurement" class="bai1" placeholder="请输入" value="{$base_info.measurement}"/></li></a>
-                <a href="{:url('user/MyInfo/show', ['id' =>'13'])}"><li><b>体重</b><input type="" readonly  name="weight" class="bai1" placeholder="请输入" value="{$base_info.weight}"/></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'11']); ?>"><li><b>身高</b><input type="" readonly  name="height" class="bai1" placeholder="请输入" value="<?php echo $base_info['height']; ?>"/></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'12']); ?>"><li><b>三围</b><input type="" readonly  name="measurement" class="bai1" placeholder="请输入" value="<?php echo $base_info['measurement']; ?>"/></li></a>
+                <a href="<?php echo url('user/MyInfo/show', ['id' =>'13']); ?>"><li><b>体重</b><input type="" readonly  name="weight" class="bai1" placeholder="请输入" value="<?php echo $base_info['weight']; ?>"/></li></a>
             </ul>
         </div>    <div class="mi-xx-zp">
         <div class="mi-xx-zp-1"><b>照片</b></div>
@@ -127,9 +160,39 @@
     </div>
 </div>
 </form>
-{/block}
 
-{block name="page_js"}
+<!--{__CONTENT__}-->
+
+
+<section id="foot_kong"></section>
+<div id="ft_fixed">
+    <div class="ft_fixed">
+        <li class="hover"><a href="<?php echo url('index/Index/index'); ?>">约TA</a></li>
+        <li><a href="<?php echo url('user/Journey/index'); ?>">旅途</a></li>
+        <li><a href="<?php echo url('user/Release/index'); ?>">发布</a></li>
+        <li><a href="<?php echo url('user/News/index'); ?>">消息</a></li>
+        <li><a href="<?php echo url('user/Index/index'); ?>">我的</a></li>
+    </div>
+</div>
+
+
+
+<!--<script type="text/javascript" src="/public/static/wapcssjsimg/cssjs/cnzz.js"></script>-->
+</body>
+
+
+<!--layui组件-->
+<script src="__STATIC__/layer/layer.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+
+<!-- 引入jquery weui js组件-->
+<script src="__STATIC__/jquery-weui/js/jquery-weui.js"></script>
+<script src="__STATIC__/jquery-weui/js/swiper.min.js"></script>
+
+
+<!--引入jqurey-form  js组件-->
+<script src="__STATIC__/jquery-form/jquery.form.min.js"></script>
+
 <script src="__HOME_JS__/user/common.js"></script>
 <script src="__HOME_JS__/user/my_info/head.js"></script>
 
@@ -396,9 +459,6 @@
     }
 
 </script>
-{/block}
 
 
-
-
-
+</html>

@@ -19,7 +19,7 @@
                 <div class="swiper-slide"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" /></div>
             </div>
             <!-- Add Pagination -->
-            <div class="quyu">北京</div>
+            <div class="quyu">{$journey.address}</div>
             <div class="swiper-pagination swiper-pagination-black"></div>
         </div>
 
@@ -27,7 +27,7 @@
 
 
     <div class="lvtu-show-lis">
-        <div class="title1"><dl><dt><b>关小路</b><p>职业投资人</p> <span><a href="" target="_blank">详细资料></a></span></dt><dd>42岁・30-50w</dd></dl> </div>
+        <div class="title1"><dl><dt><b>{$journey.nickname}</b><p>职业{$journey.occupation_id}</p> <span><a href="" target="_blank">详细资料></a></span></dt><dd>{$data.birthday}岁・12w</dd></dl> </div>
         <div class="video">
             <div class="video-1">视频认证</div>
             <div class="video-2"><a href=" "><img src="__HOME_CSS__/wapcssjsimg/images/video-rz.png" ></a></div>
@@ -35,15 +35,23 @@
         <div class="lvxing">
             <div class="lvxing-1">Ta的旅行</div>
             <div class="lvxing-2">
-                <div class="date">2017-12-02   10:20:09  发布</div>
+                <div class="date">{$journey.create_time|date='Y-m-d H:i:s',###}发布</div>
                 <div class="xx">
                     <ul>
-                        <li><b>邀约对象：</b><p>不限</p></li>
-                        <li><b>出行方式：</b><p>越野自驾</p></li>
-                        <li><b>费&nbsp;&nbsp;&nbsp;&nbsp;用：</b><p>包吃住</p></li>
+                        <li>
+                            {if condition= "$journey.release_object  eq 1"}
+                            <b>邀约对象：</b><p>男</p>
+                            {elseif condition="$journey.release_object  eq 2"}
+                            <b>邀约对象：</b><p>女</p>
+                            {elseif condition="$journey.release_object  eq 0"}
+                            <b>邀约对象：</b><p>不限</p>
+                            {/if}
+                        </li>
+                        <li><b>出行方式：</b><p>{$journey.travel_tool}</p></li>
+                        <li><b>费&nbsp;&nbsp;&nbsp;&nbsp;用：</b><p>100</p></li>
                     </ul>
                 </div>
-                <div class="overdate">还有10天结束</div>
+                <div class="overdate">还有{$data.days}天结束</div>
             </div>
         </div>
         <div class="lvtu-show-1-end"></div>
