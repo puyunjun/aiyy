@@ -328,15 +328,32 @@
         var imgArr = [];
 
         var current_img_dom = [];  //收录新增的img节点
+
+
+        //将图片大小进行排序  得出新数组 再对其分配id
+
+        //先将对象转为数组类型对象  再使用sort函数进行排序
+        var filearr = [];
+
+        for (var y=0;y<fileList.length;y++) {
+            filearr.push(fileList[y]); //属性
+            //arr.push(object[i]); //值
+        }
+
+        //使用文件大小  size 进行排序  将其赋值给fileList
+        fileList  =  filearr.sort(compare('size'));
+        //console.log(filearr);
+        //return;
         //遍历获取到得图片文件
         for (var i = 0; i < fileList.length; i++) {
-            var imgUrl = window.URL.createObjectURL(file.files[i]);
+            var imgUrl = window.URL.createObjectURL(fileList[i]);
 
             imgArr.push(imgUrl);
             var img = document.createElement("img");
                 current_img_dom.push(img);
             img.setAttribute("src", imgArr[i]);
             img.setAttribute("style", "cursor:pointer");
+            img.setAttribute("id", "photo"+a);
             //img.setAttribute("onclick","priview_img()");
             var imgAdd = document.createElement("div");
             imgAdd.setAttribute("class", "z_addImg");
@@ -402,7 +419,13 @@
 
                     //将需要删除的图片name 放入数组批量删除
                     object_name.push(need_url);
-                    delete_photo().then(function(value){ if(value.res.statusCode === 200){console.log('删除成功')};});
+                    delete_photo().then(function(value){
+                        if(value.res.statusCode === 200){
+                            console.log('删除成功')
+                            //请求ajax  删除本地数据库
+
+                        };
+                    });
                     //console.log(object_name);
                     mask.style.display = "none";
                     imgList[t.index].remove();
@@ -448,6 +471,23 @@
     }
     priview_img();
     imgRemove();
+</script>
+
+<script>
+
+
+    //js二维数组排序  按照对象的某个属性   此处文件按照size大小排序
+
+    /*@param  property  对象的某个属性
+    *
+    * */
+    function compare(property){
+        return function(a,b){
+            var value1 = a[property];
+            var value2 = b[property];
+            return value1 - value2;
+        }
+    }
 </script>
 {/block}
 
