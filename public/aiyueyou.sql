@@ -187,6 +187,7 @@ CREATE TABLE IF NOT EXISTS `dp_user_release`(
     `sincerity_money` DECIMAL(8,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT '诚意金数额',
     `create_time` INT(10) UNSIGNED NOT NULL COMMENT '发布时间'
 );
+
 /*
 会员认证表
 */

@@ -46,29 +46,27 @@ class Release extends Common
                 Db::name('user_release')->insert($data);
                 return json(true);
             }
-
         }
-
     }
     private function get_data(){
         if (request()->post('cyj')==null){
             $data = [
                 'uid' => UID,
-                'release_object' => '0',                 //约游对象
-                'travel_start_time' => '1515654297',              //出行时间
+                'release_object' => request()->post('release_object'),                 //约游对象
+                'travel_start_time' => strtotime(request()->post('travel_start_time')),              //出行时间
                 'travel_total_time' => request()->post('travel_total_time'),   //出行天数
-                'travel_tool' => '出行方式',                    //出行方式
+                'travel_tool' => request()->post('travel_tool'),                    //出行方式
                 'create_time' => time(),                         //发布时间
                 'is_sincerity' =>'1',                            //是否缴纳滞纳金
             ];
         }else{
             $data = [
                 'uid' => UID,
-                'release_object' => '0',                 //约游对象
-                'travel_start_time' => '1515654297',              //出行时间
+                'release_object' => request()->post('release_object'),                 //约游对象
+                'travel_start_time' => strtotime(request()->post('travel_start_time')),              //出行时间
                 'travel_total_time' => request()->post('travel_total_time'),   //出行天数
-                'travel_tool' => '出行方式',                    //出行方式
-                'sincerity_money' => request()->post('cyj'),                      //诚意金数额
+                'travel_tool' => request()->post('travel_tool'),                    //出行方式
+                'sincerity_money' => '100',                      //诚意金数额
                 'create_time' => time(),                         //发布时间
                 'is_sincerity' =>'2',                            //是否缴纳滞纳金
             ];
