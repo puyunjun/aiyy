@@ -13,10 +13,11 @@
                 <!--<li><b>出行方式</b><p><input type="" value="" name="travel_tool"></p></li>-->
                 <!--<li><b>出行时间</b><p><input type="" value="" name="travel_start_time"></p></li>-->
                 <!--<li><b>出行天数</b><p><input type="text" value="" name="travel_total_time"></p></li>-->
-                <li><b>约游对象</b><p><a href="">请选择</a></p></li>
-                <li><b>出行方式</b><p><a href="">请选择</a></p></li>
-                <li><b>出行时间</b><p><a href="">请选择</a></p></li>
-                <li><b>出行天数</b><p><input type="text" value="10" name="travel_total_time"></p></li>
+
+                <li><b>约游对象</b><p><input type="" name="release_object" class="object" placeholder="请输入" value="" /></p></li>
+                <li><b>出行方式</b><p><input type="" name="travel_tool" class="mode" placeholder="请输入" value="" /></p></li>
+                <li><b>出行时间</b><p><input type="" name="travel_start_time" class="datetime-picker" placeholder="请输入" value="" /></p></li>
+                <li><b>出行天数</b><p><input type="text" value="" name="travel_total_time"></p></li>
             </ul>
         </div>
         <div class="fabu-cyj">
@@ -35,6 +36,35 @@
 {block name="page_js"}
 <script type="text/javascript" src="__HOME_JS__/user/release/index.js"></script>
 <script type="text/javascript" src="__HOME_JS__/user/release/ajax.js"></script>
+<script type="text/javascript">
+    $(".datetime-picker").datetimePicker();
+    +function($){
+        $.rawCitiesData = [
+            {"name":"\u5317\u4eac","code":"110000","sub":[{"name":"\u5317\u4eac\u5e02","code":"110000","sub":[{"name":"\u4e1c\u57ce\u533a","code":"110101"},{"name":"\u897f\u57ce\u533a","code":"110102"},{"name":"\u671d\u9633\u533a","code":"110105"},{"name":"\u4e30\u53f0\u533a","code":"110106"},{"name":"\u77f3\u666f\u5c71\u533a","code":"110107"},{"name":"\u6d77\u6dc0\u533a","code":"110108"},{"name":"\u95e8\u5934\u6c9f\u533a","code":"110109"},{"name":"\u623f\u5c71\u533a","code":"110111"},{"name":"\u901a\u5dde\u533a","code":"110112"},{"name":"\u987a\u4e49\u533a","code":"110113"},{"name":"\u660c\u5e73\u533a","code":"110114"},{"name":"\u5927\u5174\u533a","code":"110115"},{"name":"\u6000\u67d4\u533a","code":"110116"},{"name":"\u5e73\u8c37\u533a","code":"110117"},{"name":"\u5bc6\u4e91\u53bf","code":"110228"},{"name":"\u5ef6\u5e86\u53bf","code":"110229"}]}]}
+        ];
+    }($);
+</script>
+<script src="__STATIC__/jquery-weui/js/city-picker.js"></script>
+<script>
+    $(".object").picker({
+        title: "请选择约游对象",
+        cols: [
+            {
+                textAlign: 'center',
+                values: ['男', '女', '不限']
+            }
+        ]
+    });
+    $(".mode").picker({
+        title: "请选择出行方式",
+        cols: [
+            {
+                textAlign: 'center',
+                values: ['步行', '自行车', '助力车', '摩托车', '私人小汽车', '公共交通']
+            }
+        ]
+    });
+</script>
 {/block}
 
 

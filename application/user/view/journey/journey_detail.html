@@ -39,13 +39,7 @@
                 <div class="xx">
                     <ul>
                         <li>
-                            {if condition= "$journey.release_object  eq 1"}
-                            <b>邀约对象：</b><p>男</p>
-                            {elseif condition="$journey.release_object  eq 2"}
-                            <b>邀约对象：</b><p>女</p>
-                            {elseif condition="$journey.release_object  eq 0"}
-                            <b>邀约对象：</b><p>不限</p>
-                            {/if}
+                            <b>邀约对象：</b><p>{$journey.release_object}</p>
                         </li>
                         <li><b>出行方式：</b><p>{$journey.travel_tool}</p></li>
                         <li><b>费&nbsp;&nbsp;&nbsp;&nbsp;用：</b><p>100</p></li>
