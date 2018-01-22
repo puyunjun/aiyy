@@ -143,3 +143,8 @@ function get_date(){
     var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
     return str;
 }
+
+/*
+*
+*
+* */
