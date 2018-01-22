@@ -109,9 +109,6 @@ var uploadFile = function (client) {
       });
   }
 
-    if(all_progress === fileobj.length){
-
-    }
 };
 window.onload = function () {
   document.getElementById('uploadFile_bt').onclick = function () {

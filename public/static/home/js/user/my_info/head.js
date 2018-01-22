@@ -1,7 +1,7 @@
 var previewrWidth = 110;
 var previewrHeight = 110;
 var $img = $('#imgg');
-$('input[type=file]').change(function() {
+$('#img').change(function() {
     var reader = new FileReader();
     reader.onload = function(e) {
         $img.prop('src', e.target.result);

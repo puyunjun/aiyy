@@ -8,14 +8,17 @@
 
 namespace app\user\home;
 
+use app\admin\model\Config;
 use think\Controller;
 use app\user\model\home\User;
 use app\user\model\home\Privilege;
+use app\user\model\home\Video;
 use think\Db;
 use think\File;
 use app\user\validate\MyInfo As UserMyInfo;
 use app\index\controller\AliyunOss;
 use OSS\Core\OssUtil;
+use think\Session;
 use think\Validate;
 class MyInfo extends Common
 {
@@ -30,7 +33,6 @@ class MyInfo extends Common
     }
     public function index(){
 
-
         //当前用户基本信息
         $userInfo = User::get(UID);
         $length = strlen($userInfo['phone']);
@@ -42,10 +44,38 @@ class MyInfo extends Common
         //解码用户昵称
         $userInfo->nickname = urldecode($userInfo->nickname );
         $this->assign('base_info',$userInfo);
-        $id= User::get(UID)['id'];
-        $wd=Db::name('user_video')->where('uid',$id)->select();
-        $this->assign("video_url", $wd);
+
+        $meta_data = $this->media_group(Video::where('uid',UID)->select());
+
+        //照片传值
+
+        $this->assign("photo_url_arr", isset($meta_data['photo'])?$meta_data['photo']:array());
+        //视频传值
+        $this->assign("video_url_arr", isset($meta_data['video'])?$meta_data['video']:array());
+
+        //配置阿里云上传文件夹名
+        $this->assign('dir_name',config('dir_name'));
         return $this->fetch();
+    }
+
+
+    //图片和照片分开
+    /*
+     * @param array $media_data 用户图片视频数据
+     * */
+    private function media_group($media_data = array()){
+
+        $data = [];
+        foreach ($media_data as $k=>$v){
+            if($v->video_type === 1){
+                //照片分组
+                $data['photo'][] = $v['video_url'];
+            }else{
+                //视频分组
+                $data['video'][] = $v['video_url'];
+            }
+        }
+        return $data;
     }
 
     //上传接口
@@ -301,286 +331,28 @@ class MyInfo extends Common
             // $this->redirect('user/my_info/index');
         }
     }
-//        if ($id == 1) {
-//            $rule = [
-//                'nickname'  => 'require|max:25',
-//            ];
-//            $msg = [
-//                'nickname.require' => '名称必须',
-//                'nickname.max'     => '名称最多不能超过25个字符',
-//            ];
-//            $data = [
-//                'nickname'  => request()->post('nickname'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                return json(false);
-//                // return $this->redirect('http://www.aiyy.com/user/my_info/show/id/1.html');
-//            }else{
-//                db('user')->where('id',UID)->update(['nickname' => request()->post('nickname')]);
-//                return json(true);
-//                // $this->redirect('user/my_info/index');
-//            }
-//        }
-//        elseif ($id == 2)  {
-//            $rule = [
-//                'autograph'  => 'require|max:25',
-//            ];
-//            $msg = [
-//                'autograph.require' => '签名必须',
-//                'autograph.max'     => '签名最多不能超过25个字符',
-//            ];
-//            $data = [
-//                'autograph'  => request()->post('autograph'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                return json(false);
-//                //echo $validate->getError();
-//            }else{
-//                db('user')->where('id',UID)->update(['autograph' => request()->post('autograph')]);
-//                //$this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 3)  {
-//            //echo request()->post('real_name');//姓名
-//            $rule = [
-//                'real_name'  => 'require|max:25',
-//            ];
-//            $msg = [
-//                'real_name.require' => '姓名必须',
-//                'real_name.max'     => '姓名最多不能超过25个字符',
-//            ];
-//            $data = [
-//                'real_name'  => request()->post('real_name'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                //echo $validate->getError();
-//                return json(false);
-//
-//            }else{
-//                db('user')->where('id',UID)->update(['real_name' => request()->post('real_name')]);
-//                //$this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//
-//        }
-//        elseif ($id == 4)  {
-//            //echo request()->post('birthday');//生日
-//            $rule = [
-//                'birthday'  => 'require',
-//            ];
-//            $msg = [
-//                'birthday.require' => '生日必须',
-//            ];
-//            $data = [
-//                'birthday'  => request()->post('birthday'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                //echo $validate->getError();
-//                return json(false);
-//            }else{
-//                $time=strtotime(request()->post('birthday'));
-//                db('user')->where('id',UID)->update(['birthday' => $time]);
-//                //$this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 5)  {
-//            //echo request()->post('city_id');//地址
-//
-//            $rule = [
-//                'city_id'  => 'require'
-//            ];
-//            $msg = [
-//                'city_id.require' => '地址必须',
-//            ];
-//            $data = [
-//                'city_id'  => request()->post('city_id'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                return json(false);
-//
-//                //echo $validate->getError();
-//            }else{
-//                db('user')->where('id',UID)->update(['city_id' => request()->post('city_id')]);
-//                //$this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 6)  {
-//            //echo request()->post('occupation_id');//职业
-//            $rule = [
-//                'occupation_id'  => 'require',
-//            ];
-//            $msg = [
-//                'occupation_id.require' => '职业必须',
-//            ];
-//            $data = [
-//                'occupation_id'  => request()->post('occupation_id'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                // echo $validate->getError();
-//                return json(false);
-//            }else{
-//                db('user')->where('id',UID)->update(['occupation_id_id' => request()->post('occupation_id')]);
-//                //$this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 7)  {
-//            //echo request()->post('qq');//qq
-//            $rule = [
-//                'qq'=>'require|number|length:4,11'
-//            ];
-//            $msg = [
-//                'qq.require' => '请输入正确qq',
-//                'qq.number'     => '请输入正确qq',
-//                'qq.length'     => '请输入正确qq',
-//            ];
-//            $data = [
-//                'qq'  => request()->post('qq'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                //echo $validate->getError();
-//                return json(false);
-//            }else{
-//                db('user')->where('id',UID)->update(['qq' => request()->post('qq')]);
-//                //$this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 8)  {
-//            echo request()->post('phone');//手机
-//        }
-//        elseif ($id == 9)  {
-//            //echo request()->post('interest');//爱好
-//            $rule = [
-//                'interest'  => 'require'
-//            ];
-//            $msg = [
-//                'interest.require' => '爱好必须',
-//            ];
-//            $data = [
-//                'interest'  => request()->post('interest'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                return json(false);
-//
-//                //echo $validate->getError();
-//            }else{
-//                db('user')->where('id',UID)->update(['interest' => request()->post('interest')]);
-//                // $this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 10) {
-//            //echo request()->post('address');//常出没地
-//            $rule = [
-//                'address'  => 'require'
-//            ];
-//            $msg = [
-//                'address.require' => '常出没地必须',
-//            ];
-//            $data = [
-//                'address'  => request()->post('address'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                return json(false);
-//                //echo $validate->getError();
-//            }else{
-//                db('user')->where('id',UID)->update(['address' => request()->post('address')]);
-//                //$this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 11) {
-//            $rule = [
-//                'height'=>'require|number|between:50,300'
-//            ];
-//            $msg = [
-//                'height.require'     => '请输入正确的身高',
-//                'height.number'     => '请输入正确的身高',
-//                'height.between'     => '请输入正确的身高',
-//
-//            ];
-//            $data = [
-//                'height'  => request()->post('height'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                //echo $validate->getError();
-//                return json(false);
-//            }else{
-//                db('user')->where('id',UID)->update(['height' => request()->post('height')]);
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 12) {
-//            //echo request()->post('measurement');//三围
-//            $rule = [
-//                'measurement'  => 'require'
-//            ];
-//            $msg = [
-//                'measurement.require' => '三围必须',
-//            ];
-//            $data = [
-//                'measurement'  => request()->post('measurement'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                //echo $validate->getError();
-//                return json(false);
-//            }else{
-//                db('user')->where('id',UID)->update(['measurement' => request()->post('measurement')]);
-//                //$this->redirect('user/my_info/index');
-//                return json(true);
-//            }
-//        }
-//        elseif ($id == 13) {
-//            //echo request()->post('weight');//体重
-//            $rule = [
-//                'weight'=>'require|between:30,300'
-//            ];
-//            $msg = [
-//                'weight.require'     => '体重必须',
-//                'weight.between'     => '请输入正确的体重'
-//
-//            ];
-//            $data = [
-//                'weight'  => request()->post('weight'),
-//            ];
-//            $validate = new Validate($rule,$msg);
-//            $result   = $validate->check($data);
-//            if(!$result){
-//                //echo "<script>alert('请输入正确的体重')</script>";
-//                //echo $validate->getError();
-//                return json($validate);
-//            }else{
-//                db('user')->where('id',UID)->update(['weight' => request()->post('weight')]);
-//                //$this->redirect('user/my_info/index')
-//                return json(true);
-//            }
-//        }
-//    }
 
+
+
+    //用户上传个人照方法
+    public function up_gr_photo(){
+
+        if($this->request->isAjax()){
+
+            //接受上传的数据
+            $up_data = request()->post()['up_data'];
+            $data = [];
+            foreach ($up_data as $k=>$v){
+                $data[$k]['video_url'] = $v;
+                $data[$k]['video_type'] = 1;
+                $data[$k]['create_time'] = request()->time();
+                $data[$k]['uid'] = UID;
+                $data[$k]['upload_ip'] = get_client_ip(1);  //数字型ip地址
+            }
+            //添加数据
+            if(Video::insertAll($data)) return  json('添加成功');
+
+        }
+
+    }
 }
