@@ -18,7 +18,7 @@ $('#myform').submit(function () {
         success:function(res){
             if(res === true){
                 layer.msg('保存成功')
-                window.location.href="http://www.aiyy.com/user/journey/index.html"
+                window.location.href="http://"+window.location.host+"/user/journey/index.html";
             }else{
                 layer.msg('保存失败')
                 //window.location.href="http://www.aiyy.com/user/release/index.html"

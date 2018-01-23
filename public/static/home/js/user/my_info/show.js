@@ -13,7 +13,7 @@ $('#form').submit(function () {
         success:function(res){
             if(res === true){
                 layer.msg('保存成功')
-                window.location.href = "http://www.aiyy.com/user/my_info/index.html";
+                window.location.href = "http://"+window.location.host+"/user/my_info/index.html";
             }else{
                 layer.msg(res)
                 //window.location.href='http://www.aiyy.com/user/my_info/show/id/'+id+'.html'
