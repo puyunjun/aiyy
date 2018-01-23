@@ -88,7 +88,11 @@ var uploadFile = function (client) {
                         //文件未传完，进度条设为当前进度   ——添加进度条样式即可
                         bar.style.width = Math.floor(p * 100) + '%';
                         bar.innerHTML = Math.floor(p * 100) + '%';
+                    }else{
+                        progress_p(j,0,fileobj,p);
+
                     }
+
                     if(p === 1){
                         //文件已经传完，进度条直接设为100%；
                         bar.innerHTML = Math.floor(p * 100) + '%';
@@ -178,7 +182,20 @@ function get_date(){
     return str;
 }
 
+
 /*
-*
+*进度条展示函数
 *
 * */
+
+function progress_p(j,m_x,fileobj,p){
+
+        var need_dom = document.getElementById('jqmeter-container'+(j+m_x)).innerHTML;
+        if(parseFloat(need_dom === ''?0:need_dom) >= parseFloat(Math.floor(p * 100) + '%')){
+            m_x++;
+            progress_p(j,m_x,fileobj,p);  //利用递归找出最小的进度条id，赋予其最小的进度数;
+        }else{
+            document.getElementById('jqmeter-container'+(j+m_x)).innerHTML=Math.floor(p * 100) + '%';
+        }
+
+}
