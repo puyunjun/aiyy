@@ -126,7 +126,7 @@ class MyInfo extends Common
     }
     private function get_data(){
         $data = [
-            'nickname'   =>   request()->post('nickname'),                              // 昵称
+            'nickname'   =>   urlencode(request()->post('nickname')),                              // 昵称
             'autograph'  =>   request()->post('autograph'),                            //个性签名
             'real_name'  =>   request()->post('real_name'),                             //姓名
             'city_id'    =>   request()->post('city_id'),                               //地址

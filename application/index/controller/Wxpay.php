@@ -57,8 +57,22 @@ class Wxpay  extends Controller
          $res = Db::name('user')->where('id',"$uid")->setInc('point',$point);
 
          //更新用户权限组
+            $price_type = $attach_info->price_type;
+            if($price_type === 'price_y'){
+                //充值月会员
+                $member_deadline = request()->time()+3600*24*30;
+            }elseif($price_type === 'price_m'){
+                //充值半年会员
+                $member_deadline = request()->time()+3600*24*30*6;
+            }elseif($price_type === 'price_a'){
+                //充值年费会员
+                $member_deadline = request()->time()+3600*24*30*12;
+            }elseif($price_type === 'prestore'){
+                //充值预存机制会员
+                $member_deadline = 0;//无过期时间
+            }
          $re = Db::name('user')->where('id',"$uid")
-                                ->update(array('group_id'=>"$group_id"));
+                                ->update(array('group_id'=>$group_id,'member_deadline'=>$member_deadline));
         if($re!== false && $res){
             //返回SUCCESS给微信服务器
             /*程序执行完后必须打印输出“SUCCESS”（不包含引号）。如果商户反馈给支付宝的字符不是SUCCESS这7个字符，微信服务器会不断重发通知，直到超过24小时22分钟。
@@ -98,8 +112,9 @@ class Wxpay  extends Controller
         $attach  = json_encode(
             array(
                 'group_id'=>$order_info->group_id,
-            'uid'=>$order_info->uid,
-             'money'=>$order_info->money )
+                'uid'=>$order_info->uid,
+                'money'=>$order_info->money,
+                'price_type'=>$order_info->price_type)
         );   //附带信息    money 传入以便修改用户积分
 
         //②、统一下单
@@ -148,6 +163,7 @@ class Wxpay  extends Controller
         return $data =[
             'upgrade_member'=>[
                 'money'=>$member_fee_info[$price_type],
+                'price_type'=>$price_type,
                 'group_id'=>$group_id,
                 'body_info'=>"升级".$member_fee_info['group_name']
             ],

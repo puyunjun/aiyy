@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
+use app\user\model\home\User;
 use think\cache\driver\Redis;
 use app\user\model\home\User As UserModel;
 use think\Session;
@@ -55,30 +56,31 @@ class Index extends Home
             'prefix'     => '',
         ];
 
-        $Redis=new Redis($config);*/
-        //$Redis->set("test","test");
-        //echo  $Redis->get("test");
+        $Redis=new Redis($config);
+        $Redis->set("test","unique");
+        echo  $Redis->get("test");*/
 
-        //$sql = "select * from user left join user_video on id=uid where is_escort =1";
-        //$result = Db::query('select * from dp_user left join dp_user_video on id=uid where is_escort =1 ');
-                                                                    //计算出年龄
-                                                                    //取出地址
+        //取出地址
+        if(request()->isGet()){
 
-       $name= Db::name('user')->where("is_escort=1")->select();
-        foreach( $name as $k=>$v1 )
+            $user = new User();
+            $data = $user->escort_info();
+            foreach( $data as $k=>$v1 )
             {
-                    $a = date('Y', time());
-                    $b = date('Y', $v1["birthday"]);    //求出年龄
-                    $name[$k]['birthday'] = abs($a - $b);
 
+                $birthday_format = isset(getIDCardInfo($v1->id_card_num)['birthday']) ? getIDCardInfo($v1->id_card_num)['birthday']:0;
+                $a = date('Y', time());
+                $b = date('Y', strtotime($birthday_format));    //求出年龄
+                $data[$k]['id_card_num'] = $birthday_format ? abs($a - $b) : 0;
 
-                    $str=$v1["address"];
-                    $arr_str=explode(" ",$str);//以空格为拆分条件
-                    $name[$k]['address'] = $arr_str[0];
-
-
+                $str=$v1["address"];
+                $arr_str=explode(" ",$str);//以空格为拆分条件
+                $data[$k]['address'] = $arr_str[0];
             }
-       $this->assign('name',$name);
+            $this->assign('data',$data);
+        }
+        //获取用户当前位置若未登录则不显示距离
+
        return $this->fetch();
 
     }

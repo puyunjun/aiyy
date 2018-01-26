@@ -81,7 +81,9 @@ class Login extends Model
             'login_time'        => $user_info['login_time'],
             'login_ip'          => get_client_ip(1),
             'head_img'          => $user_info['head_img'],    //用户头像信息
-            'is_vip'            => $user_info['is_vip']
+            'is_vip'            => $user_info['is_vip'],
+            'login_addr_x'      => $user_info['login_addr_x'],
+            'login_addr_y'      => $user_info['login_addr_y'],
         );
         session('user_auth_home', $auth);
         session('user_auth_sign_home', $this->dataAuthSign($auth));

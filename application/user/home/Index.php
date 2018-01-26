@@ -9,6 +9,7 @@ namespace app\user\home;
 use think\Controller;
 use app\user\model\home\User As UserModel;
 use think\Session;
+use think\Db;
 
 class Index extends Common
 {
@@ -22,13 +23,20 @@ class Index extends Common
 
     public function index(){
         /*用户首页方法*/
-        $this->assign('user_base_info',$this->model->user_base_info());
 
-        //var_dump(UserModel::user_privilege());exit;
+        if(request()->isGet()){
 
+            $this->assign('user_base_info',$this->model->user_base_info());
 
+            //var_dump(UserModel::user_privilege());exit;
+            $param_data = false;
+            if($param = request()->param('param_name')){
+                $param_data = session($param);
+            }
+            $this->assign('param_data',$param_data);
+            return  $this->fetch();
+        }
 
-        return  $this->fetch();
     }
 
     public function allow_privilege(){

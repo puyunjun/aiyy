@@ -9,7 +9,7 @@
 namespace app\user\home;
 
 use think\Controller;
-class Wallet extends Controller
+class Wallet extends Common
 {
 
 

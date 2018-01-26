@@ -1,39 +1,65 @@
 {extend name="layout"}
 {block name="page_title"}
-点击查看的约游昵称
+{$escort_base_info.nickname}
 {/block}
 {block name="content"}
 
 <div id="yyxx">
     <div class="yyxx-1">
-        <div class="yyxx-1-1"><img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg" ></div>
-        <div class="yyxx-1-2">大米<p></p></div>
-        <div class="yyxx-1-3">重庆 19岁  165cm   与您距离：5km</div>
+        <div class="yyxx-1-1"><img src="{$escort_base_info.head_img != null ? $escort_base_info.head_img  : '__HOME_CSS__/wapcssjsimg/images/sctx-1.png'}" ></div>
+        <div class="yyxx-1-2">{$escort_base_info.nickname}<p></p></div>
+        <div class="yyxx-1-3">重庆 {$escort_base_info.birthday}岁  {$escort_base_info.height}cm   与您距离：<script> document.write(localStorage.getItem("distances{$escort_base_info.uid}") === null ? 0 :localStorage.getItem("distances{$escort_base_info.uid}"))</script>km</div>
+
+
         <div class="yyxx-1-4">欢迎私聊</div>
     </div>
     <div class="yyxx-2">
-        <div class="tt"><b>生活照</b><p>共16张</p></div>
+        {empty name="!$escort_base_info.photo_url"}
+        <div class="tt"><b>生活照</b><p>共{$escort_base_info.photo_num}张</p></div>
         <div class="lis">
             <ul>
-                <li class="on"><img src="__HOME_CSS__/wapcssjsimg/images/photo1.jpg" ></li>
-                <li class="on"><img src="__HOME_CSS__/wapcssjsimg/images/photo1.jpg" ></li>
-                <li class="on"><img src="__HOME_CSS__/wapcssjsimg/images/photo1.jpg" ></li>
+                {volist name="$escort_base_info.photo_url" id="value"}
+                    <li {if condition="$privew_privilege.privilege_photo eq false"}class="on"{/if}>
+                    {if condition="$privew_privilege.privilege_photo eq true"}
+                    <img src="{$value}" >
+                    {/if}
+                </li>
+                {/volist}
             </ul>
         </div>
-        <div class="tishi">由于用户设置照片保护，需客户钱包至少拥有1000.00元余额才可以查看生活照。<br>注意：押金可以随时提取，或用于之丰富伴游费用</div>
+        {else/}
+        <div class="tt"><b>生活照</b><p>共0张</p></div>
+        暂无数据
+        {/empty}
+        {if condition="$privew_privilege.privilege_photo eq true"}
+        <!--点击查看-->
+        {else/}
+        <div class="tishi">由于用户设置照片保护，需客户至少升级为白银会员或钱包至少拥有1000.00元余额才可以查看生活照。<br>注意：押金可以随时提取，或用于之丰富伴游费用</div>
+        {/if}
         <div class="cz"><input name="tj" class="tj" type="submit" value="会员充值"></div>
     </div>
 
     <div class="yyxx-3">
         <div class="tt"><b>视频</b> </div>
-        <div class="lis on"><img src="__HOME_CSS__/wapcssjsimg/images/video1.jpg" width="750" height="420"></div>
+        {empty name="$escort_base_info.video_url"}
+            暂无数据
+        {else/}
+            {volist name="$escort_base_info.video_url" id="video_v"}
+            <div {if condition="$privew_privilege.privilege_video eq false"}class="lis on"{else/}{/if}>
+            {if condition="$privew_privilege.privilege_video eq true"}
+            <img src="{$video_v}" width="750" height="420">
+            {/if}
+            </div>
+            {/volist}
+        {/empty}
+
     </div>
     <div class="yyxx-4">
         <div class="tt"><b>资料</b> </div>
         <div class="lis">
             <ul>
-                <li><b>身高</b><p>168cm</p></li>
-                <li><b>职业</b><p>学生</p></li>
+                <li><b>身高</b><p>{$escort_base_info.height}cm</p></li>
+                <li><b>职业</b><p>{$escort_base_info.occupation_id}</p></li>
                 <li><b>服务</b><p>本地  全国</p></li>
                 <li><b>语言</b><p>中文</p></li>
             </ul>

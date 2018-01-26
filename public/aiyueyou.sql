@@ -60,7 +60,7 @@ CREATE TABLE dp_user(
 CREATE TABLE dp_user_video(
   `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
   `uid` INT (11) UNSIGNED NOT NULL COMMENT '关联用户表主键',
-  `video_url` VARCHAR (50) NOT NULL COMMENT '文件储存地址',
+  `video_url` VARCHAR (255) NOT NULL COMMENT '文件储存地址',
   `upload_ip` VARCHAR (50) NOT NULL COMMENT '上传ip地址',
   `video_type` TINYINT(1) NOT NULL COMMENT '文件类型,1=>图片，2=>视频',
   `create_time` CHAR(10) NOT NULL COMMENT '上传时间'
@@ -100,7 +100,8 @@ CREATE TABLE dp_recharge(
   `recharge_type` VARCHAR(20)  NOT NULL COMMENT '充值类型',
   `status` TINYINT(1) UNSIGNED NOT NULL COMMENT '充值状态1=>成功,4=>失败',
   `create_time` CHAR (10)  NOT NULL COMMENT '充值时间',
-  `create_ip` VARCHAR(20) NOT NULL COMMENT '充值ip地址'
+  `create_ip` VARCHAR(20) NOT NULL COMMENT '充值ip地址',
+  `read_status` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '用户是否读取,0=>未读,1=>已读'
 );
 
 
@@ -220,6 +221,7 @@ CREATE TABLE dp_upgrade_member(
   `recharge_type` VARCHAR(20)  NOT NULL COMMENT '消费类型',
   `status` TINYINT(1) UNSIGNED NOT NULL COMMENT '消费状态1=>成功,4=>失败',
   `create_time` CHAR (10)  NOT NULL COMMENT '消费时间',
-  `create_ip` VARCHAR(20) NOT NULL COMMENT '消费ip地址'
+  `create_ip` VARCHAR(20) NOT NULL COMMENT '消费ip地址',
+  `read_status` TINYINT (1) NOT NULL DEFAULT 0 COMMENT '用户是否读取,0=>未读，1=>已读'
 );
 

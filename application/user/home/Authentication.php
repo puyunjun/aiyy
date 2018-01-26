@@ -19,8 +19,12 @@ class Authentication extends Common
         $userInfo = User::where('u.id',UID)
                     ->alias('u')
                    ->join('dp_user_identity ui','ui.uid = u.id','LEFT')
-                    ->field('ui.status,u.sex,u.real_name,ui.id_card_num,ui.sfz_font_img,ui.sfz_back_img,ui.sfz_hand_img')
+                    ->field('ui.status,u.is_bind_phone,u.sex,u.real_name,ui.id_card_num,ui.sfz_font_img,ui.sfz_back_img,ui.sfz_hand_img')
                     ->find();
+        if(!$userInfo->real_name || !$userInfo->is_bind_phone){
+            $this->redirect('user/index/index',['param_name'=>'Authentication_data'],'302',['Authentication_data'=>'请至少完善真实姓名和手机绑定']);
+            exit;
+        }
         $this->assign('userInfo',$userInfo);
         return $this->fetch();
     }

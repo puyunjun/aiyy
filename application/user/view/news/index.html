@@ -7,8 +7,31 @@
 <div id="xiaoxi">
     <div class="xiaoxi-1">
         <div class="lis">
-            <a href=""><dl><img src="__HOME_CSS__/wapcssjsimg/images/xiaoxi-1.png" class="falai" ><dt><b>爱约游小助手</b><p>10:41</p></dt> <dd>欢迎来到宇宙最好玩的约游社区</dd> </dl></a>
-            <a href=""><dl><img src="__HOME_CSS__/wapcssjsimg/images/xiaoxi-1.png" class="falai" ><dt><b>充值成功</b><p>10:41</p></dt> <dd>您已经成功充值1000元</dd> </dl></a>
+            {php}
+                if($data->recharge->info_num){
+            {/php}
+            <a href="">
+                <dl><img src="__HOME_CSS__/wapcssjsimg/images/xiaoxi-1.png" class="falai" >
+                <dt>
+                <b>充值消息小助手</b>
+                <p>10:41</p>
+                </dt>
+                <dd>充值新消息查看{php}if($data->recharge->recharge_num) echo '('.$data->recharge->recharge_num.')'{/php}</dd>
+                </dl>
+            </a>
+            {php}
+                    }
+                if($data->upgrademember->info_num){
+            {/php}
+                <a href="">
+                    <dl><img src="__HOME_CSS__/wapcssjsimg/images/xiaoxi-1.png" class="falai" >
+                        <dt>
+                            <b>会员升级消息小助手</b><p>10:41</p>
+                        </dt>
+                        <dd>会员升级新消息查看{php}if($data->upgrademember->upgrademember_num) echo '('.$data->upgrademember->upgrademember_num.')'{/php}</dd>
+                    </dl>
+                </a>
+             {php}}{/php}
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@ use app\user\model\home\Sign as SignInModel;
 use think\Db;
 use app\user\model\home\Login;
 use think\Url;
-
+use app\user\model\home\Identify;
 
 class BecomeEscort extends Common
 {
@@ -53,13 +53,19 @@ class BecomeEscort extends Common
         }
     }
     public function index(){
+        if(request()->isGet()){
 
-        $data= Db::name('user')->where('id',UID)->find();
-        $type= Db::name('user_identity')->where('uid',UID)->find();
-        $this->assign("data", $data);
-        $this->assign("type", $type);
-        $forgetPass = request()->param('forget') ? intval(1) : '';
-        $this->assign('forgetPass', $forgetPass);
+            $type= Identify::where('uid',UID)->find();
+            if($type->status !== 1){
+                $this->redirect('user/index/index',['param_name'=>'BecomeEscort_data'],'302',['BecomeEscort_data'=>'请先认证后成为伴游']);
+                exit;
+            }
+            $data= Db::name('user')->where('id',UID)->find();
+            $this->assign("data", $data);
+            $this->assign("type", $type);
+            $forgetPass = request()->param('forget') ? intval(1) : '';
+            $this->assign('forgetPass', $forgetPass);
+        }
         return $this->fetch();
     }
     public function get_verify($mobile_phone = '')

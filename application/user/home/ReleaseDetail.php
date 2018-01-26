@@ -10,6 +10,7 @@ namespace app\user\home;
 
 use think\Controller;
 use app\user\model\home\Privilege;
+use app\user\model\home\User;
 use think\Db;
 class ReleaseDetail extends Common
 {
@@ -21,17 +22,25 @@ class ReleaseDetail extends Common
         self::$model = new Privilege;
     }
 
-    public function index($id){
+    public function index(){
        //判断用户是否有权限查看信息
-//                 //if(request()->isGet()){
-//            //进入详情页面的权限
-//            $privilege_list = self::$model->sel_privilege()->allow_priview_list;
-//            //青铜权限取消判断
-//            /*if($privilege_list == 4 || $privilege_list == 0){
-//                //权限不足，直接返回首页或者上一页
-//                   $this->redirect(isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'index/Index/index');
-//            }*/
-//                //}
+        if(request()->isGet()){
+            //进入详情页面的权限
+            $data = self::$model->sel_privilege();
+            $privew_data = array(
+                'privilege_photo'=>$data->allow_priview_photo === 1 ? true : false,
+                'privilege_video'=>$data->allow_priview_video === 1 ? true : false,
+            );
+            //传值查看权限
+            $this->assign('privew_privilege',$privew_data);
+
+            //伴游详情
+            $uid = request()->param('id');
+            $user_model = new User();
+            $escort_base_info = $user_model->escort_base_info($uid);
+            $this->assign('escort_base_info',$escort_base_info);
+
+        }
 
        return $this->fetch();
     }

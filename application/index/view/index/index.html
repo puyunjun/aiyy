@@ -67,16 +67,25 @@
             <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
             <div class="tt3"><p>5</p><span>3</span></div>
         </div>
-        {volist name="name" id="data"}
+        {volist name="data" id="vo"}
             <div class="jj">
-                <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>$data.id])}"><img src="{$data.head_img}" ></a></div>
-                <div class="tt1"><p>{$data.real_name}</p><span class="sex1"></span><p>{$data.birthday}岁</p></div>
-                <div class="tt2"><p>{$data.address}</p>  <p>{$data.height}cm</p> <span>5km</span></div>
-                <div class="tt3"><p>5</p><span>3</span></div>
+                <div class="pic">
+                    <a href="{:url('user/ReleaseDetail/index',['id'=>$vo.id])}">
+                        <img src="{$vo.head_img}" >
+                    </a>
+                </div>
+                <div class="tt1"><p>{$vo.real_name}</p><span class="sex1"></span><p>{$vo.id_card_num}岁</p></div>
+                <div class="tt2"><p>{$vo.address}</p>  <p>{$vo.height}cm</p>
+                    {if condition = "($Think.session.user_auth_home.uid)"}
+                    <span name="juli" avg_id="{$vo.id}" avg_x="{$vo.login_addr_x}" avg_y="{$vo.login_addr_y}"></span>
+                    {/if}
+                </div>
+                <div class="tt3"><p>{$vo.img_num ? $vo.img_num : 0}</p><span>{$vo.video_num ? $vo.video_num : 0}</span></div>
             </div>
         {/volist}
     </div>
 </div>
+<div id="allmap" style="display:none;"></div>
 {/block}
 
 {block name="page_js"}
@@ -89,5 +98,27 @@
         alert('弹出绑定手机号码框');
     }
 </script>
+<!--用户登录后获取登录的位置，计算得出距离-->
+{if condition = "($Think.session.user_auth_home.uid)"}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=r2QRGELPU7lF35I6ttxbKGgCPbFjSVNN"></script>
+<script type="text/javascript">
+    // 百度地图API功能
+    var juli_obj = document.getElementsByName('juli');
+    var current_x = "{$Think.session.user_auth_home.login_addr_x}",current_y = "{$Think.session.user_auth_home.login_addr_y}";  //定义当前坐标
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom("重庆",12);  //初始化地图,设置城市和地图级别。
+    //var polyline = new BMap.Polyline([pointA,pointB], {strokeColor:"blue", strokeWeight:6, strokeOpacity:0.5});  //定义折线
+    //map.addOverlay(polyline);     //添加折线到地图上
+    var pointB = new BMap.Point(current_x,current_y);  // 创建点坐标B--江北区
+    for(var f=0;f<juli_obj.length;f++){
+        var pointA = new BMap.Point(juli_obj[f].getAttribute('avg_x'),juli_obj[f].getAttribute('avg_y'));  // 创建点坐标A--大渡口区
 
+        //alert((map.getDistance(pointA,pointB)).toFixed(2)+' 米。');
+        juli_obj[f].innerHTML = Math.floor((map.getDistance(pointA,pointB)).toFixed(2)/1000)+'km'
+
+        //获取不同伴游id储存距离到本地
+        localStorage.setItem('distances'+juli_obj[f].getAttribute('avg_id'),Math.floor((map.getDistance(pointA,pointB)).toFixed(2)/1000));
+    }
+</script>
+{/if}
 {/block}

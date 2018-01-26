@@ -72,4 +72,13 @@
 </div>
 {/block}
 
+{block name="page_js"}
+<script>
+    {php}if($param_data){{/php}
+        alert("{php} echo $param_data; {/php}");
+    {php}}{/php}
+
+</script>
+{/block}
+
 

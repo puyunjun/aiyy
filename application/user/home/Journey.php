@@ -11,7 +11,7 @@ namespace app\user\home;
 use think\Controller;
 use think\Db;
 
-class Journey extends Controller
+class Journey extends Common
 {
 
     public function _initialize()

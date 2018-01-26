@@ -59,7 +59,7 @@
         <li class="hover"><a href="{:url('index/Index/index')}">约TA</a></li>
         <li><a href="{:url('user/Journey/index')}">旅途</a></li>
         <li><a href="{:url('user/Release/index')}">发布</a></li>
-        <li><a href="{:url('user/News/index')}">消息</a></li>
+        <li><a href="{:url('user/News/index')}{$all_news_num.url_sql|isset ? $all_news_num.url_sql : ''}">消息（{$all_news_num.all_num|isset ? $all_news_num.all_num : 0}）</a></li>
         <li><a href="{:url('user/Index/index')}">我的</a></li>
     </div>
 </div>

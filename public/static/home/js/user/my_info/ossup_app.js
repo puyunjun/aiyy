@@ -65,7 +65,7 @@ var uploadFile = function (client) {
     fileobj  =  filearr.sort(compare('size'));
     //console.log(fileobj)
     //console.log(fileobj);
-
+    var checkpoint;
     for(var i=0;i<fileobj.length;i++){
         var keyobj = dir_name+'/'+get_date()+'/'+sign_id+new Date().getTime()+i+'.png';
         //console.log(fileobj[i]);
@@ -76,8 +76,12 @@ var uploadFile = function (client) {
         }
         client.multipartUpload(keyobj, fileobj[i], {
             partSize:part_size,      //设置分片大小
-            progress: function (p) {
+            checkpoint:checkpoint,
+            progress: function(p,cpt) {
+                checkpoint = cpt;
 
+                //console.log(cpt);
+                console.log(cpt);
                 return function (done) {
                     var bar = document.getElementById('jqmeter-container'+j);
 
@@ -120,9 +124,11 @@ var uploadFile = function (client) {
 
             server_num++;
             img_href[current_num] = img_url;  //收录当前上传成功图片的url
+
+            //console.log(res);
             //console.log(img_href);
             current_num++;  //当前上传成功进度++
-
+            //alert(img_href.length);
            if(current_num === fileobj.length){
 
               for(var x=0;x<all_current_img_dom.length;x++){
@@ -130,7 +136,7 @@ var uploadFile = function (client) {
                }
 
                 $.ajax({
-                    url:'http://'+window.location.host+'/user/My_info/up_gr_photo',
+                    url:'http://'+window.location.host+'/user/my_info/up_gr_photo',
                     dataType:'JSON',
                     data:{up_data:img_href},
                     //processData: false,  // 不处理数据
