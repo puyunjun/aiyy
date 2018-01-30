@@ -21,7 +21,9 @@ class User extends Model
     public function __construct($data = [])
     {
         parent::__construct($data);
-        self::$user_info = request()->session() ? request()->session()['user_auth_home'] : '';
+
+        self::$user_info = session('user_auth_home') ? session('user_auth_home') : '';
+
     }
 
     /*获取该用户信息

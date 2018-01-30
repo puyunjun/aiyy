@@ -35,16 +35,19 @@ class Index extends Home
     public function index()
     {
 
+
         // 默认跳转模块
         if (config('home_default_module') != 'index') {
             $this->redirect(config('home_default_module'). '/index/index');
         }
+
         if(intval(request()->param('bindphone')) === 1){
             //提示用户需要绑定手机
             $this->assign('bindphone',intval(1));
         }else{
             $this->assign('bindphone',false);
         }
+
         /*$config = [
             'host'       => '127.0.0.1',
             'port'       => 6379,
@@ -63,8 +66,10 @@ class Index extends Home
         //取出地址
         if(request()->isGet()){
 
+
             $user = new User();
             $data = $user->escort_info();
+
             foreach( $data as $k=>$v1 )
             {
 

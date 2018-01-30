@@ -39,7 +39,7 @@ class PrivilegeGroup extends Model
         //重新构造数据结构
         $new_result = array();
         foreach ($result as $k=>$v){
-
+            $result[$k]['privilege'] =array();
             //构造相应权限
             if ($v['allow_insurance'] == 1) $result[$k]['privilege'][] = '享受客服保险';
             else unset($result[$k]['allow_insurance']);
@@ -57,6 +57,8 @@ class PrivilegeGroup extends Model
             else unset($result[$k]['allow_escort_recommend']);
             if ($v['allow_date'] == 1) $result[$k]['privilege'][] = '真人见面';
             else unset($result[$k]['allow_date']);
+
+            if($result[$k]['privilege'] === array()) continue;
 
             if ($v['member_type'] === 1){
                 //线上会员    重新构造数据结构
@@ -98,7 +100,7 @@ class PrivilegeGroup extends Model
                 $new_result[$k] = $result[$k];
             }
         }
-            //var_dump($new_result);exit;
+        //var_dump($new_result);exit;
         return $new_result;
     }
 
