@@ -12,6 +12,7 @@ use function foo\func;
 use think\Controller;
 use app\user\model\home\UpgradeMember;
 use app\user\model\home\Recharge;
+use think\Db;
 class News extends Common
 {
 
@@ -54,4 +55,24 @@ class News extends Common
 
         return $this->fetch();
     }
+
+    public function show(){
+        $user_a = Db::name('recharge')->where('uid', UID)->select();
+        $user=array_reverse($user_a);
+        Db::name('recharge')->where('uid', UID)->update(['read_status' => '1']);
+        $this->assign('user',$user);
+        return $this->fetch();
+    }
+
+    public function vip(){
+
+
+        $user_a = Db::name('upgrade_member')->where('uid', UID)->select();
+        Db::name('upgrade_member')->where('uid', UID)->update(['read_status' => '1']);
+        $user=array_reverse($user_a);
+        $this->assign('user',$user);
+        return $this->fetch();
+
+    }
+
 }

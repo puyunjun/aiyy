@@ -106,8 +106,8 @@ class User extends Model
     public function escort_base_info($uid = ''){
         $escort_info = User::where('U.id',$uid)
             ->alias('U')
-            ->join('dp_user_video dv','dv.uid = U.id','LEFT')
-            ->join('dp_user_identity di','di.uid = U.id','LEFT')
+            -> join('dp_user_video dv','dv.uid = U.id','LEFT')
+            -> join('dp_user_identity di','di.uid = U.id','LEFT')
             ->field('U.id,U.nickname,U.head_img,U.height,U.address,U.login_addr_x,U.login_addr_y,U.occupation_id')
             ->field('dv.video_url,dv.video_type')
             ->field('di.id_card_num')

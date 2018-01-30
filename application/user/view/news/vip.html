@@ -1,0 +1,30 @@
+{extend name="layout"}
+{block name="page_title"}
+会员升级消息助手
+{/block}
+
+{block name="content"}
+<div id="xiaoxi">
+    <div class="xiaoxi-1">
+        <div class="lis">
+        {volist name='user' id='vo'}
+            <a>
+                <dl><img src="__HOME_CSS__/wapcssjsimg/images/xiaoxi-1.png" class="falai" >
+                <dt>
+                <b>{$vo.recharge_type}</b>
+
+                <p>{$vo.create_time|date=' h:i',###}</p>
+                </dt>
+                <dd>充值金额：{$vo.total_money}</dd>
+                </dl>
+            </a>
+        {/volist}
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="page_js"}
+    <script type="text/javascript" src="__HOME_JS__/user/common.js"></script>
+{/block}
+

@@ -1,0 +1,876 @@
+---------------------------------------------------------------
+[ 2018-01-30T09:30:21+08:00 ] 127.0.0.1 GET /
+[ info ] www.aiyy.com/ [运行时间：0.188011s][吞吐率：5.32req/s] [内存消耗：2,522.51kb] [文件加载：69]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => '',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.055003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.041003s ]
+[ info ] [ RUN ] app\index\controller\Index->index[ D:\phpstudy\WWW\aiyy\application\index\controller\Index.php ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/index\view\index\index.html [ array (
+  0 => 'bindphone',
+  1 => 'data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012001s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.012000s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.012000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.010001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_video` [ RunTime:0.010000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT `img`.`img_num`,`video`.`video_num`,`Uit`.`id_card_num`,`User`.`nickname`,`User`.`real_name`,`User`.`head_img`,`User`.`address`,`User`.`id`,`User`.`sex`,`User`.`height`,`User`.`login_addr_x`,`User`.`login_addr_y` FROM `dp_user` `User` LEFT JOIN ( SELECT `uid`,count(id) as  img_num FROM `dp_user_video` WHERE  (  video_type=1 ) GROUP BY `video_type` ) `img` ON `img`.`uid`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  video_num FROM `dp_user_video` WHERE  (  video_type=2 ) GROUP BY `video_type` ) `video` ON `video`.`uid`=`User`.`id` LEFT JOIN `dp_user_identity` `Uit` ON `Uit`.`uid`=`User`.`id` WHERE  (  User.is_escort=1 ) GROUP BY `User`.`id` [ RunTime:0.005000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:30:24+08:00 ] 127.0.0.1 GET /user/index/index.html
+[ info ] www.aiyy.com/user/index/index.html [运行时间：0.121007s][吞吐率：8.26req/s] [内存消耗：2,468.09kb] [文件加载：69]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/index/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.043003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.047002s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010001s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.006000s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.014000s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:30:24+08:00 ] 127.0.0.1 GET /user/login/index.html
+[ info ] www.aiyy.com/user/login/index.html [运行时间：0.114007s][吞吐率：8.77req/s] [内存消耗：2,435.20kb] [文件加载：65]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'login',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/login/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.047003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.049002s ]
+[ info ] [ RUN ] app\user\home\Login->index[ D:\phpstudy\WWW\aiyy\application\user\home\Login.php ]
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/user\view\login\index.html [ array (
+  0 => 'url_root',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010001s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.001000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:30:26+08:00 ] 127.0.0.1 POST /user/Login/index
+[ info ] www.aiyy.com/user/Login/index [运行时间：0.233013s][吞吐率：4.29req/s] [内存消耗：2,442.80kb] [文件加载：67]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'Login',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/login/index.html',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://www.aiyy.com',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '89',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/Login/index' => '',
+  'username' => '15520067742',
+  'password' => 'ty123456',
+  'login_addr_x' => '106.53063501',
+  'login_addr_y' => '29.54460611',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.056003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.047003s ]
+[ info ] [ RUN ] app\user\home\Login->index[ D:\phpstudy\WWW\aiyy\application\user\home\Login.php ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010001s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.018001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_auth` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_user_auth` WHERE  `status` = 1  AND `identifier` = '15520067742' LIMIT 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] UPDATE `dp_user`  SET `login_time`='1517275826',`login_ip`='2130706433',`login_addr_x`='106.53063501',`login_addr_y`='29.54460611'  WHERE  `id` = 4 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_user_auth` WHERE  `uid` = 4 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_user` WHERE  `id` = 4 LIMIT 1 [ RunTime:0.000000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:30:26+08:00 ] 127.0.0.1 GET /index/Index/index
+[ info ] www.aiyy.com/index/Index/index [运行时间：0.159009s][吞吐率：6.29req/s] [内存消耗：2,528.09kb] [文件加载：69]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'Index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/login/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/index/Index/index' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.050003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.050002s ]
+[ info ] [ RUN ] app\index\controller\Index->index[ D:\phpstudy\WWW\aiyy\application\index\controller\Index.php ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/index\view\index\index.html [ array (
+  0 => 'bindphone',
+  1 => 'data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010001s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.018001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.013000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_video` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT `img`.`img_num`,`video`.`video_num`,`Uit`.`id_card_num`,`User`.`nickname`,`User`.`real_name`,`User`.`head_img`,`User`.`address`,`User`.`id`,`User`.`sex`,`User`.`height`,`User`.`login_addr_x`,`User`.`login_addr_y` FROM `dp_user` `User` LEFT JOIN ( SELECT `uid`,count(id) as  img_num FROM `dp_user_video` WHERE  (  video_type=1 ) GROUP BY `video_type` ) `img` ON `img`.`uid`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  video_num FROM `dp_user_video` WHERE  (  video_type=2 ) GROUP BY `video_type` ) `video` ON `video`.`uid`=`User`.`id` LEFT JOIN `dp_user_identity` `Uit` ON `Uit`.`uid`=`User`.`id` WHERE  (  User.is_escort=1 ) GROUP BY `User`.`id` [ RunTime:0.002000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:30:28+08:00 ] 127.0.0.1 GET /user/index/index.html
+[ info ] www.aiyy.com/user/index/index.html [运行时间：0.177010s][吞吐率：5.65req/s] [内存消耗：2,541.91kb] [文件加载：72]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/index/Index/index',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/index/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.051003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.049003s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\user\home\Index->index[ D:\phpstudy\WWW\aiyy\application\user\home\Index.php ]
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/user\view\index\index.html [ array (
+  0 => 'user_base_info',
+  1 => 'param_data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_upgrade_member` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_upgrade_member` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_recharge` [ RunTime:0.009001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_recharge` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_video` [ RunTime:0.007000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT count(DISTINCT attention.id) as attention_num,count(DISTINCT attentioned.id) as attentioned_num,`img`.`img_num`,`video`.`video_num`,`User`.`nickname`,`User`.`head_img`,`User`.`sys_id`,`User`.`id`,`User`.`sex` FROM `dp_user` `User` LEFT JOIN `dp_user_attention` `attention` ON `attention`.`user_followid`=`User`.`id` LEFT JOIN `dp_user_attention` `attentioned` ON `attentioned`.`user_id`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  img_num FROM `dp_user_video` WHERE  (  video_type=1 ) GROUP BY `video_type` ) `img` ON `img`.`uid`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  video_num FROM `dp_user_video` WHERE  (  video_type=2 ) GROUP BY `video_type` ) `video` ON `video`.`uid`=`User`.`id` WHERE  `User`.`id` = 4 GROUP BY `User`.`id` LIMIT 1 [ RunTime:0.002000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:30:32+08:00 ] 127.0.0.1 GET /user/release/index.html
+[ info ] www.aiyy.com/user/release/index.html [运行时间：0.140008s][吞吐率：7.14req/s] [内存消耗：2,494.65kb] [文件加载：70]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'release',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/release/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.034002s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.040002s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\user\home\Release->index[ D:\phpstudy\WWW\aiyy\application\user\home\Release.php ]
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/user\view\release\index.html [ array (
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.008001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.013000s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_upgrade_member` [ RunTime:0.014000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_upgrade_member` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_recharge` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_recharge` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:30:33+08:00 ] 127.0.0.1 GET /user/index/index.html
+[ info ] www.aiyy.com/user/index/index.html [运行时间：0.219012s][吞吐率：4.57req/s] [内存消耗：2,541.92kb] [文件加载：72]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/release/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/index/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.063004s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.049002s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\user\home\Index->index[ D:\phpstudy\WWW\aiyy\application\user\home\Index.php ]
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/user\view\index\index.html [ array (
+  0 => 'user_base_info',
+  1 => 'param_data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.024002s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.017001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.014000s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_upgrade_member` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_upgrade_member` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_recharge` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_recharge` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_video` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT count(DISTINCT attention.id) as attention_num,count(DISTINCT attentioned.id) as attentioned_num,`img`.`img_num`,`video`.`video_num`,`User`.`nickname`,`User`.`head_img`,`User`.`sys_id`,`User`.`id`,`User`.`sex` FROM `dp_user` `User` LEFT JOIN `dp_user_attention` `attention` ON `attention`.`user_followid`=`User`.`id` LEFT JOIN `dp_user_attention` `attentioned` ON `attentioned`.`user_id`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  img_num FROM `dp_user_video` WHERE  (  video_type=1 ) GROUP BY `video_type` ) `img` ON `img`.`uid`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  video_num FROM `dp_user_video` WHERE  (  video_type=2 ) GROUP BY `video_type` ) `video` ON `video`.`uid`=`User`.`id` WHERE  `User`.`id` = 4 GROUP BY `User`.`id` LIMIT 1 [ RunTime:0.001000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:31:08+08:00 ] 127.0.0.1 GET /user/index/index.html
+[ info ] www.aiyy.com/user/index/index.html [运行时间：0.167009s][吞吐率：5.99req/s] [内存消耗：2,499.73kb] [文件加载：73]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/release/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/index/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.060004s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.042002s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\user\home\Index->index[ D:\phpstudy\WWW\aiyy\application\user\home\Index.php ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.023002s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.012000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.001001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.010000s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_upgrade_member` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_upgrade_member` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_recharge` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_recharge` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.001000s ]
+[ error ] [8]Use of undefined constant ddd - assumed 'ddd'[D:\phpstudy\WWW\aiyy\application\user\home\Index.php:26]
+---------------------------------------------------------------
+[ 2018-01-30T09:32:19+08:00 ] 127.0.0.1 GET /user/index/index.html
+[ info ] www.aiyy.com/user/index/index.html [运行时间：0.158009s][吞吐率：6.33req/s] [内存消耗：2,541.98kb] [文件加载：72]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/release/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/index/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.046003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.036002s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\user\home\Index->index[ D:\phpstudy\WWW\aiyy\application\user\home\Index.php ]
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/user\view\index\index.html [ array (
+  0 => 'user_base_info',
+  1 => 'param_data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010001s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.010001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_upgrade_member` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_upgrade_member` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_recharge` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_recharge` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_video` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT count(DISTINCT attention.id) as attention_num,count(DISTINCT attentioned.id) as attentioned_num,`img`.`img_num`,`video`.`video_num`,`User`.`nickname`,`User`.`head_img`,`User`.`sys_id`,`User`.`id`,`User`.`sex` FROM `dp_user` `User` LEFT JOIN `dp_user_attention` `attention` ON `attention`.`user_followid`=`User`.`id` LEFT JOIN `dp_user_attention` `attentioned` ON `attentioned`.`user_id`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  img_num FROM `dp_user_video` WHERE  (  video_type=1 ) GROUP BY `video_type` ) `img` ON `img`.`uid`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  video_num FROM `dp_user_video` WHERE  (  video_type=2 ) GROUP BY `video_type` ) `video` ON `video`.`uid`=`User`.`id` WHERE  `User`.`id` = 4 GROUP BY `User`.`id` LIMIT 1 [ RunTime:0.001000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:32:22+08:00 ] 127.0.0.1 GET /user/journey/index.html
+[ info ] www.aiyy.com/user/journey/index.html [运行时间：0.164010s][吞吐率：6.10req/s] [内存消耗：2,514.30kb] [文件加载：70]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'journey',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/journey/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.046003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.040002s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\user\home\Journey->index[ D:\phpstudy\WWW\aiyy\application\user\home\Journey.php ]
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/user\view\journey\index.html [ array (
+  0 => 'journey',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.010000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_upgrade_member` [ RunTime:0.009001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_upgrade_member` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_recharge` [ RunTime:0.012000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_recharge` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_user` `a` INNER JOIN `dp_user_release` `w` ON `a`.`id`=`w`.`uid` [ RunTime:0.004001s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:32:25+08:00 ] 127.0.0.1 GET /index/index/index.html
+[ info ] www.aiyy.com/index/index/index.html [运行时间：0.129007s][吞吐率：7.75req/s] [内存消耗：2,528.15kb] [文件加载：69]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/journey/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/index/index/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.034002s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.035002s ]
+[ info ] [ RUN ] app\index\controller\Index->index[ D:\phpstudy\WWW\aiyy\application\index\controller\Index.php ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/index\view\index\index.html [ array (
+  0 => 'bindphone',
+  1 => 'data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.010001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.010001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.010000s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_video` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.010001s ]
+[ sql ] [ SQL ] SELECT `img`.`img_num`,`video`.`video_num`,`Uit`.`id_card_num`,`User`.`nickname`,`User`.`real_name`,`User`.`head_img`,`User`.`address`,`User`.`id`,`User`.`sex`,`User`.`height`,`User`.`login_addr_x`,`User`.`login_addr_y` FROM `dp_user` `User` LEFT JOIN ( SELECT `uid`,count(id) as  img_num FROM `dp_user_video` WHERE  (  video_type=1 ) GROUP BY `video_type` ) `img` ON `img`.`uid`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  video_num FROM `dp_user_video` WHERE  (  video_type=2 ) GROUP BY `video_type` ) `video` ON `video`.`uid`=`User`.`id` LEFT JOIN `dp_user_identity` `Uit` ON `Uit`.`uid`=`User`.`id` WHERE  (  User.is_escort=1 ) GROUP BY `User`.`id` [ RunTime:0.001000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:32:27+08:00 ] 127.0.0.1 GET /user/release_detail/index/id/2.html
+[ info ] www.aiyy.com/user/release_detail/index/id/2.html [运行时间：0.170010s][吞吐率：5.88req/s] [内存消耗：2,500.52kb] [文件加载：71]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'release_detail',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/index/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/release_detail/index/id/2_html' => '',
+  'id' => '2',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.037003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.048002s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\user\home\ReleaseDetail->index[ D:\phpstudy\WWW\aiyy\application\user\home\ReleaseDetail.php ]
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/user\view\release_detail\index.html [ array (
+  0 => 'privew_privilege',
+  1 => 'escort_base_info',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_upgrade_member` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_upgrade_member` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_recharge` [ RunTime:0.014000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_recharge` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `U`.`group_id`,`U`.`member_deadline`,`UP`.`allow_priview_list`,`UP`.`allow_priview_photo`,`UP`.`allow_priview_video`,`UP`.`allow_chat` FROM `dp_user` `U` LEFT JOIN `dp_user_group_privilege` `UP` ON `UP`.`group_id`=`U`.`group_id` WHERE  `U`.`id` = 4 LIMIT 1 [ RunTime:0.002000s ]
+[ sql ] [ SQL ] SELECT `U`.`id`,`U`.`nickname`,`U`.`head_img`,`U`.`height`,`U`.`address`,`U`.`login_addr_x`,`U`.`login_addr_y`,`U`.`occupation_id`,`dv`.`video_url`,`dv`.`video_type`,`di`.`id_card_num` FROM `dp_user` `U` LEFT JOIN `dp_user_video` `dv` ON `dv`.`uid`=`U`.`id` LEFT JOIN `dp_user_identity` `di` ON `di`.`uid`=`U`.`id` WHERE  `U`.`id` = '2' [ RunTime:0.000000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:32:30+08:00 ] 127.0.0.1 GET /index/index/index.html
+[ info ] www.aiyy.com/index/index/index.html [运行时间：0.096005s][吞吐率：10.42req/s] [内存消耗：2,528.15kb] [文件加载：69]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/user/journey/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/index/index/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.025001s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.025002s ]
+[ info ] [ RUN ] app\index\controller\Index->index[ D:\phpstudy\WWW\aiyy\application\index\controller\Index.php ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/index\view\index\index.html [ array (
+  0 => 'bindphone',
+  1 => 'data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.006001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.007000s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.006001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.006000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.008001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_video` [ RunTime:0.006000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.006001s ]
+[ sql ] [ SQL ] SELECT `img`.`img_num`,`video`.`video_num`,`Uit`.`id_card_num`,`User`.`nickname`,`User`.`real_name`,`User`.`head_img`,`User`.`address`,`User`.`id`,`User`.`sex`,`User`.`height`,`User`.`login_addr_x`,`User`.`login_addr_y` FROM `dp_user` `User` LEFT JOIN ( SELECT `uid`,count(id) as  img_num FROM `dp_user_video` WHERE  (  video_type=1 ) GROUP BY `video_type` ) `img` ON `img`.`uid`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  video_num FROM `dp_user_video` WHERE  (  video_type=2 ) GROUP BY `video_type` ) `video` ON `video`.`uid`=`User`.`id` LEFT JOIN `dp_user_identity` `Uit` ON `Uit`.`uid`=`User`.`id` WHERE  (  User.is_escort=1 ) GROUP BY `User`.`id` [ RunTime:0.002000s ]
+---------------------------------------------------------------
+[ 2018-01-30T09:32:32+08:00 ] 127.0.0.1 GET /user/index/index.html
+[ info ] www.aiyy.com/user/index/index.html [运行时间：0.192011s][吞吐率：5.21req/s] [内存消耗：2,541.92kb] [文件加载：72]
+[ info ] [ LANG ] D:\phpstudy\WWW\aiyy\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'user',
+    1 => 'index',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=g07kt2tpv1g0u1e68hu2bam126',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://www.aiyy.com/index/index/index.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'www.aiyy.com',
+)
+[ info ] [ PARAM ] array (
+  '/user/index/index_html' => '',
+)
+[ info ] [ CACHE ] INIT File
+[ info ] [ DB ] INIT mysql
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Config @app_begin [ RunTime:0.043003s ]
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Hook @app_begin [ RunTime:0.048002s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'dolphin_admin_',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\user\home\Index->index[ D:\phpstudy\WWW\aiyy\application\user\home\Index.php ]
+[ info ] [ VIEW ] D:\phpstudy\WWW\aiyy\public/../application/user\view\index\index.html [ array (
+  0 => 'user_base_info',
+  1 => 'param_data',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001000s ] mysql:host=127.0.0.1;port=3306;dbname=dolphin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_config` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT `name`,`value`,`type` FROM `dp_admin_config` [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_module` [ RunTime:0.014000s ]
+[ sql ] [ SQL ] SELECT `name`,`config` FROM `dp_admin_module` WHERE  `config` <> '' [ RunTime:0.001001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook` [ RunTime:0.014000s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_hook` WHERE  `status` = 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_plugin` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT `name`,`status` FROM `dp_admin_plugin` WHERE  `status` = 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_admin_hook_plugin` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `dp_admin_hook_plugin` WHERE  `status` = 1 ORDER BY hook,sort [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_upgrade_member` [ RunTime:0.014000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_upgrade_member` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.001000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_recharge` [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `dp_recharge` WHERE  `uid` = 4  AND `read_status` = 0 LIMIT 1 [ RunTime:0.000000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user_video` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `dp_user` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT count(DISTINCT attention.id) as attention_num,count(DISTINCT attentioned.id) as attentioned_num,`img`.`img_num`,`video`.`video_num`,`User`.`nickname`,`User`.`head_img`,`User`.`sys_id`,`User`.`id`,`User`.`sex` FROM `dp_user` `User` LEFT JOIN `dp_user_attention` `attention` ON `attention`.`user_followid`=`User`.`id` LEFT JOIN `dp_user_attention` `attentioned` ON `attentioned`.`user_id`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  img_num FROM `dp_user_video` WHERE  (  video_type=1 ) GROUP BY `video_type` ) `img` ON `img`.`uid`=`User`.`id` LEFT JOIN ( SELECT `uid`,count(id) as  video_num FROM `dp_user_video` WHERE  (  video_type=2 ) GROUP BY `video_type` ) `video` ON `video`.`uid`=`User`.`id` WHERE  `User`.`id` = 4 GROUP BY `User`.`id` LIMIT 1 [ RunTime:0.001000s ]
