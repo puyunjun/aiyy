@@ -14,7 +14,7 @@
         <div class="yyxx-1-4">欢迎私聊</div>
     </div>
     <div class="yyxx-2">
-        {empty name="!$escort_base_info.photo_url"}
+        {if condition="isset($escort_base_info.photo_url)"}
         <div class="tt"><b>生活照</b><p>共{$escort_base_info.photo_num}张</p></div>
         <div class="lis">
             <ul>
@@ -30,7 +30,7 @@
         {else/}
         <div class="tt"><b>生活照</b><p>共0张</p></div>
         暂无数据
-        {/empty}
+        {/if}
         {if condition="$privew_privilege.privilege_photo eq true"}
         <!--点击查看-->
         {else/}

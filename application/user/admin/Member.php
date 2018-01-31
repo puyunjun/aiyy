@@ -11,6 +11,8 @@ namespace app\user\admin;
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
 use app\user\model\home\User as UserModel;
+use think\Db;
+use think\helper\Hash;
 use app\user\model\Role as RoleModel;
 use app\admin\model\Module as ModuleModel;
 use app\admin\model\Access as AccessModel;
@@ -94,7 +96,98 @@ class Member extends Admin
         }
 
 
-        public function add(){
+        public function add($group = 'auth'){
+            if ($this->request->isPost()) {
+                // 表单数据
+                $data = $this->request->post();
+                // 验证
+                $result = $this->validate($data, 'UserAuth.'.$group);
+                if(true !== $result) $this->error($result);
+                if($group === 'auth'){
+                    if($data['identity_type'] === 'mobile'){
+                        session('reg_user',$data);  //记录帐号认证session
+                        $this->success('请继续完善信息', 'http://'.$_SERVER['HTTP_HOST'].$_SERVER["SCRIPT_NAME"].'/user/member/add/group/info.html');
+                        exit;
+                    }
+                }
+                //系统添加会员权限无过期时间，无审核，
+                $data['create_time'] = request()->time();
+                $data['user_type'] = 2 ;        //直接定义为认证用户
+                $data['is_bind_phone'] = 1;
+                $data['sys_id'] = 0000;
+                $data['head_img'] = get_file_path($data['head_img']);
+                if ($column = UserModel::create($data)) { 
+                            //添加认证信息
+                    $auth =array();
+                    $auth['credential'] = Hash::make((string)session('reg_user')['credential']);
+                    $auth['identifier'] = session('reg_user')['identifier'];
+                    $auth['uid'] = $column['id'];
+                    $auth['identity_type'] = 'mobile';
+                    $auth['create_time'] = request()->time();
+                    $auth['regip'] = get_client_ip(1);
+
+                    $re = Db::name('user_auth')->insert($auth);
+                    if(!$re){
+                        Db::table('dp_user')->where('id',$column['id'])->delete();
+                        session('reg_user',null);
+                        $this->error('新增失败');
+                    }
+                    cache('cms_column_list', null);
+                    // 记录行为
+                    action_log('column_add', 'cms_column', $column['id'], UID, $data['group_id']);
+                    session('reg_user',null);
+                    $this->success('新增成功', 'index');
+                } else {
+                    $this->error('新增失败');
+                }
+            }
+
+
+            $list_tab = [
+                'auth' => ['title' => '帐号认证', 'url' => url('add', ['group' => 'auth'])],
+                'info' => ['title' => '基本信息', 'url' => url('add', ['group' => 'info'])],
+            ];
+
+            switch ($group) {
+                case 'auth':
+                    return ZBuilder::make('form')
+                        ->setTabNav($list_tab,  $group)
+                        ->addHidden('identity_type','mobile')
+                        ->addFormItems([
+                            ['text','identifier','帐号信息(手机号)','',session('reg_user') ? session('reg_user')['identifier']:''],
+                            ['text','credential','设置登录密码','',session('reg_user') ? session('reg_user')['credential']:''],
+                        ])
+                        ->fetch();
+                    break;
+                case 'info':
+                    //权限分组
+                    $bank_type = Db::name('user_group')->column('id,group_name');
+                    return ZBuilder::make('form')
+                        ->setTabNav($list_tab,  $group)
+                        ->addFormItems([
+                            ['select', 'group_id', '添加权限', '<span class="text-danger">必填</span>',$bank_type],
+                            ['text','city_id', '所属城市'],
+                            ['text','phone', '绑定号码','',session('reg_user')['identifier'],'','readonly'],
+                            ['select','member_type', '用户类型','',['1'=>'线上会员','2'=>'线下会员']],
+                            ['text','nickname', '昵称'],
+                            ['image','head_img', '头像'],
+                            ['text','real_name', '真实姓名'],
+                            ['select','sex', '性别','',['1'=>'男','2'=>'女']],
+                            ['text','birthday', '生日'],
+                            ['text','qq', 'QQ号码'],
+                            ['text','address', '常驻地址'],
+                            ['text','height', '身高'],
+                            ['text','account', '账户余额'],
+                            ['text','point', '积分点'],
+                            ['select','is_escort','是否伴游','',['1'=>'伴游','4'=>'非伴游']],
+                        ])
+                        ->layout(['city_id' => 6, 'member_type'=>6,'phone' => 6,
+                            'sex' => 6,'birthday' => 6,'qq' => 6,'address' => 6,'height' => 6,
+                            'nickname' => 6, 'real_name' => 6])
+                        /*->setTrigger('group_id', '6', 'allow_priview_photo,allow_priview_video,allow_chat')*/
+                        ->fetch();
+                    break;
+            }
 
         }
 
