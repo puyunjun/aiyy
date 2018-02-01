@@ -56,7 +56,8 @@ class BecomeEscort extends Common
         if(request()->isGet()){
 
             $type= Identify::where('uid',UID)->find();
-            if($type->status !== 1){
+
+            if(!$type  || $type->status !== 1){
                 $this->redirect('user/index/index',['param_name'=>'BecomeEscort_data'],'302',['BecomeEscort_data'=>'请先认证后成为伴游']);
                 exit;
             }
