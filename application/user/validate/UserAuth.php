@@ -49,4 +49,7 @@ class UserAuth extends Validate
         'info'  => ['group_id','phone','sex','nickname','head_img'],
         ];
 
+
+    
+
 }
