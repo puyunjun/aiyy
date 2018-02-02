@@ -35,11 +35,11 @@ class User extends Model
         /*
          * 图片数量
          * */
-        $subsql_img = UserVideo::where('video_type=1')->field('uid,count(id) as  img_num')->group('video_type')->buildSql();
+        $subsql_img = UserVideo::where(array('uid'=>UID,'video_type'=>1))->field('uid,count(id) as  img_num')->group('video_type')->buildSql();
         /*
          * 视频数量
          * */
-        $subsql_video = UserVideo::where('video_type=2')->field('uid,count(id) as  video_num')->group('video_type')->buildSql();
+        $subsql_video = UserVideo::where(array('uid'=>UID,'video_type'=>2))->field('uid,count(id) as  video_num')->group('video_type')->buildSql();
 
 
         $re = $this->alias('User')
@@ -83,11 +83,11 @@ class User extends Model
         /*
          * 图片数量
          * */
-        $subsql_img = UserVideo::where('video_type=1')->field('uid,count(id) as  img_num')->group('video_type')->buildSql();
+        $subsql_img = UserVideo::where('video_type=1')->field('uid,count(id) as  img_num')->group('uid')->buildSql();
         /*
          * 视频数量
          * */
-        $subsql_video = UserVideo::where('video_type=2')->field('uid,count(id) as  video_num')->group('video_type')->buildSql();
+        $subsql_video = UserVideo::where('video_type=2')->field('uid,count(id) as  video_num')->group('uid')->buildSql();
 
 
         $re = $this->alias('User')

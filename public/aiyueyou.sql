@@ -63,6 +63,7 @@ CREATE TABLE dp_user_video(
   `video_url` VARCHAR (255) NOT NULL COMMENT '文件储存地址',
   `upload_ip` VARCHAR (50) NOT NULL COMMENT '上传ip地址',
   `video_type` TINYINT(1) NOT NULL COMMENT '文件类型,1=>图片，2=>视频',
+  `attach_id` INT(11) NOT NULL COMMENT '后台附件id',
   `create_time` CHAR(10) NOT NULL COMMENT '上传时间'
 );
 

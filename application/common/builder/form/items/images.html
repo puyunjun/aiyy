@@ -8,7 +8,7 @@
                     <a class="img-link" href="{$vo|get_file_path}">
                         <img src="{$vo|get_thumb}" width="100">
                     </a>
-                    <i class="fa fa-times-circle remove-picture" data-id="{$vo}"></i>
+                    <i class="fa fa-times-circle remove-picture" onclick="remove_id({$vo},{$form_data['uid']})" data-id="{$vo}"></i>
                     <i class="fa fa-fw fa-arrows move-picture"></i>
                 </div>
                 {/volist}

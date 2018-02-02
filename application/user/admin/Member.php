@@ -13,17 +13,28 @@ use app\common\builder\ZBuilder;
 use app\user\model\home\User as UserModel;
 use think\Db;
 use think\helper\Hash;
+use think\Cache;
 use app\user\model\Role as RoleModel;
 use app\admin\model\Module as ModuleModel;
 use app\admin\model\Access as AccessModel;
 class Member extends Admin
 {
 
-        public function index(){
+        public function index($group='web'){
+            //web 为网站所有会员
+            $list_tab = [
+                'web' => ['title' => '网站会员', 'url' => url('index', ['group' => 'web'])],
+                'sys' => ['title' => '系统会员', 'url' => url('index', ['group' => 'sys'])],
+            ];
             cookie('__forward__', $_SERVER['REQUEST_URI']);
 
             // 获取查询条件
             $map = $this->getMap();
+            if($group === 'sys'){
+                //系统会员
+                $map['u.sys_id']=0;
+                $map['u.member_deadline']=0;
+            }
             $order = $this->getOrder() ? $this->getOrder() : 'u.id asc';
             // 数据列表
             $field_str = 'u.id,sys_id,group_id,member_deadline,city_id,
@@ -42,6 +53,7 @@ class Member extends Admin
             return ZBuilder::make('table')
                 ->setPageTitle('会员列表') // 设置页面标题
                 ->setTableName('user') // 设置数据表名
+                ->setTabNav($list_tab,  $group)
                 ->setSearch(['id' => 'ID', 'username' => '用户名']) // 设置搜索参数
                 ->addColumns([ // 批量添加列
                     ['id', 'ID'],
@@ -168,7 +180,6 @@ class Member extends Admin
                             ['select', 'group_id', '添加权限', '<span class="text-danger">必填</span>',$bank_type],
                             ['text','city_id', '所属城市'],
                             ['text','phone', '绑定号码','',session('reg_user')['identifier'],'','readonly'],
-                            ['select','member_type', '用户类型','',['1'=>'线上会员','2'=>'线下会员']],
                             ['text','nickname', '昵称'],
                             ['image','head_img', '头像'],
                             ['text','real_name', '真实姓名'],
@@ -191,4 +202,203 @@ class Member extends Admin
 
         }
 
+
+    public function edit($id = 0,$group = 'text')
+    {
+        if ($id === 0) $this->error('参数错误');
+        $list_tab = [
+            'text' => ['title' => '编辑信息', 'url' => url('edit', ['id' => $id,'group' => 'text'])],
+            'photo' => ['title' => '上传照片', 'url' => url('edit', ['id' => $id,'group' => 'photo'])],
+            'video' => ['title' => '上传视频', 'url' => url('edit', ['id' => $id,'group' => 'video'])],
+        ];
+
+        // 保存数据
+        if ($this->request->isPost()) {
+
+
+            // 表单数据
+            $data = $this->request->post();
+            //图片编辑部分
+            if(isset($data['video_type']) ? $data['video_type']: false){
+                //获取上传图片的id
+                $data['video_url'] = $data['attach_id']?explode(',',$data['attach_id']):'';
+                //判断是否已经记录过id
+                foreach ($data['video_url'] as $k=>$v){
+                    if(in_array($v,Db::name('user_video')->where('uid',$id)->column('attach_id'))){
+                        unset($data['video_url'][$k]);
+                    }
+                }
+                $result_video = $this->validate($data, 'Video.edit');
+                if(true !== $result_video) $this->error($result_video);
+                $insert_data = array();
+                foreach ($data['video_url'] as $k=>$v){
+                    list(
+                        $insert_data[$k]['uid'],$insert_data[$k]['video_url']
+                        ,$insert_data[$k]['upload_ip'],$insert_data[$k]['create_time']
+                        ,$insert_data[$k]['attach_id'],$insert_data[$k]['video_type']
+                        ) = array (
+                        $data['uid'], get_file_path($v),get_client_ip(1),request()->time(),
+                        $v,$data['video_type']
+                    );
+                }
+                if (Db::name('user_video')->insertAll($insert_data)) {
+                    Cache::clear();
+                    // 记录行为
+                    $details = '节点ID('.$id.')';
+                    action_log('member_edit', '', $id, UID, $details);
+                    $this->success('添加成功', 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], cookie('__forward__'));
+                } else {
+                    $this->error('添加失败');
+                }
+
+            }
+            //基本信息部分
+            $result = $this->validate($data, 'UserAuth.edit');
+            if(true !== $result) $this->error($result);
+            $data['head_img'] = get_file_path($data['head_img']);
+            if (UserModel::update($data)) {
+                Cache::clear();
+                // 记录行为
+                $details = '节点ID('.$id.')';
+                action_log('member_edit', 'user_home_user', $id, UID, $details);
+                $this->success('编辑成功', cookie('__forward__'));
+            } else {
+                $this->error('编辑失败');
+            }
+        }
+
+        $res = Db::name('user')->where('id',$id)->field('sys_id,member_deadline')->find();
+        if($res['sys_id'] === 0 && $res['member_deadline'] ===0){
+            //系统会员
+            switch ($group) {
+                case 'text':
+                    $info = UserModel::get($id);
+
+                    $bank_type = Db::name('user_group')->column('id,group_name');
+                    //上传照片按钮
+                    $btn = [
+                        'title' => '添加照片、视频',
+                        'target' => '_blank',
+                        'href' => url('add') // 此属性仅用于a标签按钮，button按钮不产生作用
+                    ];
+                    return ZBuilder::make('form')
+                        ->addHidden('id')
+                        ->setTabNav($list_tab,  $group)
+                        ->addFormItems([
+                            ['select', 'group_id', '添加权限', '<span class="text-danger">必填</span>',$bank_type],
+                            ['text','city_id', '所属城市'],
+                            ['text','phone', '绑定号码','','','','readonly'],
+                            ['text','nickname', '昵称'],
+                            ['image','head_img', '头像'],
+                            ['text','real_name', '真实姓名'],
+                            ['select','sex', '性别','',['1'=>'男','2'=>'女']],
+                            ['text','birthday', '生日'],
+                            ['text','qq', 'QQ号码'],
+                            ['text','address', '常驻地址'],
+                            ['text','height', '身高'],
+                            ['text','account', '账户余额'],
+                            ['text','point', '积分点'],
+                            ['select','is_escort','是否伴游','',['1'=>'伴游','4'=>'非伴游']],
+                        ])
+                        ->js('member_edit')
+                        ->layout(['city_id' => 6, 'member_type'=>6,'phone' => 6,
+                            'sex' => 6,'birthday' => 6,'qq' => 6,'address' => 6,'height' => 6,
+                            'nickname' => 6, 'real_name' => 6])
+                        ->addButton('test',$btn,'a')
+                        ->setFormData($info)
+                        ->fetch();
+                    break;
+                case 'photo':
+                    //上传照片
+                    $map = [
+                        'uid'=>$id,
+                        'video_type'=>1
+                    ];
+                    $info = Db::name('user_video')->where($map)->field('video_url,attach_id')->select();
+                    $data_info = array();
+                    $data_info['attach_id'] = '';
+                     foreach($info as $v){
+                        $data_info['attach_id'] .= ','.$v['attach_id'];
+                        }
+                        $data_info['attach_id'] =isset($data_info['attach_id'])? ltrim($data_info['attach_id'],',') :'';
+                    return ZBuilder::make('form')
+                        ->addHidden('uid',$id)
+                        ->addHidden('video_type',1)
+                        ->setTabNav($list_tab,$group)
+                        ->addImages('attach_id', '上传照片', '可传多张', '', '3072', 'jpg,png,gif')
+                        ->setFormData($data_info)
+                        ->js('member_images')
+                        ->fetch('',['uid'=>$id]);
+                    break;
+                case 'video':
+                    //上传照片
+                    $map = [
+                        'uid'=>$id,
+                        'video_type'=>2
+                        ];
+                    $info = Db::name('user_video')->where($map)->field('video_url')->find();
+                    return ZBuilder::make('form')
+                        ->addHidden('uid',$id)
+                        ->addHidden('video_type',2)
+                        ->setTabNav($list_tab,$group)
+                        ->addVideo('video_url','添加视频')
+                        ->hideBtn('submit,back')
+                        ->setFormData($info)
+                        ->fetch();
+                    break;
+            }
+
+
+        //权限分组
+
+       }else{
+            $this->error('非系统会员禁止编辑','index');
+        }
+    }
+
+
+
+    //系统会员删除图片
+    public function image_delete(){
+            if(request()->isAjax()){
+                $attach_id= request()->post('attach_id');
+
+                $uid =request()->post('uid');
+                //删除对应的图片
+                $re = Db::name('user_video')->where(array('uid'=>$uid,'attach_id'=>$attach_id))->delete();
+
+                //删除附件图片，先移除服务文件，再删数据库
+                /*$attachment = Db::name('admin_attachment');
+
+                $unlink = @unlink($attachment->where('id',$attach_id)->value('path'));
+
+                $attachment->where('id',$attach_id)->delete();*/
+                if($re !== false){
+                    return json(array('code'=>200,'msg'=>'删除成功'));
+                }else{
+                    return json('删除失败，稍后再试');
+                }
+
+            }
+    }
+
+
+    //系统会员上传视频
+    public function up_gr_video(){
+            if(request()->isAjax()){
+                $data = $this->request->post();
+
+                //保存数据
+                $inser_data =array();
+                $inser_data['video_url'] =$data['up_data'];
+                $inser_data['uid'] =$data['uid'];
+                $inser_data['video_type'] = 2 ;
+                $inser_data['upload_ip'] =get_client_ip(1);
+                $inser_data['create_time'] =request()->time();
+                $inser_data['attach_id'] = 0 ;
+                Db::name('user_video')->insert($inser_data);
+
+                return json('上传成功');
+            }
+    }
 }

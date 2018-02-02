@@ -47,6 +47,8 @@ class UserAuth extends Validate
         'auth'  =>  ['identifier','credential'],
 
         'info'  => ['group_id','phone','sex','nickname','head_img'],
+
+        'edit'=> ['group_id','phone|require','sex','nickname','head_img'],
         ];
 
 
