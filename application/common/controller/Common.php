@@ -158,4 +158,22 @@ class Common extends Controller
         $template_path = config('plugin_path'). "{$plugin}/view/{$template}.{$suffix}";
         return parent::fetch($template_path, $vars, $replace, $config);
     }
+
+    //获取筛选最后条件
+    /*
+     * @param array $map 筛选初始条件
+     * @author 蒲云军 <347268507@qq.com>
+     * @return array
+     * */
+    final protected function map_action($map= array()){
+        foreach ($map as $k=>$v){
+            if(strpos(request()->get('_filter')? request()->get('_filter') : '',$k) !==false){
+                //空白部分后面为需要的表别名以及字段
+                $key =substr($k,strpos($k,' ')+1);
+                $map[$key] = $map[$k];
+                unset($map[$k]);
+            }
+        }
+        return $map;
+    }
 }

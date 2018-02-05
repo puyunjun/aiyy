@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `dp_user_release`(
     `travel_start_time` INT(10) UNSIGNED NOT NULL COMMENT '出行时间',
     `travel_total_time` INT(10) UNSIGNED NOT NULL COMMENT '出行天数',
     `travel_tool` VARCHAR(50) NOT NULL COMMENT '出行方式',
-    `is_sincerity` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否交纳诚意金',
+    `is_sincerity` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否交纳诚意金,0=>未交纳，1=>交纳',
     `sincerity_money` DECIMAL(8,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT '诚意金数额',
     `create_time` INT(10) UNSIGNED NOT NULL COMMENT '发布时间'
 );

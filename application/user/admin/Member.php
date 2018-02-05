@@ -14,9 +14,6 @@ use app\user\model\home\User as UserModel;
 use think\Db;
 use think\helper\Hash;
 use think\Cache;
-use app\user\model\Role as RoleModel;
-use app\admin\model\Module as ModuleModel;
-use app\admin\model\Access as AccessModel;
 class Member extends Admin
 {
 
@@ -44,7 +41,7 @@ class Member extends Admin
                     ->alias('u')
                     ->view('dp_user_group ug','group_name','ug.id = u.group_id','LEFT')
                     ->field(trim($field_str))
-                    ->order('u.id asc')
+                    ->order($order)
                     ->paginate();
             // 分页数据
             $page = $data_list->render();

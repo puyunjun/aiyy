@@ -21,6 +21,7 @@ class Privilege extends Admin
 
         // 获取查询条件
         $map = $this->getMap();
+        $map = $this->map_action($map);
         $order = $this->getOrder();
         if(!$order) $order = 'ugp.id asc';
         // 数据列表
@@ -57,7 +58,7 @@ class Privilege extends Admin
                 ['right_button','操作', 'btn']
             ])
             ->addTopButtons('add,delete') // 批量添加顶部按钮
-            ->addFilter('user_group.group_name') // 添加标题字段筛选
+            ->addFilter('user_group ug.group_name') // 添加标题字段筛选
             ->addOrder('ugp.id,ug.group_name,ugp.create_time,ugp.update_time')
             ->addRightButtons('edit,delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
