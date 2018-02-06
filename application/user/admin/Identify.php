@@ -70,8 +70,8 @@ class Identify extends Admin
                 ['sfz_hand_img', '手持身份证正面照','img_url'],
                 ['status', '审核状态','callback',function($value){
                     switch ($value){
-                        case 1:return '审核通过';break;
-                        case 2:return '审核未通过';break;
+                        case 1:return '<span style="color: #0a6aa1">审核通过</span>';break;
+                        case 2:return '<span style="color: #a92222">审核未通过</span>';break;
                         case 3:return '未审核';break;
                         default : return '不限';
                     }
@@ -94,8 +94,17 @@ class Identify extends Admin
 
     public function verify_sfz($id = 0){
 
+        if(request()->isAjax()){
+            $data = request()->post();
+
+            //修改审核状态
+            if($data['status'] == 2) $msg = '未通过审核';
+            else $msg = '通过审核';
+           $re = IdentifyModel::update($data);
+           if ($re) return json('操作成功,'.$msg);
+           else     return json('操作失败，稍后再试');
+        }
         $info = IdentifyModel::get($id);
-        $this->assign('a','mmm');
         return ZBuilder::make('form')
             ->addHidden('id')
             ->setPageTitle('审核身份证')
@@ -108,8 +117,8 @@ class Identify extends Admin
             ])
             ->js('photo')
             ->hideBtn(['submit', 'back'])
-            ->addBtn('<button type="button" class="btn btn-default">审核通过</button>')
-            ->addBtn('<button type="button" class="btn btn-default">拒绝通过</button>')
+            ->addBtn('<button type="button" onclick="check_sfz(\'y\','.$id.')" class="btn btn-default">审核通过</button>')
+            ->addBtn('<button type="button" onclick="check_sfz(\'n\','.$id.')" class="btn btn-default">拒绝通过</button>')
             ->setFormData($info)
             ->fetch();
     }

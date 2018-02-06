@@ -67,7 +67,14 @@ class Member extends Admin
                             return $value;
                         }
                     }],
-                    ['user_type', '用户类型','text'],
+                    ['user_type', '用户类型','callback',function($value){
+                        switch ($value){
+                        case 1:return '推荐';break;
+                        case 2:return '认证';break;
+                        case 3:return '新人';break;
+                        default : return '保密状态';
+                        }
+                    }],
                     ['nickname', '昵称','callback','urldecode'],
                     ['head_img', '头像','img_url'],
                     ['real_name', '真实姓名','text'],
@@ -178,6 +185,7 @@ class Member extends Admin
                             ['text','city_id', '所属城市'],
                             ['text','phone', '绑定号码','',session('reg_user')['identifier'],'','readonly'],
                             ['text','nickname', '昵称'],
+                            ['text','occupation_id', '职业'],
                             ['image','head_img', '头像'],
                             ['text','real_name', '真实姓名'],
                             ['select','sex', '性别','',['1'=>'男','2'=>'女']],
@@ -189,7 +197,7 @@ class Member extends Admin
                             ['text','point', '积分点'],
                             ['select','is_escort','是否伴游','',['1'=>'伴游','4'=>'非伴游']],
                         ])
-                        ->layout(['city_id' => 6, 'member_type'=>6,'phone' => 6,
+                        ->layout(['city_id' => 6, 'member_type'=>6,'phone' => 6,'occupation_id'=>6,
                             'sex' => 6,'birthday' => 6,'qq' => 6,'address' => 6,'height' => 6,
                             'nickname' => 6, 'real_name' => 6])
                         /*->setTrigger('group_id', '6', 'allow_priview_photo,allow_priview_video,allow_chat')*/
@@ -252,7 +260,7 @@ class Member extends Admin
             //基本信息部分
             $result = $this->validate($data, 'UserAuth.edit');
             if(true !== $result) $this->error($result);
-            $data['head_img'] = get_file_path($data['head_img']);
+            //$data['head_img'] = get_file_path($data['head_img']);
             if (UserModel::update($data)) {
                 Cache::clear();
                 // 记录行为
@@ -273,11 +281,11 @@ class Member extends Admin
 
                     $bank_type = Db::name('user_group')->column('id,group_name');
                     //上传照片按钮
-                    $btn = [
+                    /*$btn = [
                         'title' => '添加照片、视频',
                         'target' => '_blank',
                         'href' => url('add') // 此属性仅用于a标签按钮，button按钮不产生作用
-                    ];
+                    ];*/
                     return ZBuilder::make('form')
                         ->addHidden('id')
                         ->setTabNav($list_tab,  $group)
@@ -286,6 +294,7 @@ class Member extends Admin
                             ['text','city_id', '所属城市'],
                             ['text','phone', '绑定号码','','','','readonly'],
                             ['text','nickname', '昵称'],
+                            ['text','occupation_id', '职业'],
                             ['image','head_img', '头像'],
                             ['text','real_name', '真实姓名'],
                             ['select','sex', '性别','',['1'=>'男','2'=>'女']],
@@ -298,10 +307,10 @@ class Member extends Admin
                             ['select','is_escort','是否伴游','',['1'=>'伴游','4'=>'非伴游']],
                         ])
                         ->js('member_edit')
-                        ->layout(['city_id' => 6, 'member_type'=>6,'phone' => 6,
+                        ->layout(['city_id' => 6, 'member_type'=>6,'phone' => 6,'occupation_id'=>6,
                             'sex' => 6,'birthday' => 6,'qq' => 6,'address' => 6,'height' => 6,
                             'nickname' => 6, 'real_name' => 6])
-                        ->addButton('test',$btn,'a')
+                        //->addButton('test',$btn,'a')
                         ->setFormData($info)
                         ->fetch();
                     break;
