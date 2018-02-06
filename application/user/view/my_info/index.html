@@ -96,7 +96,7 @@
                     </div>
                     {volist name="photo_url_arr" id="photo_vo"}
                     <div class="z_addImg">
-                        <img src="{$photo_vo}" style="cursor:pointer">
+                        <img src="{$photo_vo.video_url}" avg_id="{$photo_vo.id}"  style="cursor:pointer">
                         <i class="iconfont icon-cuowu"></i>
                         <div class="jqmeter-container" ></div>
                     </div>
@@ -417,13 +417,28 @@
 
                     var need_url = sel_img_url.indexOf(dir_name) > -1 ? sel_img_url.substring(sel_img_url.indexOf(dir_name)) : '';
 
+                    //获取当前照片的本地数据库id
+                    var photo_id =  $(imgList[t.index]).find('img').attr('avg_id');
                     //将需要删除的图片name 放入数组批量删除
                     object_name.push(need_url);
                     delete_photo().then(function(value){
                         if(value.res.statusCode === 200){
-                            console.log('删除成功')
                             //请求ajax  删除本地数据库
-
+                              $.ajax({
+                                  url:'http://'+window.location.host+'/user/my_info/delete_photo',
+                                  data:{id:photo_id},
+                                  dataType:'JSON',
+                                  type:'POST',
+                                  success:function(res){
+                                      //console.log('删除成功')
+                                      if(res.code === 200){
+                                          layer.msg(res.msg);
+                                      }else{
+                                          layer.msg('稍后再试')
+                                      }
+                                      //code else  something
+                                  }
+                              });
                         };
                     });
                     //console.log(object_name);

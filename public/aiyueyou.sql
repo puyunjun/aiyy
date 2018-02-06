@@ -19,7 +19,7 @@ CREATE TABLE dp_user(
   `qq` VARCHAR (15) NOT NULL DEFAULT '' COMMENT 'qq号码',
   `address` VARCHAR (50) NOT NULL DEFAULT '' COMMENT '常住地址',
   `height` CHAR(3) NOT NULL DEFAULT '' COMMENT '身高，单位cm',
-  `interest` VARC HAR(50) NOT NULL DEFAULT '' COMMENT '爱好',
+  `interest` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '爱好',
   `measurement` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '三围',
   `weight` VARCHAR(3) NOT NULL DEFAULT '' COMMENT '体重',
   `account` DECIMAL (8,2) DEFAULT 0.00 COMMENT '用户余额',
@@ -160,7 +160,7 @@ CREATE TABLE  IF NOT EXISTS  `dp_profession`(
     `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
     `profession_name` VARCHAR (30) NOT NULL COMMENT '职业名称',
     `create_time` CHAR(10) NOT NULL COMMENT '添加时间',
-    `update_time` CHAR(10) NOT NULL COMMENT '修改时间'
+    `update_time` CHAR(10) NOT NULL DEFAULT '' COMMENT '修改时间'
 );
 
 /*
@@ -170,7 +170,7 @@ CREATE  TABLE IF NOT EXISTS `dp_city_address`(
     `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
     `citye_name` VARCHAR (30) NOT NULL COMMENT '地址名称',
     `create_time` CHAR(10)  NOT NULL COMMENT '添加时间',
-    `update_time` CHAR(10) NOT NULL COMMENT '修改时间'
+    `update_time` CHAR(10) NOT NULL DEFAULT '' COMMENT '修改时间'
 );
 
 

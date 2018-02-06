@@ -46,7 +46,6 @@ class MyInfo extends Common
         $this->assign('base_info',$userInfo);
 
         $meta_data = $this->media_group(Video::where('uid',UID)->select());
-
         //照片传值
 
         $this->assign("photo_url_arr", isset($meta_data['photo'])?$meta_data['photo']:array());
@@ -69,10 +68,16 @@ class MyInfo extends Common
         foreach ($media_data as $k=>$v){
             if($v->video_type === 1){
                 //照片分组
-                $data['photo'][] = $v['video_url'];
+                $photo = [];
+                $photo['id'] = $v['id'];
+                $photo['video_url'] = $v['video_url'];
+                $data['photo'][] = $photo;
             }else{
                 //视频分组
-                $data['video'][] = $v['video_url'];
+                $video = [];
+                $video['id'] = $v['id'];
+                $video['video_url'] = $v['video_url'];
+                $data['video'][] = $video;
             }
         }
         return $data;
@@ -352,6 +357,21 @@ class MyInfo extends Common
             //添加数据
             if(Video::insertAll($data)) return  json('添加成功');
 
+        }
+
+    }
+
+
+    //用户删除照片本地数据
+    public function delete_photo(){
+        $id = request()->post('id');
+
+        $re = Video::where('id',$id)->delete();
+
+        if($re){
+            return json(array('code'=>200,'msg'=>'删除成功'));
+        }else{
+            return json(false);
         }
 
     }
