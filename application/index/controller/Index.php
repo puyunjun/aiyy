@@ -74,6 +74,10 @@ class Index extends Home
             {
 
                 $birthday_format = isset(getIDCardInfo($v1->id_card_num)['birthday']) ? getIDCardInfo($v1->id_card_num)['birthday']:0;
+                //若为系统添加伴游,直接通过伴游生日计算
+                if($v1->sys_id === 0){
+                    $birthday_format =date('Y',$v1->birthday);
+                }
                 $a = date('Y', time());
                 $b = date('Y', strtotime($birthday_format));    //求出年龄
                 $data[$k]['id_card_num'] = $birthday_format ? abs($a - $b) : 0;

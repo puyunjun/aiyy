@@ -132,7 +132,8 @@ class Member extends Admin
                 $data['is_bind_phone'] = 1;
                 $data['sys_id'] = 0000;
                 $data['head_img'] = get_file_path($data['head_img']);
-                if ($column = UserModel::create($data)) { 
+                $data['birthday'] = strtotime($data['birthday']);
+                if ($column = UserModel::create($data)) {
                             //添加认证信息
                     $auth =array();
                     $auth['credential'] = Hash::make((string)session('reg_user')['credential']);
@@ -189,7 +190,7 @@ class Member extends Admin
                             ['image','head_img', '头像'],
                             ['text','real_name', '真实姓名'],
                             ['select','sex', '性别','',['1'=>'男','2'=>'女']],
-                            ['text','birthday', '生日'],
+                            ['text','birthday', '生日','<span class="text-danger">格式2018-01-01</span>'],
                             ['text','qq', 'QQ号码'],
                             ['text','address', '常驻地址'],
                             ['text','height', '身高'],
@@ -260,6 +261,8 @@ class Member extends Admin
             //基本信息部分
             $result = $this->validate($data, 'UserAuth.edit');
             if(true !== $result) $this->error($result);
+            $data['birthday'] = strtotime($data['birthday']);
+
             //$data['head_img'] = get_file_path($data['head_img']);
             if (UserModel::update($data)) {
                 Cache::clear();
@@ -298,7 +301,7 @@ class Member extends Admin
                             ['image','head_img', '头像'],
                             ['text','real_name', '真实姓名'],
                             ['select','sex', '性别','',['1'=>'男','2'=>'女']],
-                            ['text','birthday', '生日'],
+                            ['date','birthday', '生日','<span class="text-danger">格式2018-01-01</span>'],
                             ['text','qq', 'QQ号码'],
                             ['text','address', '常驻地址'],
                             ['text','height', '身高'],
