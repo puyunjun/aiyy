@@ -32,9 +32,15 @@
         暂无数据
         {/if}
         {if condition="$privew_privilege.privilege_photo eq true"}
+            <!--code something-->
         <!--点击查看-->
         {else/}
-        <div class="tishi">由于用户设置照片保护，需客户至少升级为白银会员或钱包至少拥有1000.00元余额才可以查看生活照。<br>注意：押金可以随时提取，或用于之丰富伴游费用</div>
+            <!--会员无权限，判断是否因为时间过期导致无权限-->
+            {if condition = "$privew_privilege.member_deadline eq false"}
+                <div class="tishi">您的会员已到期</div>
+            {else/}
+                <div class="tishi">由于用户设置照片保护，需客户至少升级为白银会员或钱包至少拥有1000.00元余额才可以查看生活照。<br>注意：押金可以随时提取，或用于之丰富伴游费用</div>
+            {/if}
         {/if}
         <div class="cz"><input name="tj" class="tj" type="submit" value="会员充值"></div>
     </div>

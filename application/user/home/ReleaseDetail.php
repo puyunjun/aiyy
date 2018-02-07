@@ -8,7 +8,6 @@
 
 namespace app\user\home;
 
-use think\Controller;
 use app\user\model\home\Privilege;
 use app\user\model\home\User;
 use think\Db;
@@ -27,13 +26,27 @@ class ReleaseDetail extends Common
         if(request()->isGet()){
             //进入详情页面的权限
             $data = self::$model->sel_privilege();
+
+            //判断是否过期  ,且非系统添加的会员
+            $privilege_photo = $data->allow_priview_photo === 1 ? true : false;
+            $privilege_video = $data->allow_priview_video === 1 ? true : false;
+            /*if($data->member_deadline >=time() && $data->sys_id != 0){
+                $privilege_photo = $data->allow_priview_photo === 1 ? true : false;
+                $privilege_video = $data->allow_priview_video === 1 ? true : false;
+            }*/
+            $member_deadline = true;  //初始值， 标识未过期
+            if($data->member_deadline <=time() && $data->sys_id != 0){
+                $member_deadline =  false;  //过期
+                $privilege_photo = false;
+                $privilege_video = false;
+            }
             $privew_data = array(
-                'privilege_photo'=>$data->allow_priview_photo === 1 ? true : false,
-                'privilege_video'=>$data->allow_priview_video === 1 ? true : false,
+                'privilege_photo'=>$privilege_photo,
+                'privilege_video'=>$privilege_video,
+                'member_deadline'=>$member_deadline,
             );
             //传值查看权限
             $this->assign('privew_privilege',$privew_data);
-
             //伴游详情
             $uid = request()->param('id');
             $user_model = new User();

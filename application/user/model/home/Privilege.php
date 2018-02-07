@@ -31,6 +31,7 @@ class Privilege extends Model
             'allow_priview_video'=>$this->allow_priview_data->allow_priview_video,
             'allow_chat'=>$this->allow_priview_data->allow_chat,
             'member_deadline'=>$this->allow_priview_data->member_deadline,
+            'sys_id'=>$this->allow_priview_data->sys_id,
         );
         return (object)$allow_priview_data;
     }

@@ -50,9 +50,9 @@ function priview_img(file_obj,priview_obj){
         priview_obj.css('background', 'url('+e.target.result+')');
     }
     reader.readAsDataURL(file_obj.files[0]);
-    if(file_obj.files[0].type !== 'image/jpeg'){
+    /*if(file_obj.files[0].type !== 'image/jpeg'){
         alert(file_obj.files[0].type);
-    }
+    }*/
     //$('#img').attr('value',$('#imgg').attr('src'));
     $(priview_obj).load(function() {
         var size = autoSize(this.naturalWidth, this.naturalHeight);

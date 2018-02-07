@@ -71,7 +71,7 @@ class User extends Model
             return self::where('U.id',$uid)
                 ->alias('U')
                 ->join('dp_user_group_privilege UP','UP.group_id = U.group_id','LEFT')
-                ->field('U.group_id,U.member_deadline')
+                ->field('U.group_id,U.member_deadline,U.sys_id')
                 ->field('UP.allow_priview_list,UP.allow_priview_photo,UP.allow_priview_video,UP.allow_chat')
                 ->find();
 
@@ -110,7 +110,7 @@ class User extends Model
             ->alias('U')
             -> join('dp_user_video dv','dv.uid = U.id','LEFT')
             -> join('dp_user_identity di','di.uid = U.id','LEFT')
-            ->field('U.id,U.nickname,U.head_img,U.height,U.address,U.login_addr_x,U.login_addr_y,U.occupation_id')
+            ->field('U.id,U.sys_id,U.birthday,U.nickname,U.head_img,U.height,U.address,U.login_addr_x,U.login_addr_y,U.occupation_id')
             ->field('dv.video_url,dv.video_type')
             ->field('di.id_card_num')
             ->select();
@@ -123,9 +123,16 @@ class User extends Model
         $data['login_addr_x'] = $escort_info[0]->login_addr_x;
         $data['login_addr_y'] = $escort_info[0]->login_addr_y;
         $data['occupation_id'] = $escort_info[0]->occupation_id;
+        $data['sys_id'] = $escort_info[0]->sys_id;
+        $data['birthday'] = $escort_info[0]->birthday;
 
         //计算生日
         $birthday_format = isset(getIDCardInfo($escort_info[0]->id_card_num)['birthday']) ? getIDCardInfo($escort_info[0]->id_card_num)['birthday']:0;
+        //若为系统添加伴游,直接通过伴游生日计算
+        if($data['sys_id'] === 0){
+            $birthday_format = date('Y-m-d',$data['birthday']);
+        }
+
         $data['birthday'] = $birthday_format ? abs(date('Y', time()) - date('Y', strtotime($birthday_format))) : 0;
 
         //计算数量

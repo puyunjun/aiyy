@@ -39,8 +39,15 @@ class Authentication extends Common
        $data = request()->post();
        $data ['create_time'] = request()->time();
        $data ['uid'] = UID;
-       AuthenticateModel::insert($data);
-       return json(AuthenticateModel::getLastInsID());
+       $map = array('uid'=>UID);
+       if(AuthenticateModel::get($map)){
+           $data['update_time'] = request()->time();
+          $re =  AuthenticateModel::where('uid',UID)->update($data);
+       }else{
+            AuthenticateModel::insert($data);
+           $re =AuthenticateModel::getLastInsID();
+       }
+       return json($re);
     }
 
 }
