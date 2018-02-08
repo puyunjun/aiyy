@@ -137,16 +137,17 @@ class Wxpay  extends Controller
         $tools = new JsApiPay();
         $openId = $tools->getOpenid($member_fee_info)['openid'];  //获取微信openid
         $order_info = json_decode(request()->param('state'));
-        $body_info = $order_info->body_info;    //交易信息商品名
-        $money = bcmul($order_info->money,100,0);        //交易金额  微信是以分为单位
+
+        $group_arr =  Db::name('user_group')->where('id',$order_info->group_id)->field($order_info->price_type.',group_name')->find();
+        $body_info ="升级".$group_arr['group_name'];          //交易信息商品名
+        $money=bcmul($group_arr[$order_info->price_type],100,0); //交易金额  微信是以分为单位
         $attach  = json_encode(
             array(
                 'group_id'=>$order_info->group_id,
                 'uid'=>$order_info->uid,
-                'money'=>$order_info->money,
+                'money'=>$group_arr[$order_info->price_type],
                 'price_type'=>$order_info->price_type)
         );   //附带信息    money 传入以便修改用户积分
-
         //②、统一下单
         $input = new WxPayUnifiedOrder();
         $input->SetBody($body_info);
@@ -156,17 +157,16 @@ class Wxpay  extends Controller
         $input->SetTimestart(date("YmdHis"));
         $input->SetTimeexpire(date("YmdHis", time() + 600));
         $input->SetGoodstag("test");
-        $input->setNotifyUrl('http://teacherpu.top/index/wxpay/notify');
+        $input->setNotifyUrl('http://'.$_SERVER['HTTP_HOST'].'/index/wxpay/notify');
         $input->SetTradetype("JSAPI");
         $input->SetOpenid($openId);
         $order = WxPayApi::unifiedOrder($input);
         $jsApiParameters = $tools->GetJsApiParameters($order);
         //获取共享收货地址js函数参数
         $editAddress = $tools->GetEditAddressParameters();
-
         $this->assign('jsApiParameters',$jsApiParameters);
         $this->assign('editAddress',$editAddress);
-        $this->assign('money',$order_info->money);
+        $this->assign('money',$group_arr[$order_info->price_type]);
         return $this->fetch();
     }
 
@@ -192,10 +192,10 @@ class Wxpay  extends Controller
 
         return $data =[
             'upgrade_member'=>[
-                'money'=>$member_fee_info[$price_type],
+
                 'price_type'=>$price_type,
                 'group_id'=>$group_id,
-                'body_info'=>"升级".$member_fee_info['group_name']
+
             ],
             'uid'=>$uid,
 

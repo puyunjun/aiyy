@@ -16665,7 +16665,7 @@ $.rawCitiesData = [
       var p = $.extend({}, params, config);
       //计算value
       var val = $(this).val();
-      if (!val) val = '北京 北京市 东城区';
+      if (!val) val = '重庆 重庆市 渝中区';
       currentProvince = val.split(" ")[0];
       currentCity = val.split(" ")[1];
       currentDistrict= val.split(" ")[2];

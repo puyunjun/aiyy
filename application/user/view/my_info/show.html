@@ -62,85 +62,13 @@
     $(".datetime-picker").datetimePicker();
     +function($){
         $.rawCitiesData = [
-            /*{
-                "name":"北京",
-                "code":"110000",
-                "sub": [
-                    {
-                        "name": "北京市",
-                        "code": "110000",
-                        "sub":[
-                            {
-                                "name":"东城区",
-                                "code":"110101"
-                            },
-                            {
-                                "name":"西城区",
-                                "code":"110102"
-                            },
-                            {
-                                "name":"朝阳区",
-                                "code":"110105"
-                            },
-                            {
-                                "name":"丰台区",
-                                "code":"110106"
-                            },
-                            {
-                                "name":"石景山区",
-                                "code":"110107"
-                            },
-                            {
-                                "name":"海淀区",
-                                "code":"110108"
-                            },
-                            {
-                                "name":"门头沟区",
-                                "code":"110109"
-                            },
-                            {
-                                "name":"房山区",
-                                "code":"110111"
-                            },
-                            {
-                                "name":"通州区",
-                                "code":"110112"
-                            },
-                            {
-                                "name":"顺义区",
-                                "code":"110113"
-                            },
-                            {
-                                "name":"昌平区",
-                                "code":"110114"
-                            },
-                            {
-                                "name":"大兴区",
-                                "code":"110115"
-                            },
-                            {
-                                "name":"怀柔区",
-                                "code":"110116"
-                            },
-                            {
-                                "name":"平谷区",
-                                "code":"110117"
-                            },
-                            {
-                                "name":"密云县",
-                                "code":"110228"
-                            },
-                            {
-                                "name":"延庆县",
-                                "code":"110229"
-                            }
-                        ]
-                    }
-                ]
-            },*/
-            {"name":"\u5317\u4eac","code":"110000","sub":[{"name":"\u5317\u4eac\u5e02","code":"110000","sub":[{"name":"\u4e1c\u57ce\u533a","code":"110101"},{"name":"\u897f\u57ce\u533a","code":"110102"},{"name":"\u671d\u9633\u533a","code":"110105"},{"name":"\u4e30\u53f0\u533a","code":"110106"},{"name":"\u77f3\u666f\u5c71\u533a","code":"110107"},{"name":"\u6d77\u6dc0\u533a","code":"110108"},{"name":"\u95e8\u5934\u6c9f\u533a","code":"110109"},{"name":"\u623f\u5c71\u533a","code":"110111"},{"name":"\u901a\u5dde\u533a","code":"110112"},{"name":"\u987a\u4e49\u533a","code":"110113"},{"name":"\u660c\u5e73\u533a","code":"110114"},{"name":"\u5927\u5174\u533a","code":"110115"},{"name":"\u6000\u67d4\u533a","code":"110116"},{"name":"\u5e73\u8c37\u533a","code":"110117"},{"name":"\u5bc6\u4e91\u53bf","code":"110228"},{"name":"\u5ef6\u5e86\u53bf","code":"110229"}]}]}
-        ];
+
+            {"name":"\u91cd\u5e86","code":"500000","sub":[{"name":"\u91cd\u5e86\u5e02","code":"500000","sub":[{"name":"\u4e07\u5dde\u533a","code":"500101"},{"name":"\u6daa\u9675\u533a","code":"500102"},{"name":"\u6e1d\u4e2d\u533a","code":"500103"},{"name":"\u5927\u6e21\u53e3\u533a","code":"500104"},{"name":"\u6c5f\u5317\u533a","code":"500105"},{"name":"\u6c99\u576a\u575d\u533a","code":"500106"},{"name":"\u4e5d\u9f99\u5761\u533a","code":"500107"},{"name":"\u5357\u5cb8\u533a","code":"500108"},{"name":"\u5317\u789a\u533a","code":"500109"},{"name":"\u7da6\u6c5f\u533a","code":"500110"},{"name":"\u5927\u8db3\u533a","code":"500111"},{"name":"\u6e1d\u5317\u533a","code":"500112"},{"name":"\u5df4\u5357\u533a","code":"500113"},{"name":"\u9ed4\u6c5f\u533a","code":"500114"},{"name":"\u957f\u5bff\u533a","code":"500115"},{"name":"\u6c5f\u6d25\u533a","code":"500116"},{"name":"\u5408\u5ddd\u533a","code":"500117"},{"name":"\u6c38\u5ddd\u533a","code":"500118"},{"name":"\u5357\u5ddd\u533a","code":"500119"},{"name":"\u74a7\u5c71\u533a","code":"500120"},{"name":"\u94dc\u6881\u533a","code":"500151"},{"name":"\u6f7c\u5357\u53bf","code":"500223"},{"name":"\u8363\u660c\u53bf","code":"500226"},{"name":"\u6881\u5e73\u53bf","code":"500228"},{"name":"\u57ce\u53e3\u53bf","code":"500229"},{"name":"\u4e30\u90fd\u53bf","code":"500230"},{"name":"\u57ab\u6c5f\u53bf","code":"500231"},{"name":"\u6b66\u9686\u53bf","code":"500232"},{"name":"\u5fe0\u53bf","code":"500233"},{"name":"\u5f00\u53bf","code":"500234"},{"name":"\u4e91\u9633\u53bf","code":"500235"},{"name":"\u5949\u8282\u53bf","code":"500236"},{"name":"\u5deb\u5c71\u53bf","code":"500237"},{"name":"\u5deb\u6eaa\u53bf","code":"500238"},{"name":"\u77f3\u67f1\u571f\u5bb6\u65cf\u81ea\u6cbb\u53bf","code":"500240"},{"name":"\u79c0\u5c71\u571f\u5bb6\u65cf\u82d7\u65cf\u81ea\u6cbb\u53bf","code":"500241"},{"name":"\u9149\u9633\u571f\u5bb6\u65cf\u82d7\u65cf\u81ea\u6cbb\u53bf","code":"500242"},{"name":"\u5f6d\u6c34\u82d7\u65cf\u571f\u5bb6\u65cf\u81ea\u6cbb\u53bf","code":"500243"}]}]}
+
+            ];
     }($);
+
+    /*页面输出地址没有对应的时候会报错*/
 </script>
 <script src="__STATIC__/jquery-weui/js/city-picker.js"></script>
 <script>

@@ -74,6 +74,7 @@
 
 </body>
 <script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
+
 <script>
 
     //声明是否选择支付方式初始值
@@ -96,7 +97,6 @@
             alert('请选择支付方式')
         }
         if(pay_type === 'account'){
-
             $.ajax({
                url:'http://'+window.location.host+'/user/index/pay',
                data:$('#form').serialize(),
@@ -106,7 +106,6 @@
                     alert(res);
                }
             });
-
             return false;
         }
         return pay_type;
