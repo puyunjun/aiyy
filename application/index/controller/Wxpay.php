@@ -53,27 +53,57 @@ class Wxpay  extends Controller
         $uid = $attach_info->uid;
         $point = $attach_info->money;   //用户积分点  积分为用户微信消费金额总额
         //更新用户积分点数
+        //事物
+        $user = Db::name('user');
+        //更新用户权限组
+        $price_type = $attach_info->price_type;
+        if($price_type === 'price_y'){
+            //充值月会员
+            $member_deadline = request()->time()+3600*24*30;
+        }elseif($price_type === 'price_m'){
+            //充值半年会员
+            $member_deadline = request()->time()+3600*24*30*6;
+        }elseif($price_type === 'price_a'){
+            //充值年费会员
+            $member_deadline = request()->time()+3600*24*30*12;
+        }elseif($price_type === 'prestore'){
+            //充值预存机制会员
+            $member_deadline = 0;//无过期时间
+        }
 
-         $res = Db::name('user')->where('id',"$uid")->setInc('point',$point);
+        //升级记录数据
+        $up_data = array(
+            'uid'=>$uid,
+            'total_money'=>$point,
+            'back_group_id'=>$group_id,
+            'recharge_type'=>'weixin',
+            'status'=>1,
+            'create_time'=>request()->time(),
+            'create_ip'=>get_client_ip(1),
+        );
+        Db::startTrans();
+        try{
+            $res = $user->where('id',"$uid")->setInc('point',$point);
 
-         //更新用户权限组
-            $price_type = $attach_info->price_type;
-            if($price_type === 'price_y'){
-                //充值月会员
-                $member_deadline = request()->time()+3600*24*30;
-            }elseif($price_type === 'price_m'){
-                //充值半年会员
-                $member_deadline = request()->time()+3600*24*30*6;
-            }elseif($price_type === 'price_a'){
-                //充值年费会员
-                $member_deadline = request()->time()+3600*24*30*12;
-            }elseif($price_type === 'prestore'){
-                //充值预存机制会员
-                $member_deadline = 0;//无过期时间
+            //升级前的会员组id
+            $old_group_id = $user->where('id',$uid)->value('group_id');
+            //添加升级记录
+            $up_data['font_group_id'] = $old_group_id;
+            $up_member_re = Db::name('upgrade_member')->insert($up_data);
+            $re = $user->where('id',"$uid")
+                ->update(array('group_id'=>$group_id,'member_deadline'=>$member_deadline));
+            //预存金额修改用户余额数,加上赠送金额
+            if($price_type === 'prestore'){
+                $gift_money = Db::name('user_group')->where('id',$group_id)->value('gift_money');
+                $user->where('id',$uid)->setInc('account',bcadd($point,$gift_money,2));
             }
-         $re = Db::name('user')->where('id',"$uid")
-                                ->update(array('group_id'=>$group_id,'member_deadline'=>$member_deadline));
-        if($re!== false && $res){
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+        }
+
+        if($re!== false && $res && $up_member_re){
             //返回SUCCESS给微信服务器
             /*程序执行完后必须打印输出“SUCCESS”（不包含引号）。如果商户反馈给支付宝的字符不是SUCCESS这7个字符，微信服务器会不断重发通知，直到超过24小时22分钟。
             一般情况下，25小时以内完成8次通知（通知的间隔频率一般是：4m,10m,10m,1h,2h,6h,15h）；

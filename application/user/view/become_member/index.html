@@ -38,7 +38,7 @@
             <dt>{$data.group_name}会员</dt><dd>已有<b>{$data.people_num}</b>人购买</dd></dl></div>
         <div class="huangg-2">
             <ul>
-                <li><b>使用账户余额</b><p ><input onclick=fun("{:url('user/index/pay','','')}") name="shiyong" type="radio" value="1" src="__HOME_CSS__/wapcssjsimg/images/inputradio.png" ></p></li>
+                <li><b>使用账户余额</b><p ><input onclick=fun("{:url('user/index/pay','','')}",'account') name="shiyong" type="radio" value="1" src="__HOME_CSS__/wapcssjsimg/images/inputradio.png" ></p></li>
             </ul>
         </div>
         <div class="huangg-3">
@@ -73,7 +73,7 @@
 
 
 </body>
-
+<script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
 <script>
 
     //声明是否选择支付方式初始值
@@ -82,14 +82,32 @@
     * 支付跳转页面方法
     * @param  string action_url 提交跳转地址
     * */
-    function fun(action_url){
+    function fun(action_url,type){
         document.getElementById('form').setAttribute('action',action_url)
-        pay_type = true;
+        if(type === 'account'){
+            pay_type = type;
+        }else{
+            pay_type = true;
+        }
     }
 
     function sub(){
         if(!pay_type){
             alert('请选择支付方式')
+        }
+        if(pay_type === 'account'){
+
+            $.ajax({
+               url:'http://'+window.location.host+'/user/index/pay',
+               data:$('#form').serialize(),
+               dataType:'JSON',
+               type:'POST',
+               success:function(res){
+                    alert(res);
+               }
+            });
+
+            return false;
         }
         return pay_type;
     }

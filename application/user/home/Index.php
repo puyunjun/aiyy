@@ -51,4 +51,70 @@ class Index extends Common
             }*/
             return json(1);
     }
+
+    //用户余额升级会员方法
+    public function pay(){
+        //获取升级的id
+        $group_id = request()->post('kt');
+
+        //查询用户账户余额
+        $user_base = UserModel::where('id',UID)->field('group_id,account')->find();
+
+        //更新用户权限组
+        $price_type = request()->post('price_type');
+        //升级当前会员所需的金额
+        $fee = Db::name('user_group')->where('id',$group_id)->value($price_type);
+
+        if(bccomp($user_base['account'],$fee,2)<0){
+            return json('余额不足已支付当前会员，请选择其他方式');
+        }
+
+        if($price_type === 'price_y'){
+            //充值月会员
+            $member_deadline = request()->time()+3600*24*30;
+        }elseif($price_type === 'price_m'){
+            //充值半年会员
+            $member_deadline = request()->time()+3600*24*30*6;
+        }elseif($price_type === 'price_a'){
+            //充值年费会员
+            $member_deadline = request()->time()+3600*24*30*12;
+        }elseif($price_type === 'prestore'){
+            //充值预存机制会员
+            $member_deadline = 0;//无过期时间
+        }
+        //升级记录数据
+        $up_data = array(
+            'uid'=>UID,
+            'total_money'=>$fee,
+            'back_group_id'=>$group_id,
+            'recharge_type'=>'account',
+            'status'=>1,
+            'create_time'=>request()->time(),
+            'create_ip'=>get_client_ip(1),
+        );
+        Db::startTrans();
+        try{
+            //扣除会员余额
+
+            $res = UserModel::where('id',UID)->setDec('account',$fee);
+
+            //升级前的会员组id
+            $old_group_id = UserModel::where('id',UID)->value('group_id');
+            //添加升级记录
+            $up_data['font_group_id'] = $old_group_id;
+            $up_member_re = Db::name('upgrade_member')->insert($up_data);
+            $re = UserModel::where('id',UID)
+                ->update(array('group_id'=>$group_id,'member_deadline'=>$member_deadline));
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+        }
+        if($re && $up_member_re && $res){
+            return json('升级成功');
+        }else{
+            return json('升级失败，请重试');
+        }
+
+    }
 }

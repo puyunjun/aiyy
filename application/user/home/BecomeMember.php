@@ -61,6 +61,9 @@ class BecomeMember extends Common
 
     public function member_list(){
 
+
+        $member_info = User::where('id',UID)->field('id,nickname,head_img')->find();
+        $this->assign('member_info',$member_info);
         $this->assign('member_group',(new PrivilegeGroup())->sel_need_fee());
           //var_dump((new PrivilegeGroup())->sel_need_fee());  exit;
         $this->view->engine->layout(false);

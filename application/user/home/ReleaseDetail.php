@@ -34,9 +34,12 @@ class ReleaseDetail extends Common
                 $privilege_photo = $data->allow_priview_photo === 1 ? true : false;
                 $privilege_video = $data->allow_priview_video === 1 ? true : false;
             }*/
-            $member_deadline = true;  //初始值， 标识未过期
+            $member_deadline = true;  //初始值， 也标识未过期
             if($data->member_deadline <=time() && $data->sys_id != 0){
-                $member_deadline =  false;  //过期
+                if($data->member_deadline != 0){
+                    //会员起始状态
+                    $member_deadline =  false;  //过期
+                }
                 $privilege_photo = false;
                 $privilege_video = false;
             }

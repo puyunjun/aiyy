@@ -31,7 +31,12 @@
 
 
 <div id="kaitongvip">
-    <div class="kaitongvip-1"><dl> <img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg" > <dt>hi大米，开通会员，</dt><dd>即刻体验约游会员专属权益！</dd></dl></div>
+    <div class="kaitongvip-1">
+        <dl>
+            <img src="{$member_info.head_img}" >
+            <dt>hi{$member_info.nickname|urldecode}，开通会员，</dt>
+            <dd>即刻体验约游会员专属权益！</dd>
+        </dl></div>
     <div class="kaitongvip-2">
         {foreach name="member_group" key="k" item="vo"}
             {if condition = "isset($vo.discount)"}
@@ -72,7 +77,7 @@
                 </dl>
             {/if}
         {/foreach}
-        <dl>
+        <!--<dl>
             <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >白银会员</b><p><em>半年157元</em>（9折）</p><span>查看照片/视频/聊天（约TA）</span></dt>
             <dd><a href="">开通</a></dd>
         </dl>
@@ -91,7 +96,7 @@
         <dl>
             <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-4.png" >白银会员</b><p><em>预存100000送50000 </em>会员实存150000</p><span>查看照片/视频/聊天（约TA）/真人视频/保险<br>享受客服推荐/真人见面3-5人</span></dt>
             <dd><a href="">开通</a></dd>
-        </dl>
+        </dl>-->
     </div>
 </div>
 
