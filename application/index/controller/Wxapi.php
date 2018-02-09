@@ -62,17 +62,17 @@ function make_menu(){
      {    
           "type":"view",
           "name":"爱约游",
-          "url":"http://teacherpu.top/index/index/index"
+          "url":"http://m.aiyueyoo.com/index/index/index"
       },
       {
            "type":"view",
            "name":"会员充值",
-           "url":"http://teacherpu.top/index/index/index"
+           "url":"http://m.aiyueyoo.com/index/index/index"
       },
       {
            "type":"view",
            "name":"会员注册",
-           "url":"http://teacherpu.top/user/signin/index"
+           "url":"http://m.aiyueyoo.com/user/signin/index"
       }
       ';
 
@@ -138,7 +138,7 @@ function make_menu(){
     public function get_code(){
         //$scope='snsapi_userinfo';//需要授权
         $appid='wx1800872e18acc8f7';
-        $redirect_uri = urlencode('http://teacherpu.top/index/Wxapi/get_code_openid');
+        $redirect_uri = urlencode('http://m.aiyueyoo.com/index/Wxapi/get_code_openid');
         //https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
         $url ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
 
