@@ -89,7 +89,7 @@ class MyInfo extends Common
         /*上传函数*/
         //调用上传接口  用于用户上传头像
         $bucket = 'puyunjun'; //阿里云上传模版名
-        $object = time() . UID . '.png';
+        $object = 'head/'.date('Y-m-d',time()).'/'.time() . UID . '.png';
         //$filePath = $_FILES['file']['tmp_name'];
         try {
             $res = self::$OssUpload->uploadFile($bucket, $object, $filePath);
