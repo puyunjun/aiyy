@@ -44,7 +44,7 @@ class Login extends Model
                 return  json(array('status'=>false,'msg'=>'用户不存在或被禁用！'));
             } else {
                 //手机验证登录接口
-                return $this->mobile_login($password,$user,$x,$y);
+                return json($this->mobile_login($password,$user,$x,$y));
             }
         }elseif($login_type === 'weixin'){
             //接入微信登录认证
@@ -164,7 +164,7 @@ class Login extends Model
             } else {
                 // 更新登录信息失败
                 $this->error = '登录信息更新失败，请重新登录！';
-                return  json(array('status'=>false,'msg'=> $this->error));
+                return  array('status'=>false,'msg'=> $this->error);
             }
         }
     }

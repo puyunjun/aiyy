@@ -28,7 +28,9 @@ class Login extends Controller
         if($this->request->isPost()){
             $model =new LoginModel;
             $data = request()->post();
-            return $model->login($data['username'],$data['password'],$data['login_addr_x'],$data['login_addr_y']);
+            $x = isset($data['login_addr_x'])?$data['login_addr_x']:'';
+            $y = isset($data['login_addr_y'])?$data['login_addr_y']:'';
+            return $model->login($data['username'],$data['password'],$x,$y);
         }
 
         return $this->fetch();
