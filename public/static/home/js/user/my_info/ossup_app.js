@@ -1,8 +1,8 @@
 'use strict';
 
 var appServer = "http://"+window.location.host+"/index/Index/ossserver";
-var bucket = 'puyunjun';
-var region = 'oss-cn-beijing';
+var bucket = 'aiyueyoo';
+var region = 'oss-cn-shenzhen';
 
 var urllib = OSS.urllib;
 var Buffer = OSS.Buffer;
@@ -28,6 +28,7 @@ var applyTokenDo = function (func) {
     return urllib.request(url, {
         method: 'GET'
     }).then(function (result) {
+        console.log(result.data);
         var creds = JSON.parse(result.data);
         var client = new OSS({
             region: region,
@@ -81,7 +82,7 @@ var uploadFile = function (client) {
                 checkpoint = cpt;
 
                 //console.log(cpt);
-                console.log(cpt);
+                //console.log(cpt);
                 return function (done) {
                     var bar = document.getElementById('jqmeter-container'+j);
 

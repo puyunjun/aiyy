@@ -1,8 +1,8 @@
 'use strict';
 
 var appServer = "http://"+window.location.host+"/index/Index/ossserver";
-var bucket = 'puyunjun';
-var region = 'oss-cn-beijing';
+var bucket = 'aiyueyoo';
+var region = 'oss-cn-shenzhen';
 
 var urllib = OSS.urllib;
 var Buffer = OSS.Buffer;

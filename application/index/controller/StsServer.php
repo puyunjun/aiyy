@@ -16,11 +16,11 @@ class StsServer
 
     public function index(){
 
-        $iClientProfile = \DefaultProfile::getProfile("cn-hangzhou", "LTAI51hYlhC2tcaI", "MK0jX7tz4GKlxXEDRiL2ojD4un7bBA");
+        $iClientProfile = \DefaultProfile::getProfile("cn-hangzhou","LTAISOppe6PCaBon","lsQnXpotS3e8UDh15568oUid8aOPv8");
         $client = new \DefaultAcsClient($iClientProfile);
 
 // 角色资源描述符，在RAM的控制台的资源详情页上可以获取
-        $roleArn = "acs:ram::1457803921485409:role/aliyuntestappuser";
+        $roleArn = "acs:ram::1083935631847248:role/aiyueyooreadwrite";
 
         /*  {
               "Statement": [
@@ -49,7 +49,7 @@ class StsServer
         "oss:ListObjects"
       ],
       "Effect": "Allow",
-      "Resource": ["acs:oss:*:*:puyunjun/*", "acs:oss:*:*:puyunjun"]
+      "Resource": ["acs:oss:*:*:aiyueyoo/*", "acs:oss:*:*:aiyueyoo"]
     }
   ],
   "Version": "1"
@@ -62,7 +62,7 @@ POLICY;
         $request->setRoleSessionName("client_name");
         $request->setRoleArn($roleArn);
         $request->setPolicy($policy);
-        $request->setDurationSeconds(3600);
+        $request->setDurationSeconds(900);
         $response = $client->doAction($request);
 
 
@@ -84,10 +84,8 @@ POLICY;
             $rows['Expiration'] = "";
             $rows['SecurityToken'] = "";
         }
-
-        echo json_encode($rows);
+        echo json_encode($rows,true);
         return;
-
 
     }
 

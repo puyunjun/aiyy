@@ -12,9 +12,9 @@ use OSS\OssClient;
 use OSS\Core\OssException;
 class AliyunOss
 {
-    private static $accessKeyId = "LTAIOm1dp8BxHuPE";//您从OSS获得的AccessKeyId
-    private static $accessKeySecret = "dBCJRxA2ZAzZXjiWhP1lBkbP4GngMP";//您从OSS获得的AccessKeySecret
-    private static $endpoint = "oss-cn-beijing.aliyuncs.com";//您选定的OSS数据中心访问域名，例如http://oss-cn-hangzhou.aliyuncs.com
+    private static $accessKeyId = "LTAISOppe6PCaBon";//您从OSS获得的AccessKeyId
+    private static $accessKeySecret = "lsQnXpotS3e8UDh15568oUid8aOPv8";//您从OSS获得的AccessKeySecret
+    private static $endpoint = "oss-cn-shenzhen.aliyuncs.com";//您选定的OSS数据中心访问域名，例如http://oss-cn-hangzhou.aliyuncs.com
     static public $instance = NULL; //声明一个静态变量（保存在类中唯一的一个实例）
     private function __construct(){//声明私有构造方法为了防止外部代码使用new来创建对象。
 

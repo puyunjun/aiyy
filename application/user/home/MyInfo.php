@@ -88,7 +88,7 @@ class MyInfo extends Common
     {
         /*上传函数*/
         //调用上传接口  用于用户上传头像
-        $bucket = 'puyunjun'; //阿里云上传模版名
+        $bucket = 'aiyueyoo'; //阿里云上传模版名
         $object = 'head/'.date('Y-m-d',time()).'/'.time() . UID . '.png';
         //$filePath = $_FILES['file']['tmp_name'];
         try {
@@ -367,7 +367,6 @@ class MyInfo extends Common
         $id = request()->post('id');
 
         $re = Video::where('id',$id)->delete();
-
         if($re){
             return json(array('code'=>200,'msg'=>'删除成功'));
         }else{
