@@ -1,34 +1,10 @@
 $('body').css({"background":"url('"+url+"/static/home/css/wapcssjsimg/images/login.jpg') no-repeat top #121820", "background-size":"100% auto"});
 
 
-var  point_lng = '';  //经度坐标
-var point_lat = '';     //纬度坐标
-function get_location(){
-    // 百度地图API功能
-    var map = new BMap.Map("allmap");
-    var point = new BMap.Point(116.331398,39.897445);
-    map.centerAndZoom(point,12);
-
-    var geolocation = new BMap.Geolocation();
-    geolocation.getCurrentPosition(function(r){
-        if(this.getStatus() == BMAP_STATUS_SUCCESS){
-            var mk = new BMap.Marker(r.point);
-            map.addOverlay(mk);
-            map.panTo(r.point);
-            point_lng = r.point.lng;
-            point_lat = r.point.lat;
-            //alert('您的位置：'+point_lng+','+point_lat);
-        }
-        else {
-            alert('failed'+this.getStatus());
-        }
-    },{enableHighAccuracy: true})
-
-}
-
-
 function sub_fun(){
-    get_location();
+
+    point_lng = $('#x').val();
+    point_lat = $('#y').val();
     $.showLoading("正在加载...");
     var phone = $('#mobile_phone').val();
 

@@ -213,16 +213,20 @@ class JsApiPay
 
     /*
      * 获取用户详细信息
+     * @param array $point 经纬度坐标
      * */
 
-    public function _getUserInfo(){
+    public function _getUserInfo($point = ''){
 
         if(!isset($_GET['code'])){
             //$scope='snsapi_userinfo';//需要授权
             $appid='wx1800872e18acc8f7';
             $redirect_uri = urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['QUERY_STRING']);
             //https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-            $url ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+
+            $state = $point ? json_encode($point,true) : 1;
+
+            $url ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=$state#wechat_redirect";
 
             header("Location:".$url);
 
@@ -232,6 +236,25 @@ class JsApiPay
             $appid = WxPayConfig::APPID;
             $secret = WxPayConfig::APPSECRET;
 
+            $state = $_GET['state'];
+
+            /*$get_point = function ($state){
+                $state = ltrim($state,'{');
+                $state = rtrim($state,'}');
+                $state = explode(',',$state);
+                foreach ($state as $key=>$v){
+                    $a = explode(':',$v);
+                    foreach ($a as $k=>$val){
+                        if(isset($a[$k+1])){
+                            $state[$a[$k]]=$a[$k+1];
+                        }
+                    }
+                    unset($state[$key]);
+                }
+                return $state;
+            };*/
+
+            $state = json_decode($state,true);
 
             //第一步:取全局access_token
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$secret";
@@ -247,6 +270,7 @@ class JsApiPay
             $get_user_info_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access_token&openid=$openid&lang=zh_CN";
             $userinfo = $this->getJson($get_user_info_url);
             $userinfo['token'] = $token;
+            $userinfo['state'] = $state;
             return $userinfo;
         }
 

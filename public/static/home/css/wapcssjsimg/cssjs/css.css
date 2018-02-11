@@ -830,6 +830,125 @@ background-position: -40px 0;
 }
 
 
+.recharge_cz_box {padding-top: 100px; padding-bottom: 100px; background: #1F2836;}
+.recharge_cz_p1 { color: #fff; font-size: 32px; text-align: left; padding-left: 5%;}
+.recharge_span {display: inline-block; text-align: center; line-height: 60px; width: 150px; height: 60px; background: #DDDDDD; color: #808080; border: 1px solid #666; margin: 10px 10px; cursor: pointer; border-radius: 35px; font-size: 26px;}
+.recharge_cz_span {background: #0BA7F1; color: #666;}
+
+.recharge_cz_p2 {color: #fff; font-size: 32px; text-align: left; padding-left: 5%; margin-top: 50px; margin-bottom: 20px;}
+.recharge_cz_div1 {background: #ddd;  color: #000; font-size: 38px; height: 70px; line-height: 65px;border-top: 1px solid #fff; border-bottom: 1px solid #fff; text-align: center;}
+.recharge_input { width: 90%; height: 70px; background: #ddd; color: #000; border: none; font-size: 30px;}
+
+.recharge_cz_p3 {color: #fff; font-size: 32px; text-align: left; padding-left: 5%; margin-top: 50px;}
+.recharge_fs_zfb {
+    width: 650px;
+    height: 95px;
+    padding: 0px 50px;
+    line-height: 95px;
+    display: block;
+    overflow: hidden;
+    border-bottom: #161c26 1px solid;
+}
+.recharge_fs_zfb>b {
+    background: url(../images/shiyong2.png) no-repeat left;
+    width: 300px;
+    height: 95px;
+    padding-left: 100px;
+    float: left;
+    overflow: hidden;
+    color: #fff;
+    font-size: 32px;
+    text-align: left;
+    font-weight: normal;
+}
+.recharge_fs_zfb>p {
+    width: 41px;
+    height: 41px;
+    margin: 27px 0px;
+    float: right;
+}
+.recharge_fs_zfb>p>input {
+    width: 40px;
+    height: 40px;
+    float: right;
+    overflow: hidden;
+}
+
+.recharge_fs_wx {
+    width: 650px;
+    height: 95px;
+    padding: 0px 50px;
+    line-height: 95px;
+    display: block;
+    overflow: hidden;
+    border-bottom: #161c26 1px solid;
+}
+.recharge_fs_wx>p {
+    width: 41px;
+    height: 41px;
+    margin: 27px 0px;
+    float: right;
+}
+.recharge_fs_wx>b {
+    background: url(../images/shiyong3.png) no-repeat left;
+    width: 300px;
+    height: 95px;
+    padding-left: 100px;
+    float: left;
+    overflow: hidden;
+    color: #fff;
+    font-size: 32px;
+    text-align: left;
+    font-weight: normal;
+}
+.recharge_fs_wx>p>input {
+    width: 40px;
+    height: 40px;
+    float: right;
+    overflow: hidden;
+}
+
+.recharge_fs_yhk {
+    width: 650px;
+    height: 95px;
+    padding: 0px 50px;
+    line-height: 95px;
+    display: block;
+    overflow: hidden;
+    border-bottom: #161c26 1px solid;
+}
+.recharge_fs_yhk>p {
+    width: 41px;
+    height: 41px;
+    margin: 27px 0px;
+    float: right;
+}
+.recharge_fs_yhk>b {
+    background: url(../images/shiyong4.png) no-repeat left;
+    width: 300px;
+    height: 95px;
+    padding-left: 100px;
+    float: left;
+    overflow: hidden;
+    color: #fff;
+    font-size: 32px;
+    text-align: left;
+    font-weight: normal;
+}
+.recharge_fs_yhk>p>input {
+    width: 40px;
+    height: 40px;
+    float: right;
+    overflow: hidden;
+}
+
+.recharge_buton { width: 400px; height:100px;  font-size: 32px; border: none; border-radius: 55px; margin-top: 100px;}
+.recharge_buton_color {background: #3367D6; color: #fff;}
+
+.recharge_sr {font-size: 30px; padding-top: 20px; text-align: left; padding-left: 5%;}
+.recharge_sr_span {font-size: 30px; padding-right: 10px; padding-left: 10px; font-size: 35px; color: #E43A10;}
+
+
 
 
 

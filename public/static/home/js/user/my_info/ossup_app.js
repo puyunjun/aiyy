@@ -28,7 +28,6 @@ var applyTokenDo = function (func) {
     return urllib.request(url, {
         method: 'GET'
     }).then(function (result) {
-        console.log(result.data);
         var creds = JSON.parse(result.data);
         var client = new OSS({
             region: region,
