@@ -9,6 +9,7 @@
 namespace app\user\home;
 
 use think\Controller;
+use think\Db;
 class Wallet extends Common
 {
 
@@ -21,9 +22,15 @@ class Wallet extends Common
 
     public function index(){
 
+        //显示用户余额
+        $this->assign('account_money',Db::name('user')->where('id',UID)->value('account'));
         return $this->fetch();
 
     }
 
+
+    public function recharge(){
+        return $this->fetch();
+    }
 
 }

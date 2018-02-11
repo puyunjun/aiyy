@@ -157,15 +157,23 @@ class Signin extends Controller
 
     //第三方注册 微信
 
-    public function third_party_sign(){
+    public function third_party_sign($x = '',$y = ''){
         //微信登录授权
         $wx = new JsApiPay();
         //获取微信详细信息
-        $userInfo = $wx->_getUserInfo();
+        //传入经纬度坐标数组，利用state传递json参数
+        $point_array = array(
+            "point_lng"=>$x,
+            "point_lat"=>$y
+        );
+        $userInfo = $wx->_getUserInfo($point_array);
         $openId = isset($userInfo['openid']) ? $userInfo['openid'] : '';
         $access_token = isset($userInfo['token']['access_token']) ? $userInfo['token']['access_token'] : '';
         //过期时间
         $exp_time = isset($userInfo['token']['expires_in']) ? $userInfo['token']['expires_in']: '';
+        //取出经纬度数组
+        $point_info = $userInfo['state'];
+        //var_dump($point_info);exit;
         if(!$openId){
             //获取到openid
                 echo "<script>alert('微信服务器繁忙')</script>";
@@ -173,9 +181,10 @@ class Signin extends Controller
         }else{
             //判断是否用微信登录，若登陆过直接进入个人页面或者首页
             //获取用户经纬度信息
-            $location = MapIp::instance()->location_byip();
-            $x = $location['lng'];
-            $y = $location['lat'];
+            //$location = MapIp::instance()->location_byip();
+            $x = isset($point_info['point_lng'])?$point_info['point_lng']:'';
+            $y = isset($point_info['point_lat'])?$point_info['point_lat']:'';
+
             $map = [
                 'identity_type' => 'weixin',
                 'identifier' => $openId,

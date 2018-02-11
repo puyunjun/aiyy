@@ -36,8 +36,7 @@ class StsServer
 // 详情请参考《RAM使用指南》
 // 此授权策略表示读取所有OSS的只读权限
         $policy=<<<POLICY
-
-{
+        {
   "Statement": [
     {
       "Action": [
@@ -84,9 +83,7 @@ POLICY;
             $rows['Expiration'] = "";
             $rows['SecurityToken'] = "";
         }
-        echo json_encode($rows,true);
-        return;
-
+       echo  json_encode($rows,true);
     }
 
 }

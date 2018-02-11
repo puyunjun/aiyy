@@ -13,6 +13,8 @@
         <form action="" name="ff1" method="post" onsubmit="return sub_fun()">
             <li class="tt1"><input id="mobile_phone" name="username" type="text" class="txt1" value="" placeholder="请输入手机号"></li>
             <li class="tt1"><input id="mobile_password" name="password" type="password" class="txt1" placeholder="请输入密码（至少6位）" value=""></li>
+            <input type="hidden" id="x"><!--位置坐标x-->
+            <input type="hidden" id="y">
             <li class="tt2"><input  class="tj" type="submit" value="登录"></li>
             <li class="tt3"><p><a href="">立即注册</a></p><span><a href="">忘记密码？</a></span></li>
         </form>
@@ -21,7 +23,7 @@
         <div class="logo2-1">其他账号登录</div>
         <div class="logo2-2">
             <ul>
-                <li><a href="{:url('user/Signin/third_party_sign','','')}"><img src="__HOME_CSS__/wapcssjsimg/images/login-1.png" ></a></li>
+                <li><a id="weixin" href="{:url('user/Signin/third_party_sign','','')}"><img src="__HOME_CSS__/wapcssjsimg/images/login-1.png" ></a></li>
                 <li><a href=""><img src="__HOME_CSS__/wapcssjsimg/images/login-2.png" ></a></li>
                 <li><a href=""><img src="__HOME_CSS__/wapcssjsimg/images/login-3.png" ></a></li>
             </ul>
@@ -43,5 +45,52 @@
 </script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=r2QRGELPU7lF35I6ttxbKGgCPbFjSVNN"></script>
 <script src="__HOME_JS__/user/login/index.js"></script>
+<script>
+    var  point_lng = '';  //经度坐标
+    var point_lat = '';     //纬度坐标
 
+    // 百度地图API功能
+    /* var map = new BMap.Map("allmap");
+     var point = new BMap.Point(116.331398,39.897445);
+     map.centerAndZoom(point,12);
+
+     var geolocation = new BMap.Geolocation();
+     geolocation.getCurrentPosition(function(r){
+         if(this.getStatus() == BMAP_STATUS_SUCCESS){
+             var mk = new BMap.Marker(r.point);
+             map.addOverlay(mk);
+             map.panTo(r.point);
+             point_lng = r.point.lng;
+             point_lat = r.point.lat;
+             //alert('您的位置：'+point_lng+','+point_lat);
+         }
+         else {
+             alert('failed'+this.getStatus());
+         }
+     },{enableHighAccuracy: true})*/
+
+    var geolocation = new BMap.Geolocation();
+    // 创建地理编码实例
+    var myGeo = new BMap.Geocoder();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            var pt = r.point;
+// 根据坐标得到地址描述
+            myGeo.getLocation(pt, function(result){
+
+                if (result){
+                    var addComp = result.addressComponents;
+                    //alert(addComp.province + "," + addComp.city+ "," +addComp.district +","+result.business);
+
+                    point_lng = r.point.lng;
+                    point_lat = r.point.lat;
+                    //alert('您的位置：'+point_lng+','+point_lat);
+                    $('#weixin').attr('href',$('#weixin').attr('href')+'/x/'+point_lng+'/y/'+point_lat)
+                    $('#x').val(point_lng);
+                    $('#y').val(point_lat);
+                }
+            });
+        }
+    });
+</script>
 {/block}

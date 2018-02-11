@@ -1,0 +1,132 @@
+{extend name="layout"}
+
+{block name="content"}
+<form class="recharge_cz_box" name="ff1" method="post" id="form" onsubmit="return sub()">
+    <p class="recharge_cz_p1">充值额度：
+    <div>
+        <span class="recharge_span">10</span><span class="recharge_span">50</span><span class="recharge_span">100</span><span class="recharge_span">500</span><span class="recharge_span">1000</span><span class="recharge_span">5000</span><span class="recharge_span">10000</span>
+    </div>
+    </p>
+
+    <p class="recharge_cz_p2">其他金额：</p>
+    <div class="recharge_cz_div1"><input onclick="return false" name="" placeholder="请输入充值金额" onchange="_fun(this)"  class="recharge_input" type=text t_value="" o_value="" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"></div>
+
+    <div class="recharge_sr">支付金额：<span class="recharge_sr_span">0</span>元</div>
+
+    <div class="recharge_cz_p3">充值方式：</div>
+    <div class="recharge_fs">
+        <div class="recharge_fs_zfb">
+            <b>微信</b>
+            <p class="on">
+                <input name="shiyong" type="radio" value="2" onclick=fun("{:url('index/wxpay/recharge','','')}")>
+            </p>
+        </div>
+        <div class="recharge_fs_wx">
+            <b>支付宝</b>
+            <p class="on">
+                <input name="shiyong" type="radio" value="3">
+            </p>
+        </div>
+        <div class="recharge_fs_yhk">
+            <b>银行卡</b>
+            <p class="on">
+                <input name="shiyong" type="radio" value="4" >
+            </p>
+        </div>
+    </div>
+
+    <input type="hidden" name="money" value="" id="final_money">
+    <input type="hidden" name="uid" value="{php} echo UID; {/php}">
+    <button class="recharge_buton" id="recharge_buton"  type="submit" name="js" disabled="disabled">确认充值</button>
+
+</form>
+
+{/block}
+
+{block name="page_js"}
+<script src="__HOME_JS__/user/wallet/index.js"></script>
+<script type="text/javascript">
+
+
+    var aSpan = document.getElementsByClassName('recharge_span');
+    var aButon = document.getElementsByClassName('recharge_buton');
+    var aSr = document.getElementsByClassName('recharge_sr_span');
+
+    for(var i=0;i<aSpan.length;i++){
+        aSpan[i].index = i;
+        aSpan[i].onclick = function(){
+            for(var i=0;i<aSpan.length;i++){
+                aSpan[i].style.background = '#DDDDDD';
+                aSpan[i].style.color = '#808080';
+                aSpan[i].style.border = '1px solid #666';
+            }
+            aSpan[this.index].style.background = '#148CFE';
+            aSpan[this.index].style.color = '#fff';
+            aSpan[this.index].style.border = '1px solid #148CFE';
+        }
+    }
+
+    function aSc(){
+        $(".recharge_buton").click(function () {
+            var input = $(".recharge_input").val();
+        });
+
+        $('.recharge_input').click(function(){
+            // $('.recharge_input').removeAttr("disabled");
+            $('.recharge_buton').removeAttr("disabled");
+            $('.recharge_buton').addClass("recharge_buton_color");
+            $('.recharge_span').css("background","#DDDDDD");
+            $('.recharge_span').css("color","#808080");
+            $('.recharge_span').css("border","1px solid #666");
+        });
+
+        $('.recharge_span').click(function(){
+            $('.recharge_buton').removeAttr("disabled");
+            $('.recharge_buton').addClass("recharge_buton_color");
+            $('.recharge_input').val("");
+            $('#final_money').val($(this).html());
+        });
+    }
+    aSc();
+
+    $('.recharge_span').click(function(){
+        $('.recharge_sr_span').html($('#final_money').val())
+        $('.recharge_input').click(function(){
+            $('.recharge_sr_span').html("0");
+        });
+    });
+
+    $(function(){
+        $('.recharge_input').bind('input propertychange', function() {
+            $('.recharge_sr_span').html($(this).val());
+        });
+    })
+
+    function _fun(obj){
+        $('#final_money').val($(obj).val());
+    }
+
+
+    $('#recharge_buton').click(function(){
+        alert($('#final_money').val())
+    })
+
+    //声明是否选择支付方式初始值
+    var pay_type=false;
+    /*
+    * 支付跳转页面方法
+    * @param  string action_url 提交跳转地址
+    * */
+    function fun(action_url){
+        document.getElementById('form').setAttribute('action',action_url)
+        pay_type = true;
+    }
+
+    function sub(){
+        if(!pay_type){
+            alert('请选择支付方式')
+        }
+        return pay_type;
+    }
+</script>
+{/block}

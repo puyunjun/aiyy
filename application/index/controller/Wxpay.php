@@ -207,4 +207,137 @@ class Wxpay  extends Controller
         //$this->index($member_fee_info[$price_type],$group_id,"升级".$member_fee_info['group_name']);
     }
 
+
+    //用户充值信息
+    public function get_recharge_info(){
+
+            return $data =[
+                'recharge'=>[
+                    'money'=>request()->post('money'),
+                    'type'=>'weixin',//暂时
+
+                ],
+                'uid'=>request()->post('uid'),
+            ];
+    }
+
+
+    //用户充值订单
+    public function recharge(){
+        //获取订单信息  会员升级或者其他订单信息
+        $member_fee_info = $this->get_recharge_info()['recharge'];
+        //获取用户id
+
+        $member_fee_info['uid'] = $this->get_recharge_info()['uid'];
+
+        //①、获取用户openid
+        $tools = new JsApiPay();
+        $openId = $tools->getOpenid($member_fee_info)['openid'];  //获取微信openid
+        $order_info = json_decode(request()->param('state'));
+
+        $body_info ="用户充值";          //交易信息商品名
+        $money=bcmul($order_info->money,100,0); //交易金额  微信是以分为单位
+        $attach  = json_encode(
+            array(
+                'uid'=>$order_info->uid,
+                'money'=>$order_info->money,
+                'type'=>$order_info->type)
+        );   //附带信息    money 传入以便修改用户积分
+        //②、统一下单
+        $input = new WxPayUnifiedOrder();
+        $input->SetBody($body_info);
+        $input->SetAttach($attach);
+        $input->setOutTradeNo(WxPayConfig::MCHID.date("YmdHis"));
+        $input->SetTotalfee($money);           //测试阶段写为1
+        $input->SetTimestart(date("YmdHis"));
+        $input->SetTimeexpire(date("YmdHis", time() + 600));
+        $input->SetGoodstag("test");
+        $input->setNotifyUrl('http://'.$_SERVER['HTTP_HOST'].'/index/wxpay/notify_recharge');
+        $input->SetTradetype("JSAPI");
+        $input->SetOpenid($openId);
+        $order = WxPayApi::unifiedOrder($input);
+        $jsApiParameters = $tools->GetJsApiParameters($order);
+        //获取共享收货地址js函数参数
+        $editAddress = $tools->GetEditAddressParameters();
+        $this->assign('jsApiParameters',$jsApiParameters);
+        $this->assign('editAddress',$editAddress);
+        $this->assign('money',$order_info->money);
+        return $this->fetch();
+    }
+
+
+    //微信充值异步通知回调
+    public function notify_recharge(){
+
+        $wxData = file_get_contents("php://input");
+
+        //file_put_contents('/tmp/2.txt',$wxData,FILE_APPEND);
+        try{
+            $resultObj = new WxPayResults();
+            $wxData = $resultObj->Init($wxData);
+        }catch (\Exception $e){
+            $resultObj ->setData('return_code','FAIL');
+            $resultObj ->setData('return_msg',$e->getMessage());
+            return $resultObj->toXml();
+        }
+
+        if ($wxData['return_code']==='FAIL'||
+            $wxData['return_code']!== 'SUCCESS'){
+            $resultObj ->setData('return_code','FAIL');
+            $resultObj ->setData('return_msg','error');
+            return $resultObj->toXml();
+        }
+        //TODO 根据订单号 out_trade_no 来查询订单数据
+        $out_trade_no = $wxData['out_trade_no'];
+        $attach = $wxData['attach'];   //附带升级会员组id  以及会员id  金额
+        //此处为举例
+        //升级会员等级业务更新
+        $attach_info = json_decode($attach);
+        $uid = $attach_info->uid;
+        $point = $attach_info->money;   //用户积分点  积分为用户微信消费金额总额
+        //更新用户积分点数
+        //事物
+
+        Db::startTrans();
+        try{
+            //修改用户余额
+            $user = Db::name('user');
+            $re = $user->where('id',$uid)->setInc('account',$attach_info->money);
+            $re = $user->where('id',$uid)->setInc('point',$attach_info->money);
+
+            //添加充值记录
+            //充值记录信息
+            $recharge_data = array(
+                'uid'=>$uid,
+                'recharge_money'=>$attach_info->money,
+                'recharge_type'=>'weixin',
+                'status'=>'1',
+                'create_time'=>request()->time(),
+                'create_ip'=>get_client_ip(1),
+            );
+            $res = Db::name('recharge')->insert($recharge_data);
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+        }
+
+        if($re!== false && $res){
+            //返回SUCCESS给微信服务器
+            /*程序执行完后必须打印输出“SUCCESS”（不包含引号）。如果商户反馈给支付宝的字符不是SUCCESS这7个字符，微信服务器会不断重发通知，直到超过24小时22分钟。
+            一般情况下，25小时以内完成8次通知（通知的间隔频率一般是：4m,10m,10m,1h,2h,6h,15h）；
+            导致数据库一直更新或者增加
+            */
+            $resultObj ->setData('return_code','SUCCESS');
+            $resultObj ->setData('return_msg','OK');
+            return $resultObj->toXml();
+        }
+        /*if (!$order || $order->pay_status == 1){
+            $resultObj ->setData('return_code','SUCCESS');
+            $resultObj ->setData('return_msg','OK');
+            return $resultObj->toXml();
+        }*/
+        //TODO 数据更新 业务逻辑处理 $order
+    }
+
 }

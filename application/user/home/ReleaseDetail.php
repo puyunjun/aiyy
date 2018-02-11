@@ -39,10 +39,11 @@ class ReleaseDetail extends Common
                 if($data->member_deadline != 0){
                     //会员起始状态
                     $member_deadline =  false;  //过期
+                    $privilege_photo = false;
+                    $privilege_video = false;
                 }
-                $privilege_photo = false;
-                $privilege_video = false;
             }
+
             $privew_data = array(
                 'privilege_photo'=>$privilege_photo,
                 'privilege_video'=>$privilege_video,
