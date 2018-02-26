@@ -317,7 +317,7 @@ background-position: -40px 0;
 #yyxx .yyxx-2 .tt b{ float:left; font-size:36px; font-weight:normal; }
 #yyxx .yyxx-2 .tt p{ float:right; font-size:20px; color:#7085a6;}
 #yyxx .yyxx-2 .lis{ width:670px; height:auto; display:block; text-align:center; overflow:hidden; }
-#yyxx .yyxx-2 .lis ul li{ width:200px; height:200px; margin:11px 12px 11px 11px; float:left; text-align:center; overflow:hidden; position:relative; z-index:11; }
+#yyxx .yyxx-2 .lis ul li{ width:200px; height:200px; margin:11px 12px 11px 11px; float:left; text-align:center; overflow:hidden; position:relative; }
 #yyxx .yyxx-2 .lis ul li.on:before{ content:""; width:200px; height:200px; background:url(../images/suo1.png) no-repeat center center; position:absolute; z-index:22; left:0px }
 #yyxx .yyxx-2 .lis ul li img{ width:200px; height:200px; float:left; text-align:center; overflow:hidden; }
 #yyxx .yyxx-2 .tishi{ width:670px; height:auto; margin:20px 0px; line-height:30px; display:block; text-align:left; overflow:hidden; font-size:22px; color:#7085a6;}
@@ -948,6 +948,72 @@ background-position: -40px 0;
 .recharge_sr {font-size: 30px; padding-top: 20px; text-align: left; padding-left: 5%;}
 .recharge_sr_span {font-size: 30px; padding-right: 10px; padding-left: 10px; font-size: 35px; color: #E43A10;}
 
+
+
+.tck {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: .9;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    display: none;
+}
+.tck_content {
+    width: 78%;
+    background: #fff;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    margin-left: -39%;
+    z-index: 100;
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 1 !important;
+    /*display: none;*/
+}
+.tck_content>h1 {
+    text-align: center;
+    font-weight: bold;
+    color: #363636;
+    padding-top: 22px;
+}
+.tck_content_cent {
+    padding: 20px 5%;
+    border-bottom: 1px solid #333;
+}
+.tck_content_cent>p {
+    font-size: 25px;
+    color: #676767;
+    line-height: 24px;
+    text-align: center;
+}
+.tck_content_cent>input {
+    width: 88%;
+    height: 60px;
+    display: block;
+    margin: 20px auto;
+    border: 1px solid #333;
+    font-size: 26px;
+}
+.tck_content_botm>a {
+    display: inline-block;
+    height: 50px;
+    width: 49%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #363636;
+    padding: 15px 0;
+}
+.tck_botm_a1 {
+    border-right: 1px solid #333;
+}
 
 
 

@@ -2,71 +2,29 @@
 {layout name="layout"/}
 
 {extend name="layout"}
-
+{block name="page_css"}
+<!--layer组件css-->
+<link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+{/block}
 {block name="content"}
+<div class="tck">
+    <div class="tck_content">
+        <h1>提示!</h1>
+        <div class="tck_content_cent">
+            <p>请绑定手机号!</p>
+            <input type="text" name="" class="tck_content_input" >
+        </div>
+        <div class="tck_content_botm">
+            <a href="javascript:void(0);" class="tck_botm_a1">取消</a>
+            <a href="javascript:void(0);" class="tck_botm_a2">确定</a>
+        </div>
+    </div>
+</div>
+
 <div id="list-index">
     <div class="list-index-tt"><span><a href="" class="hover">推荐</a><a href="">认证</a><a href="">新人</a></span><p class="ioc1-3"><a href="">筛选</a></p></div>
     <div class="list-index-lis">
-        <div class="jj">
-            <div class="pic"><a onclick="return allow_privew()" href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/1.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/2.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/3.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/4.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/5.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/6.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/7.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/8.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/9.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
-        <div class="jj">
-            <div class="pic"><a href="{:url('user/ReleaseDetail/index',['id'=>3])}"><img src="__HOME_CSS__/wapcssjsimg/pp/10.jpg" ></a></div>
-            <div class="tt1"><p>心怡张</p><span class="sex1"></span><p>21岁</p></div>
-            <div class="tt2"><p>重庆</p>  <p>165cm</p> <span>5km</span></div>
-            <div class="tt3"><p>5</p><span>3</span></div>
-        </div>
+
         {volist name="data" id="vo"}
             <div class="jj">
                 <div class="pic">
@@ -95,7 +53,7 @@
 <script>
     var bindphone = '{$bindphone}';
     if(bindphone){
-        alert('弹出绑定手机号码框');
+        $('.tck').css('display','block');
     }
 </script>
 <!--用户登录后获取登录的位置，计算得出距离-->
@@ -111,13 +69,57 @@
     //map.addOverlay(polyline);     //添加折线到地图上
     var pointB = new BMap.Point(current_x,current_y);  // 创建点坐标B--江北区
     for(var f=0;f<juli_obj.length;f++){
-        var pointA = new BMap.Point(juli_obj[f].getAttribute('avg_x'),juli_obj[f].getAttribute('avg_y'));  // 创建点坐标A--大渡口区
+        var escort_x = juli_obj[f].getAttribute('avg_x')?juli_obj[f].getAttribute('avg_x'): '106.53063501',
+            escort_y = juli_obj[f].getAttribute('avg_y')?juli_obj[f].getAttribute('avg_y'):'29.54460611';
+        //获取伴游的坐标位置，默认系统添加位置
+        var pointA = new BMap.Point(escort_x,escort_y);  // 创建点坐标A--大渡口区
 
         //alert((map.getDistance(pointA,pointB)).toFixed(2)+' 米。');
-        juli_obj[f].innerHTML = Math.floor((map.getDistance(pointA,pointB)).toFixed(2)/1000)+'km'
+        var final_juli = (map.getDistance(pointA,pointB)).toFixed(2)==='NaN' ? 0 : (map.getDistance(pointA,pointB)).toFixed(2);
+        juli_obj[f].innerHTML = Math.floor(final_juli/1000)+'km'
 
         //获取不同伴游id储存距离到本地
-        localStorage.setItem('distances'+juli_obj[f].getAttribute('avg_id'),Math.floor((map.getDistance(pointA,pointB)).toFixed(2)/1000));
+        localStorage.setItem('distances'+juli_obj[f].getAttribute('avg_id'),Math.floor(final_juli/1000));
+    }
+</script>
+<!--layui组件-->
+<script src="__STATIC__/layer/layer.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+<script>
+
+    $('.tck_botm_a1').click(function(){
+        $('.tck').remove();
+    })
+    //获取手机号码
+
+    var aInp = document.querySelector('.tck_content_input');
+    var aSure = document.querySelector('.tck_botm_a2');
+    var bind_status = false;
+    aInp.onblur = function(){
+        aSure.click = checkPhone();
+        if(bind_status){
+            $.ajax({
+                url:'http://'+window.location.host+'/user/index/bindphone',
+                data:{phone:checkPhone()},
+                dataType:'JSON',
+                type:'POST',
+                success:function(res){
+                    layer.msg('绑定成功',function(){
+                        $('.tck').remove();
+                    });
+                }
+            });
+        }
+    }
+    function checkPhone(){
+        var phone = document.getElementsByClassName('tck_content_input')[0].value;
+        phone = phone.replace(/\s/g, "")
+        if(!(/^1[34578]\d{9}$/.test(phone))){
+            layer.msg("手机号码有误，请重填");
+            return false;
+        }
+        bind_status = true;
+        return phone;
     }
 </script>
 {/if}

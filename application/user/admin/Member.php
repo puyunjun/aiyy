@@ -187,10 +187,10 @@ class Member extends Admin
                             ['text','phone', '绑定号码','',session('reg_user')['identifier'],'','readonly'],
                             ['text','nickname', '昵称'],
                             ['text','occupation_id', '职业'],
-                            ['image','head_img', '头像'],
+                            ['image','head_img', '头像','', '', '3072','jpg,png,gif'],
                             ['text','real_name', '真实姓名'],
                             ['select','sex', '性别','',['1'=>'男','2'=>'女']],
-                            ['text','birthday', '生日','<span class="text-danger">格式2018-01-01</span>'],
+                            ['date','birthday', '生日','<span class="text-danger">格式2018-01-01</span>'],
                             ['text','qq', 'QQ号码'],
                             ['text','address', '常驻地址'],
                             ['text','height', '身高'],
@@ -263,7 +263,8 @@ class Member extends Admin
             if(true !== $result) $this->error($result);
             $data['birthday'] = strtotime($data['birthday']);
 
-            //$data['head_img'] = get_file_path($data['head_img']);
+            $data['head_img'] = get_file_path($data['head_img']);
+
             if (UserModel::update($data)) {
                 Cache::clear();
                 // 记录行为
@@ -298,7 +299,7 @@ class Member extends Admin
                             ['text','phone', '绑定号码','','','','readonly'],
                             ['text','nickname', '昵称'],
                             ['text','occupation_id', '职业'],
-                            ['image','head_img', '头像'],
+                            ['image','head_img', '头像','', '', '3072', 'jpg,png,gif'],
                             ['text','real_name', '真实姓名'],
                             ['select','sex', '性别','',['1'=>'男','2'=>'女']],
                             ['date','birthday', '生日','<span class="text-danger">格式2018-01-01</span>'],

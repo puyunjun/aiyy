@@ -9,6 +9,7 @@ namespace app\user\home;
 use think\Controller;
 use app\user\model\home\User As UserModel;
 use think\Session;
+use think\Validate;
 use think\Db;
 
 class Index extends Common
@@ -115,6 +116,42 @@ class Index extends Common
         }else{
             return json('升级失败，请重试');
         }
+
+    }
+
+    //用户绑定手机号
+    public function bindphone(){
+
+        $rule = array(
+            'rule'=>
+                array(
+                    'phone'=>'require|number|length:11|regex:/^1[34578]\d{9}$/|unique:__user__',
+                ),
+            'msg'=>array(
+                'phone.unique'      => '手机已被绑定',
+                'phone.require'     => '请输入手机号',
+                'phone.number'     => '请输入正确的手机号',
+                'phone.length'      =>'输入11位手机号',
+                'phone.regex'       =>'手机号非法'
+
+            ),
+            'data'=>array(
+                'phone'  => request()->post('phone'),
+            ),
+        );
+        $validate = new Validate($rule['rule'], $rule['msg']);
+        $result = $validate->check($rule['data']);
+        if (!$result) {
+            return json($validate->getError());   //返回验证消息
+            // return $this->redirect('http://www.aiyy.com/user/my_info/show/id/1.html');
+        } else {
+
+            db('user')->where('id', UID)->update(['is_bind_phone' => 1,'phone'=>$rule['data']['phone']]);
+
+            return json(true);
+            // $this->redirect('user/my_info/index');
+        }
+
 
     }
 }

@@ -21,7 +21,7 @@
                 {volist name="$escort_base_info.photo_url" id="value"}
                     <li {if condition="$privew_privilege.privilege_photo eq false"}class="on"{/if}>
                     {if condition="$privew_privilege.privilege_photo eq true"}
-                    <img src="{$value}" >
+                    <img class="image_privew" src="{$value}" >
                     {/if}
                 </li>
                 {/volist}
@@ -42,7 +42,7 @@
                 <div class="tishi">由于用户设置照片保护，需客户至少升级为白银会员或钱包至少拥有1000.00元余额才可以查看生活照。<br>注意：押金可以随时提取，或用于之丰富伴游费用</div>
             {/if}
         {/if}
-        <div class="cz"><input name="tj" class="tj" type="submit" value="会员充值"></div>
+        <div class="cz"><a href="{:url('user/Wallet/recharge','','')}"><input name="tj" class="tj" type="submit" value="会员充值"></a></div>
     </div>
 
     <div class="yyxx-3">
@@ -88,5 +88,46 @@
         </dl>
     </div>
 </div>
+
+{/block}
+{block name="page_js"}
+<script type='text/javascript' src='__STATIC__/jquery-weui/js/swiper.js' charset='utf-8'></script>
+<script>
+    //获取图片地址
+    var pictrue_src = [];
+    for(var x=0;x<$('.image_privew').length;x++){
+        pictrue_src.push($('.image_privew').eq(x).attr('src'));
+    }
+    var pb2 = $.photoBrowser({
+        items: pictrue_src
+    });
+    $('.image_privew').click(function(){
+        pb2.open();
+        //图片居中
+        $('.photo-container').find('img').css('margin','auto')
+    })
+
+</script>
+
+<script type="text/javascript">
+
+    var aImg = document.getElementsByClassName('image_privew');
+
+    //$(aImg[0]).width();
+    var image = new Image()
+    for(var i=0; i<aImg.length; i++){
+//			aImg[i].index = i;
+        image.src = $(aImg).eq(i).attr('src')
+        console.log(image.height)
+        if(image.width > image.height){
+            $(aImg[i]).height('100%');
+            $(aImg[i]).width('auto');
+        } else {
+            $(aImg[i]).width('100%');
+            $(aImg[i]).height('auto');
+        }
+    }
+
+</script>
 
 {/block}

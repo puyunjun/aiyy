@@ -100,6 +100,7 @@ class User extends Model
             ->field('video.video_num')
             ->field('Uit.id_card_num')
             ->field('User.nickname,User.sys_id,User.birthday,User.real_name,User.head_img,User.address,User.id,User.sex,User.height,User.login_addr_x,User.login_addr_y')
+            ->order('User.id desc')
             ->select();
        return $re;
     }

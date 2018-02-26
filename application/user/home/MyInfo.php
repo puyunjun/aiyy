@@ -150,6 +150,11 @@ class MyInfo extends Common
     {           //获取点击表格id
         $data['id'] = $id;
         $user = Db::name('user')->where('id', UID)->find();
+        $length = strlen($user['phone']);
+        $mobile = preg_match_all("/^1[34578]\d{9}$/", $user['phone'], $mobiles);
+        if($mobile === intval(0) || $length != 11 ){
+            $user['phone'] = '手机未绑定';
+        }
         $this->assign('user', $user);
         $this->assign("id", $data);
         return $this->fetch();
@@ -310,6 +315,23 @@ class MyInfo extends Common
                     'weight'  => urlencode(request()->post('weight')),
                 ),
             ),
+            'phone'=>array(
+                'rule'=>
+                    array(
+                        'phone'=>'require|number|length:11|regex:/^1[34578]\d{9}$/|unique:__user__',
+                    ),
+                'msg'=>array(
+                    'phone.unique'      => '手机已被绑定',
+                    'phone.require'     => '请输入手机号',
+                    'phone.number'     => '请输入正确的手机号',
+                    'phone.length'      =>'输入11位手机号',
+                    'phone.regex'       =>'手机号非法'
+
+                ),
+                'data'=>array(
+                    'phone'  => request()->post('phone'),
+                ),
+            ),
         );
     }
 
@@ -330,6 +352,11 @@ class MyInfo extends Common
             } else {
                 $time = strtotime(request()->post("$key_name"));
                 db('user')->where('id', UID)->update(["$key_name" => $time]);
+            }
+            //绑定手机号
+
+            if($key_name === 'phone'){
+                db('user')->where('id', UID)->update(['is_bind_phone' => 1]);
             }
 
             return json(true);

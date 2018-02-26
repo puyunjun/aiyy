@@ -23,6 +23,7 @@ class UserAuth extends Validate
         'sex|性别'             =>'require',
         'nickname|昵称'        =>'require',
         'head_img|头像'        =>'require',
+        'birthday|生日'        =>'require',
     ];
 
     //定义验证提示
@@ -39,6 +40,7 @@ class UserAuth extends Validate
         'sex.require'  =>'请选择性别',
         'nickname.require'  =>'请输入昵称',
         'head_img.require'  =>'请上传头像',
+        'birthday.require'  =>'请填写生日',
     ];
 
     //定义验证场景
@@ -46,9 +48,9 @@ class UserAuth extends Validate
         //创建帐号
         'auth'  =>  ['identifier','credential'],
 
-        'info'  => ['group_id','phone','sex','nickname','head_img'],
+        'info'  => ['group_id','phone','sex','nickname','head_img','birthday'],
 
-        'edit'=> ['group_id','phone|require','sex','nickname','head_img'],
+        'edit'=> ['group_id','phone|require','sex','nickname','head_img','birthday'],
         ];
 
 
