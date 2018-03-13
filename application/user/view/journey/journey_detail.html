@@ -14,9 +14,7 @@
     <div class="lvtu-show-pic">
         <div class="swiper-container">
             <div class="swiper-wrapper" >
-                <div class="swiper-slide"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" /></div>
-                <div class="swiper-slide"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" /></div>
-                <div class="swiper-slide"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg" /></div>
+                <div class="swiper-slide"><img src="{if condition='$journey.head_img neq null'}{$journey.head_img}{else/}__HOME_CSS__/wapcssjsimg/images/video-rz.png{/if}" /></div>
             </div>
             <!-- Add Pagination -->
             <div class="quyu">{$journey.address}</div>
@@ -27,10 +25,18 @@
 
 
     <div class="lvtu-show-lis">
-        <div class="title1"><dl><dt><b>{$journey.nickname}</b><p>职业{$journey.occupation_id}</p> <span><a href="" target="_blank">详细资料></a></span></dt><dd>{$data.birthday}岁・12w</dd></dl> </div>
+        <div class="title1"><dl><dt><b>{$journey.nickname}</b><p>职业{$journey.occupation_id}</p>
+            <span>
+            <!--<a href="" target="_blank">详细资料></a>-->
+            </span></dt><dd>{$data.birthday}岁・12w</dd></dl>
+        </div>
         <div class="video">
             <div class="video-1">视频认证</div>
-            <div class="video-2"><a href=" "><img src="__HOME_CSS__/wapcssjsimg/images/video-rz.png" ></a></div>
+            <div class="video-2">
+                <a>
+                <img src="__HOME_CSS__/wapcssjsimg/images/video-rz.png" >
+                </a>
+            </div>
         </div>
         <div class="lvxing">
             <div class="lvxing-1">Ta的旅行</div>
@@ -39,7 +45,14 @@
                 <div class="xx">
                     <ul>
                         <li>
-                            <b>邀约对象：</b><p>{$journey.release_object}</p>
+                            <b>邀约对象：</b>
+                            <p>
+                            {switch name="journey.release_object"}
+                            {case value="1"}男{/case}
+                            {case value="2"}女{/case}
+                            {default /}不限
+                            {/switch}
+                            </p>
                         </li>
                         <li><b>出行方式：</b><p>{$journey.travel_tool}</p></li>
                         <li><b>费&nbsp;&nbsp;&nbsp;&nbsp;用：</b><p>100</p></li>

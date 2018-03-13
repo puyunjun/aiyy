@@ -24,13 +24,31 @@ class Journey extends Common
         $journey=Db::name('user')
             ->alias('a')
             ->join('__USER_RELEASE__ w','a.id = w.uid')
+            ->join('user_identity ui','ui.uid = a.id','LEFT')
+            ->field('a.*,ui.id_card_num,w.*')
             ->select();
+
+        //查询该用户关注的用户
+        $attention_arr = Db::name('user_attention')->where('user_followid',UID)->column('user_id');
+
 
         foreach( $journey as $k=>$v1 )
         {
+            $journey[$k]['attentioned'] = 0;
+            $birthday_format = isset(getIDCardInfo($v1['id_card_num'])['birthday']) ? getIDCardInfo($v1['id_card_num'])['birthday']:0;
+            if($v1['sys_id']=== 0){
+                $birthday_format =date('Y',$v1['birthday']);
+            }
+            foreach ($attention_arr as $Key=>$val){
+                if($v1['uid'] === $val){
+                    $journey[$k]['attentioned'] = 1;
+                }
+            }
+
             $a = date('Y', time());
-            $b = date('Y', $v1["birthday"]);//求年龄
-            $journey[$k]['birthday'] = abs($a - $b);
+            $b = date('Y', strtotime($birthday_format));//求年龄
+            $journey[$k]['birthday'] = $birthday_format ? abs($a - $b) : 0;
+            $journey[$k]['nickname'] = urldecode($journey[$k]['nickname']);
         }
         $this->assign("journey", $journey);
         return $this->fetch();
@@ -41,8 +59,11 @@ class Journey extends Common
         $journey=Db::name('user')
             ->alias('a')
             ->join('__USER_RELEASE__ w','a.id = w.uid')
+            ->join('user_identity ui','ui.uid = a.id','LEFT')
             ->where('a.id',$id)
+            ->field('a.*,ui.id_card_num,w.*')
             ->find();
+        $journey['nickname'] = urldecode($journey['nickname']);
         $this->assign("journey", $journey);
 
         $ts = $journey['travel_total_time'];           //获取出行天数
@@ -51,12 +72,30 @@ class Journey extends Common
         $timediff = $sj-$begin_time;                      //算出还有多长时间结束
         $days = intval($timediff/86400);
         $data['days']=$days;
-
+        $birthday_format = isset(getIDCardInfo($journey['id_card_num'])['birthday']) ? getIDCardInfo($journey['id_card_num'])['birthday']:0;
         $a = date('Y', time());
-        $b = date('Y', $journey["birthday"]);//求年龄
-        $data['birthday'] = abs($a - $b);
+        $b = date('Y', strtotime($birthday_format));//求年龄
+        $data['birthday'] = $birthday_format ? abs($a - $b) : 0;
+        $data['nickname'] = urldecode($journey['nickname']);
         $this->assign("data",$data);
         return $this->fetch();
+    }
+
+    //关注发布信息
+
+    public function attention(){
+            if(request()->isAjax()){
+
+                $uid = request()->post('uid');
+
+               $re = Db::name('user_attention')->data(array('user_followid'=>UID,'user_id'=>$uid,'create_time'=>time()))->insert();
+
+               if($re){
+                   return json('关注成功');
+               }else{
+                   return json('服务器繁忙，稍后再试');
+               }
+            }
     }
 
 }

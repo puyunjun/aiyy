@@ -19,7 +19,7 @@
         <div class="lis">
             <ul>
                 {volist name="$escort_base_info.photo_url" id="value"}
-                    <li {if condition="$privew_privilege.privilege_photo eq false"}class="on"{/if}>
+                    <li {if condition="$privew_privilege.privilege_photo eq false"}class="on" onclick="tip_msg()" {/if}>
                     {if condition="$privew_privilege.privilege_photo eq true"}
                     <img class="image_privew" src="{$value}" >
                     {/if}
@@ -42,7 +42,7 @@
                 <div class="tishi">由于用户设置照片保护，需客户至少升级为白银会员或钱包至少拥有1000.00元余额才可以查看生活照。<br>注意：押金可以随时提取，或用于之丰富伴游费用</div>
             {/if}
         {/if}
-        <div class="cz"><a href="{:url('user/Wallet/recharge','','')}"><input name="tj" class="tj" type="submit" value="会员充值"></a></div>
+        <div class="cz"><a href="{:url('user/become_member/member_list','','')}"><input name="tj" class="tj" type="submit" value="会员充值"></a></div>
     </div>
 
     <div class="yyxx-3">
@@ -67,8 +67,9 @@
             <ul>
                 <li><b>身高</b><p>{$escort_base_info.height}cm</p></li>
                 <li><b>职业</b><p>{$escort_base_info.occupation_id}</p></li>
-                <li><b>服务</b><p>本地  全国</p></li>
+                <li><b>体重 </b><p>{$escort_base_info.weight}kg</p></li>
                 <li><b>语言</b><p>中文</p></li>
+                <li><b>服务</b><p>{$escort_base_info.forword}</p></li>
             </ul>
         </div>
     </div>
@@ -94,14 +95,19 @@
 <script type='text/javascript' src='__STATIC__/jquery-weui/js/swiper.js' charset='utf-8'></script>
 <script>
     //获取图片地址
-    var pictrue_src = [];
+    var initIndex = 0;//定义默认初始化图片索引
+    var pictrue_src = []; //定义获取所有图片src数组
     for(var x=0;x<$('.image_privew').length;x++){
         pictrue_src.push($('.image_privew').eq(x).attr('src'));
     }
-    var pb2 = $.photoBrowser({
-        items: pictrue_src
-    });
+
     $('.image_privew').click(function(){
+
+        initIndex = $(".image_privew").index($(this));  //点击选择初始化图片
+        var pb2 = $.photoBrowser({
+            items: pictrue_src
+            ,
+            initIndex:initIndex});
         pb2.open();
         //图片居中
         $('.photo-container').find('img').css('margin','auto')
@@ -128,6 +134,11 @@
         }
     }
 
+
+    //提示会员充值
+    function tip_msg(){
+        layer.msg('需要相应会员权限才可查看私密照，请充值升级会员')
+    }
 </script>
 
 {/block}

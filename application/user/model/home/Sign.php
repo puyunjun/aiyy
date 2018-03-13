@@ -93,4 +93,10 @@ class Sign  extends Model
         return mt_rand(10000,100000);
     }
 
+    //检测手机号是否被用户绑定
+    public function is_bind($phone = ''){
+        $re = Db::name('__user__')->where('phone',$phone)->value('id');
+        return $re;
+    }
+
 }

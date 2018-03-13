@@ -285,7 +285,7 @@ return [
     /*
      * 定义阿里云上传文件夹名称     字符串 若有下级文件夹例：a/b
      * */
-    'dir_name' => 'grphoto',
+    'dir_name' => 'user-dir',
 
 
     /*

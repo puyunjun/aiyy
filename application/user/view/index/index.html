@@ -48,13 +48,13 @@
     <div class="mine-xx">
         <ul><li class="xx1"><a href="{:url('user/Wallet/index')}">钱包</a></li></ul>
         <ul>
-            <li class="xx2"><a href="{:url('user/BecomeEscort/index')}">成为伴游</a></li>
-            <li class="xx3"><a href="{:url('user/Authentication/index')}">个人认证</a></li>
-            <li class="xx4"><a href="{:url('user/BecomeMember/member_list')}">升级会员</a></li>
+            <li class="xx2"><a onclick="return is_jump('Escort');" aaa="{:url('user/BecomeEscort/index')}">成为伴游</a></li>
+            <li class="xx3"><a onclick="return is_jump('Authentication');" aaa="{:url('user/Authentication/index')}">个人认证</a></li>
+            <li class="xx4"><a onclick="up_member()" aaa="{:url('user/BecomeMember/member_list')}">升级会员</a></li>
             <li class="xx5"><a href="">会员特权</a></li>
         </ul>
         <ul>
-            <li class="xx6"><a href="">消息管理</a></li>
+            <li class="xx6"><a href="{:url('user/News/index')}{$all_news_num.url_sql|isset ? $all_news_num.url_sql : ''}">消息管理（{$all_news_num.all_num|isset ? $all_news_num.all_num : 0}）</a></li>
             <li class="xx7"><a href="">联系客服</a></li>
         </ul>
         <ul>
@@ -74,10 +74,85 @@
 
 {block name="page_js"}
 <script>
-    {php}if($param_data){{/php}
-        alert("{php} echo $param_data; {/php}");
-    {php}}{/php}
+    function is_jump(control_name){
+        var url;
+        var next_url;
+        if(control_name === 'Authentication'){
+            url = 'http://'+window.location.host+'/User/Authentication/index';
+            next_url = 'http://'+window.location.host+'/User/my_info/index';
+        }else if(control_name === 'Escort'){
+            url = 'http://'+window.location.host+'/User/become_escort/index';
+            next_url = 'http://'+window.location.host+'/User/Authentication/index';
+        }
 
+        $.ajax({
+        url:url,
+        dataType:'JSON',
+        type:'POST',
+        success:function(data){
+            if(data.code===103){
+                layer.confirm('<p style="color: #0b0b0b">'+data.msg+'</p>',{title:'提示消息'},function(){
+                if(control_name === 'Escort'){
+                    is_jump('Authentication');
+                    return false;
+                }
+                    window.location.href = next_url;
+            })
+            }else if(data.code === 102){
+                //会员升级提示
+                layer.confirm('<p style="color: #0b0b0b">'+data.msg+'</p>',{title:'提示消息'},function(){
+                    window.location.href =  'http://'+window.location.host+'/User/become_member/member_list';;
+                })
+            }else{
+                if(control_name === 'Escort'){
+                    layer.prompt({
+                        formType: 2,
+                        value: '验证码',
+                        title: '输入验证码',
+                        //area: ['800px', '350px'] //自定义文本域宽高
+                    }, function(value, index, elem){
+                        alert(value); //得到value
+                        $.ajax({
+                            url:'http://'+window.location.host+'/user/become_escort/check_verify',
+                            data:{verify:value},
+                            dataType:'JSON',
+                            type:'POST',
+                            success:function(res){
+                                layer.msg(res.msg,function(){
+                                    layer.close(index);
+                                });
+                            }
+                        });
+
+                    });
+                }else{
+                    window.location.href =  'http://'+window.location.host+'/User/Authentication/index';
+                }
+
+            }
+        }
+     });
+    }
+
+    //升级会员
+    function up_member(){
+        $.ajax({
+            url:'http://'+window.location.host+'/user/become_member/member_list',
+            dataType:'JSON',
+            type:'POST',
+            success:function(data){
+                if(data.code === 103){
+                    layer.confirm(
+                        '<p style="color: #0b0b0b">'+data.msg+'</p>',{title:'提示消息'},function(){
+                            window.location.href =  'http://'+window.location.host+'/User/my_info/index';;
+                        }
+                    );
+                }else{
+                    window.location.href =  'http://'+window.location.host+'/user/become_member/member_list';
+                }
+            }
+        })
+    }
 </script>
 {/block}
 

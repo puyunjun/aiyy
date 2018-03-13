@@ -24,7 +24,8 @@ class Login extends Controller
     }
 
     public function index(){
-
+        $forbidden = request()->param('forbidden') ? intval(request()->param('forbidden')) : '';
+        $this->assign('forbidden',$forbidden);
         if($this->request->isPost()){
             $model =new LoginModel;
             $data = request()->post();

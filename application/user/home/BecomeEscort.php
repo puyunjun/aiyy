@@ -8,6 +8,7 @@
 
 namespace app\user\home;
 use app\index\controller\Aliyun;
+use app\user\model\home\User;
 use think\Session;
 use app\user\model\home\Sign as SignInModel;
 
@@ -15,6 +16,7 @@ use think\Db;
 use app\user\model\home\Login;
 use think\Url;
 use app\user\model\home\Identify;
+use app\user\model\home\Privilege;
 
 class BecomeEscort extends Common
 {
@@ -53,21 +55,42 @@ class BecomeEscort extends Common
         }
     }
     public function index(){
-        if(request()->isGet()){
-
-            $type= Identify::where('uid',UID)->find();
+        $type= Identify::where('uid',UID)->find();
+        $privilege = new Privilege();
+        $is_upmember = $privilege->sel_privilege()->allow_priview_photo;
+        if(request()->isAjax()){
 
             if(!$type  || $type->status !== 1){
-                $this->redirect('user/index/index',['param_name'=>'BecomeEscort_data'],'302',['BecomeEscort_data'=>'请先认证后成为伴游']);
-                exit;
+                return json(array(
+                    'code'=>103,
+                    'msg'=>'会员未认证，是否认证'
+                ));
+            }
+            //判断是否是升级会员
+            if(!$is_upmember){
+                return json(array(
+                    'code'=>102,
+                    'msg'=>'至少为白银会员才可成为伴游，是否升级'
+                ));
+            }
+            //都通过，调用获取验证码方法
+            $this->get_verify(User::where('id',UID)->value('phone'));
+            return json(array('code'=>200));
+        }
+
+        if(request()->isGet()){
+            if(!$type  || $type->status !== 1 || !$is_upmember){
+                //不满足条件直接跳转回去;
+                $this->redirect('user/index/index');
             }
             $data= Db::name('user')->where('id',UID)->find();
             $this->assign("data", $data);
             $this->assign("type", $type);
             $forgetPass = request()->param('forget') ? intval(1) : '';
             $this->assign('forgetPass', $forgetPass);
+            return $this->fetch();
         }
-        return $this->fetch();
+
     }
     public function get_verify($mobile_phone = '')
     {
@@ -94,6 +117,20 @@ class BecomeEscort extends Common
             //设置session
             Session::set('verify_code', $code);
             return json(array('code' => 200, 'msg' => '发送成功'));
+        }
+    }
+
+
+    //验证成为伴游
+    public function check_verify(){
+        if(intval(request()->post('verify')) === intval(session('verify_code'))){
+           $re =User::where('id',UID)->setField('is_escort',1);
+           if($re){
+               return json(array('msg'=>'验证成功，成为伴游'));
+           }else{
+               return json(array('msg'=>'稍后再试'));
+           }
+
         }
     }
 

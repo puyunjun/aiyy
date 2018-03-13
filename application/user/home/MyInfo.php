@@ -120,7 +120,7 @@ class MyInfo extends Common
 
         if(User::user_privilege(UID)->group_id === 0){
             //权限判断 查找分组id
-            $group_id = Privilege::where(array('allow_priview_list'=>1,'allow_priview_photo'=>4))->value('group_id');
+            $group_id = Privilege::where(array('allow_priview_list'=>1,'allow_priview_photo'=>0))->value('group_id');
             $data['group_id'] = $group_id;
         }
         $result = User::where('id',UID)->update($data);
@@ -342,6 +342,14 @@ class MyInfo extends Common
         $data = &$this->validate_update()[$key_name];
         $validate = new Validate($data['rule'], $data['msg']);
         $result = $validate->check($data['data']);
+        //验证手机验证码  在用户绑定手机的时候验证
+        if($key_name === 'phone') {
+            if (intval(request()->post('verify')) === session('verify_code')) {
+                session('verify_code', null);
+            } else {
+                return json('验证码不正确');
+            }
+        }
         if (!$result) {
             return json($validate->getError());   //返回验证消息
             // return $this->redirect('http://www.aiyy.com/user/my_info/show/id/1.html');
@@ -383,7 +391,27 @@ class MyInfo extends Common
             }
             //添加数据
             if(Video::insertAll($data)) return  json('添加成功');
+        }
 
+    }
+
+    //用户上传视频方法
+    public function up_gr_video(){
+
+        if($this->request->isAjax()){
+
+            //接受上传的数据
+            $up_data = request()->post()['up_data'];
+            $data = [];
+            foreach ($up_data as $k=>$v){
+                $data[$k]['video_url'] = $v;
+                $data[$k]['video_type'] = 2;
+                $data[$k]['create_time'] = request()->time();
+                $data[$k]['uid'] = UID;
+                $data[$k]['upload_ip'] = get_client_ip(1);  //数字型ip地址
+            }
+            //添加数据
+            if(Video::insertAll($data)) return  json('添加成功');
         }
 
     }

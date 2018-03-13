@@ -83,8 +83,7 @@ class Wxpay  extends Controller
         );
         Db::startTrans();
         try{
-            $res = $user->where('id',"$uid")->setInc('point',$point);
-
+            $res = $user->where('id',$uid)->setInc('point',$point);
             //升级前的会员组id
             $old_group_id = $user->where('id',$uid)->value('group_id');
             //添加升级记录

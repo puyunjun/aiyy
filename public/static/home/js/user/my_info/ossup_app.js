@@ -163,10 +163,11 @@ var uploadFile = function (client) {
 };
 
 
-//删除方法
+//删除方法   优化方案后只需此处删除文件
 //返回promise 对象  需要再次调用得出结果   即  .then(function(value){console.log(value)})
 var deleteFile = function(client){
-    var result = client.deleteMulti(object_name, {
+    var  object = object_name;
+    var result = client.deleteMulti(object, {
         quiet: true
             });
     return result;

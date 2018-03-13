@@ -47,7 +47,7 @@ class JsApiPay
         //通过code获得openid
         if (!isset($_GET['code'])) {
             //触发微信返回code码
-            $baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['QUERY_STRING']);
+            $baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
             $url = $this->__createOauthUrlForCode($baseUrl);
             //定义携带的参数
             $state = json_encode($order_info);
@@ -221,7 +221,7 @@ class JsApiPay
         if(!isset($_GET['code'])){
             //$scope='snsapi_userinfo';//需要授权
             $appid='wx1800872e18acc8f7';
-            $redirect_uri = urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['QUERY_STRING']);
+            $redirect_uri = urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
             //https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
 
             $state = $point ? json_encode($point,true) : 1;

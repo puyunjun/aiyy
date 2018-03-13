@@ -42,6 +42,9 @@
 <script>
     var url ='{$url_root}';
     console.log(url)
+   if("{$forbidden|isset ? $forbidden : ''}" === "1"){
+        layer.msg('用户被禁用')
+   }
 </script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=r2QRGELPU7lF35I6ttxbKGgCPbFjSVNN"></script>
 <script src="__HOME_JS__/user/login/index.js"></script>

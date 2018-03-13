@@ -41,7 +41,6 @@ class Signin extends Controller
         //判断是否进入忘记密码修改页面
         $forgetPass = request()->param('forget') ? intval(1) : '';
         $this->assign('forgetPass', $forgetPass);
-
         if ($this->request->isAjax()) {
 
             //对比验证码  ,验证码从session里面取
@@ -91,8 +90,11 @@ class Signin extends Controller
      * */
     public function get_verify($mobile_phone = '')
     {
+        //检测手机号是否被绑定
+        if(self::$model->is_bind($mobile_phone) && !request()->post('forget')){
+            return json(array('code' => 301, 'msg' => '该手机号已被用户绑定,请勿重复'));
+        }
         //检测当前手机用户正在注册，但已经注册， 并且不是修改密码状态
-
         if (self::$model->check_phone($mobile_phone) && !request()->post('forget')) {
             return json(array('code' => 300, 'msg' => '该手机号已被注册,请勿重复注册'));
         }
@@ -220,6 +222,9 @@ class Signin extends Controller
             }else{
                 //若用户存在直接登录即可
                 if( $re = $this->login_model->login($openId,'',$x,$y,'weixin')){
+                    if( (isset($re['status']) ? $re['status'] : false) === 'forbidden'){
+                        $this->redirect('http://'.$_SERVER['HTTP_HOST'].'/user/Login/index/forbidden/1');
+                    }
                     //判断用户是否绑定手机号
                     $is_bind = self::$model->where('id',$re)->value('is_bind_phone');
                     if($is_bind === 0){
@@ -267,5 +272,11 @@ class Signin extends Controller
             'update_time'=> ''
         );
         return $data;
+    }
+
+
+    //用户协议页面
+    public function agreement(){
+        return $this->fetch();
     }
 }

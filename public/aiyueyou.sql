@@ -41,7 +41,7 @@ CREATE TABLE dp_user(
   `identity_type` VARCHAR (20) NOT NULL COMMENT '登录类型（手机号 邮箱 用户名）或第三方应用名称（微信 微博等）',
   `identifier`  VARCHAR (50)   NOT NULL  UNIQUE COMMENT '标识（手机号 邮箱 用户名或第三方应用的唯一标识）',
   `credential`  VARCHAR (512) NOT NULL COMMENT '密码凭证（站内的保存密码，站外的不保存或保存token)',
-  `status` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户状态,4=>用户被锁定,1=>正常用户',
+  `status` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '用户状态,0=>用户被锁定,1=>正常用户',
   `create_time` CHAR(10)  NOT NULL COMMENT '注册时间',
   `update_time` CHAR(10) NOT NULL DEFAULT '' COMMENT '修改时间',
   `regip` VARCHAR(20) NOT NULL COMMENT '注册ip地址'

@@ -118,7 +118,8 @@ class Index extends Admin
         $params = config('dolphin');
         $params['domain']  = request()->domain();
         $params['website'] = config('web_site_title');
-        $params['ip']      = $_SERVER['SERVER_ADDR'];
+        //iis7 获取ip 地址用 $_SERVER['LOCAL_ADDR'];
+        $params['ip']      = $_SERVER['LOCAL_ADDR'];
         $params['php_os']  = PHP_OS;
         $params['php_version'] = PHP_VERSION;
         $params['mysql_version'] = db()->query('select version() as version')[0]['version'];

@@ -104,12 +104,14 @@ function get_verify(phone,obj,isForget){
                     time_conut(sessionStorage.getItem('key'),obj)
                 }else if(re.code === 300){
                     sessionStorage.setItem("key", 10);
-                    layer.msg(re.msg);
                     time_conut(sessionStorage.getItem('key'),obj)
                     layer.msg(re.msg);
                 }else if(re.code === 201){
                     sessionStorage.setItem("key", 5);
+                    time_conut(sessionStorage.getItem('key'),obj)
                     layer.msg(re.msg);
+                }else if(re.code === 301){
+                    sessionStorage.setItem("key", 10);
                     time_conut(sessionStorage.getItem('key'),obj)
                     layer.msg(re.msg);
                 }

@@ -25,28 +25,22 @@ class Release extends Common
     }
     public  function  release()
     {
-        $journey = Db::name('user')->where('id', UID)->find();
-        if ($journey['birthday'] == null || $journey['nickname'] == null || $journey['autograph'] == null || $journey['real_name'] == null ||  $journey['head_img'] == null || $journey['address'] == null || $journey['qq'] == null || $journey['height'] == null || $journey['interest'] == null || $journey['measurement'] == null || $journey['weight'] == null) {
 
-            return json(false);
+        //判断会员是否认证
+        $user_identity = Db::name('user_identity')->where('uid',UID)->value('status');
+        if($user_identity !== 1){
+            return json('会员没有认证,无法发布消息');
         }
-        $journey = Db::name('user_release')->where('uid', UID)->select();
-        if ($journey) {
 
-            return json(false);
-        } else {
-            if (request()->post('travel_total_time')==null){
-                return json(false);
-            }
             $data = $this->get_data();
             $validate = $this->validate($data, 'Release');
-            if ($validate != true) {
-                return json($validate);
-            }else{
+            if ($validate === true) {
                 Db::name('user_release')->insert($data);
                 return json(true);
+            }else{
+                return json($validate);
             }
-        }
+
     }
     private function get_data(){
         if (request()->post('cyj')==null){
@@ -57,7 +51,7 @@ class Release extends Common
                 'travel_total_time' => request()->post('travel_total_time'),   //出行天数
                 'travel_tool' => request()->post('travel_tool'),                    //出行方式
                 'create_time' => time(),                         //发布时间
-                'is_sincerity' =>'1',                            //是否缴纳滞纳金
+                'is_sincerity' =>'0',                            //是否缴纳滞纳金
             ];
         }else{
             $data = [
@@ -68,7 +62,7 @@ class Release extends Common
                 'travel_tool' => request()->post('travel_tool'),                    //出行方式
                 'sincerity_money' => '100',                      //诚意金数额
                 'create_time' => time(),                         //发布时间
-                'is_sincerity' =>'2',                            //是否缴纳滞纳金
+                'is_sincerity' =>'1',                            //是否缴纳滞纳金
             ];
         }
 

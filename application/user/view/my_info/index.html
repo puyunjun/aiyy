@@ -20,6 +20,8 @@
 <link rel="stylesheet" type="text/css" href="__HOME_CSS__/wapcssjsimg/cssjs/tupian.css">
 <link rel="stylesheet" type="text/css" href="__HOME_CSS__/wapcssjsimg/cssjs/video-js.css">
 
+<link rel="stylesheet" type="text/css" href="__STATIC__/oss-h5-upload-js-php/style.css"/>
+
 {/block}
 {block name="content"}
 <form method="post" action="modify" enctype="multipart/form-data" id="form">
@@ -85,52 +87,63 @@
                 <a href="{:url('user/MyInfo/show', ['id' =>'13'])}"><li><b>体重</b><input type="" readonly  name="weight" class="bai1" placeholder="请输入" value="{$base_info.weight}"/></li></a>
             </ul>
         </div>
-    <div class="mi-xx-zp">
-        <div class="mi-xx-zp-1"><b>照片</b></div>
-        <div class="mi-xx-zp-2">
-            <div class="container" id='test'>
-                <!--    照片添加    -->
-                <div class="z_photo">
-                    <div class="z_file">
-                        <input type="file" name="file" id="file" value="" accept="image/jpeg,image/jpg,image/png" multiple onchange="imgChange('z_photo','z_file');" />
-                    </div>
-                    {volist name="photo_url_arr" id="photo_vo"}
-                    <div class="z_addImg">
-                        <img src="{$photo_vo.video_url}" avg_id="{$photo_vo.id}"  style="cursor:pointer">
-                        <i class="iconfont icon-cuowu"></i>
-                        <div class="jqmeter-container" ></div>
-                    </div>
-                    {/volist}
-                </div>
-                <!--  上传 取消 -->
-                <!--<div class="sc">
-                    <button class="sc-push">上传</button>
-                    <button class="sc-remove">取消</button>
-                </div>-->
-                <!--遮罩层-->
-                <div class="z_mask">
-                    <!--弹出框-->
-                    <div class="z_alert">
-                        <p>确定要删除这张图片吗？</p>
-                        <p>
-                            <span class="z_cancel">取消</span>
-                            <span class="z_sure" >确定</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="photo-bc">
+        <div id="containers" class="container">
+        <div class="mi-xx-zp">
+            <div class="mi-xx-zp-1"><b>照片</b></div>
+            <div class="mi-xx-zp-2">
 
+                <pre id="console"></pre>
+                <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+
+                    <div class="z_photo" id="preview">
+                        <div class="z_file" id="selectfiles" ></div>
+                        {volist name="photo_url_arr" id="photo_vo"}
+                        <div class="z_addImg">
+                            <img src="{$photo_vo.video_url}" avg_id="{$photo_vo.id}"  style="cursor:pointer">
+                            <i class="iconfont icon-cuowu"></i>
+                            <div class="jqmeter-container" ></div>
+                        </div>
+                        {/volist}
+                    </div>
+                    <a id="postfiles"> 点击上传</a>
+
+                    <!--    照片添加    -->
+                    <!--  上传 取消 -->
+                    <!--<div class="sc">
+                        <button class="sc-push">上传</button>
+                        <button class="sc-remove">取消</button>
+                    </div>-->
+                    <!--遮罩层-->
+                    <div class="z_mask">
+                        <!--弹出框-->
+                        <div class="z_alert">
+                            <p>确定要删除这张图片吗？</p>
+                            <p>
+                                <span class="z_cancel">取消</span>
+                                <span class="z_sure" >确定</span>
+                            </p>
+                        </div>
+                    </div>
+
+                <div class="photo-bc">
+
+                </div>
             </div>
         </div>
-    </div>
-    <div class="mi-xx-sp">
-        <div class="mi-xx-sp-1"><b>视频</b></div>
-        <div class="mi-xx-sp-2">
-            <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="289" height="180" poster="" data-setup="{}">
-                <source src="__HOME_CSS__/wapcssjsimg/images/video.mp4" type="video/mp4">
-            </video>
-            <div class="scsp">上传视频<input type="file" name="spsc" id="spsc" value="" accept="video/*" /></div>
+
+
+        <div class="mi-xx-sp">
+            <div class="mi-xx-sp-1"><b>视频</b></div>
+            <div class="mi-xx-sp-2">
+                {volist name="video_url_arr" id="video_vo"}
+                <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="289" height="180" poster="" data-setup="{}">
+                    <source src="{$video_vo.video_url}" type="video/mp4">
+                </video>
+                <br/>
+                <b class="unset_video" avg_id="{$video_vo.id}" value="{$video_vo.video_url}">删除按钮</b>
+                {/volist}
+                <a id="selects">上传视频</a>
+            </div>
         </div>
     </div>
 </div>
@@ -140,6 +153,8 @@
 {block name="page_js"}
 <script src="__HOME_JS__/user/common.js"></script>
 <script src="__HOME_JS__/user/my_info/head.js"></script>
+<script type="text/javascript" src="__STATIC__/oss-h5-upload-js-php/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+<script src="__HOME_JS__/user/my_info/upload.js"></script>
 
 
 <script type="text/javascript">
@@ -372,10 +387,10 @@
 
         imgRemove();
         //直接加载图片预览
-        priview_img();
+        //priview_img();
 
         //调用上传接口
-        up_photo();
+        //up_photo();
 
         //var imgUrl = all_photo_object[[all_photo_object.length-1]][i];
         //console.log(all_photo_object)
@@ -415,6 +430,7 @@
                     //获取选中的图片dom对象 src地址
                     var sel_img_url = $(imgList[t.index]).find('img').attr('src');
 
+
                     var need_url = sel_img_url.indexOf(dir_name) > -1 ? sel_img_url.substring(sel_img_url.indexOf(dir_name)) : '';
 
                     //获取当前照片的本地数据库id
@@ -449,18 +465,6 @@
             };
         };
 
-        /*aPush.onclick = function(){
-
-            $(function(){
-                $('.jqmeter-container').jQMeter({
-                    goal:'$2,000',
-                    raised:'$2,000',
-                    width:'100%',
-                    height:'20px'
-                });
-                $('.iconfont.icon-cuowu').hide();
-            });
-        }*/
         $(document).ready(function(){
             $(".sc-remove").click(function(){
                 $(".z_addImg").remove();
@@ -470,6 +474,34 @@
     };
 
 
+    //用户删除视频按钮
+    $('.unset_video').click(function(){
+        var video_url = $(this).attr('value');
+        var need_url = video_url.indexOf(dir_name) > -1 ? video_url.substring(video_url.indexOf(dir_name)) : '';
+
+        object_name.push(need_url);
+        var photo_id = $(this).attr('avg_id');
+        delete_photo().then(function(value){
+            if(value.res.statusCode === 200){
+                //请求ajax  删除本地数据库
+                $.ajax({
+                    url:'http://'+window.location.host+'/user/my_info/delete_photo',
+                    data:{id:photo_id},
+                    dataType:'JSON',
+                    type:'POST',
+                    success:function(res){
+                        //console.log('删除成功')
+                        if(res.code === 200){
+                            layer.msg(res.msg);
+                        }else{
+                            layer.msg('稍后再试')
+                        }
+                        //code else  something
+                    }
+                });
+            };
+        });
+    });
 
     function priview_img(){
         $('#test').FlyZommImg({
@@ -484,7 +516,33 @@
             }
         });
     }
-    priview_img();
+    var initIndex = 0;//定义默认初始化图片索引
+    var pictrue_src = []; //定义获取所有图片src数组
+
+
+
+    /*for(var x=0;x<$('.bg1').length;x++){
+        pictrue_src[x]=$('.bg1').eq(x).css('backgroundImage').replace('url(','').replace(')','');  //pc端调试要多去掉双引号"";
+    }*/
+    //alert(pictrue_src[0])
+    function preview_imgs(){
+        $('.z_addImg').find('img').click(function(){
+            for(var x=0;x<$('.z_addImg').length;x++){
+                pictrue_src[x]=$('.z_addImg').eq(x).find('img').attr('src');  //pc端调试要多去掉双引号"";
+            }
+            initIndex = $('.z_addImg').find('img').index($(this));  //点击选择初始化图片
+            var pb2 = $.photoBrowser({
+                items: pictrue_src
+                ,
+                initIndex:initIndex});
+            pb2.open();
+            //图片居中
+            $('.photo-container').find('img').css('margin','auto')
+        })
+    }
+
+
+    preview_imgs();
     imgRemove();
 </script>
 

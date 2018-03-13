@@ -51,7 +51,11 @@ class Login extends Model
             $map['identifier']=$username;
             // 查找用户
             $user = $this::get($map);
-            return $this->wx_login($user,$x,$y);
+            if(!$user) {
+                return array('status'=>'forbidden');//用户被禁用
+            }else{
+                return $this->wx_login($user,$x,$y);
+            }
         }elseif($login_type == 'qq'){
             //接入qq登录认证
             return ;

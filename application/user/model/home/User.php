@@ -111,7 +111,7 @@ class User extends Model
             ->alias('U')
             -> join('dp_user_video dv','dv.uid = U.id','LEFT')
             -> join('dp_user_identity di','di.uid = U.id','LEFT')
-            ->field('U.id,U.sys_id,U.birthday,U.nickname,U.head_img,U.height,U.address,U.login_addr_x,U.login_addr_y,U.occupation_id')
+            ->field('U.id,U.sys_id,U.birthday,U.nickname,U.head_img,U.height,U.address,U.weight,U.login_addr_x,U.login_addr_y,U.occupation_id,U.forword')
             ->field('dv.video_url,dv.video_type')
             ->field('di.id_card_num')
             ->select();
@@ -126,6 +126,8 @@ class User extends Model
         $data['occupation_id'] = $escort_info[0]->occupation_id;
         $data['sys_id'] = $escort_info[0]->sys_id;
         $data['birthday'] = $escort_info[0]->birthday;
+        $data['forword'] = $escort_info[0]->forword;
+        $data['weight'] = $escort_info[0]->weight;
 
         //计算生日
         $birthday_format = isset(getIDCardInfo($escort_info[0]->id_card_num)['birthday']) ? getIDCardInfo($escort_info[0]->id_card_num)['birthday']:0;

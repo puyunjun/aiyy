@@ -5,6 +5,10 @@
 {block name="page_css"}
 <!--layer组件css-->
 <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+<!-- 引入jquery weui-->
+<link rel="stylesheet" href="__STATIC__/jquery-weui/lib/weui.min.css">
+
+<link rel="stylesheet" href="__STATIC__/jquery-weui/css/jquery-weui.min.css">
 {/block}
 {block name="content"}
 <div class="tck">
@@ -12,7 +16,9 @@
         <h1>提示!</h1>
         <div class="tck_content_cent">
             <p>请绑定手机号!</p>
-            <input type="text" name="" class="tck_content_input" >
+            <input type="text" id="mobile_phone" name="" class="tck_content_input" placeholder="请输入手机号">
+            <button class="get_verify_bt" id="get_verify_bt" onclick="get_verify($('#mobile_phone').val(),this);">获取验证码</button>
+            <input placeholder="输入验证码" type="text" id="verify" name="" class="tck_content_input" >
         </div>
         <div class="tck_content_botm">
             <a href="javascript:void(0);" class="tck_botm_a1">取消</a>
@@ -48,8 +54,6 @@
 
 {block name="page_js"}
     <script type="text/javascript" src="__HOME_JS__/index/index.js"></script>
-
-
 <script>
     var bindphone = '{$bindphone}';
     if(bindphone){
@@ -85,6 +89,8 @@
 <!--layui组件-->
 <script src="__STATIC__/layer/layer.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
+<!-- 引入jquery weui js组件-->
+<script src="__STATIC__/jquery-weui/js/jquery-weui.js"></script>
 <script>
 
     $('.tck_botm_a1').click(function(){
@@ -95,22 +101,33 @@
     var aInp = document.querySelector('.tck_content_input');
     var aSure = document.querySelector('.tck_botm_a2');
     var bind_status = false;
-    aInp.onblur = function(){
-        aSure.click = checkPhone();
+    aSure.onclick = function(){
+        var phone = document.getElementsByClassName('tck_content_input')[0].value;
+        phone = phone.replace(/\s/g, "")
+        if(!(/^1[34578]\d{9}$/.test(phone))){
+            layer.msg("手机号码有误，请重填");
+            return false;
+        }
+        bind_status = true;
         if(bind_status){
             $.ajax({
                 url:'http://'+window.location.host+'/user/index/bindphone',
-                data:{phone:checkPhone()},
+                data:{phone:phone,verify:$('#verify').val()},
                 dataType:'JSON',
                 type:'POST',
                 success:function(res){
-                    layer.msg('绑定成功',function(){
-                        $('.tck').remove();
-                    });
+                    if(res === true){
+                        layer.msg('绑定成功',function(){
+                            $('.tck').remove();
+                        });
+                    }else{
+                        layer.msg(res)
+                    }
+
                 }
             });
         }
-    }
+    };
     function checkPhone(){
         var phone = document.getElementsByClassName('tck_content_input')[0].value;
         phone = phone.replace(/\s/g, "")

@@ -10,6 +10,7 @@ use think\Controller;
 use app\user\model\home\User As UserModel;
 use think\Session;
 use think\Validate;
+use app\user\admin\IdentifyVerify;
 use think\Db;
 
 class Index extends Common
@@ -24,17 +25,12 @@ class Index extends Common
 
     public function index(){
         /*用户首页方法*/
-
+        //$in = IdentifyVerify::getinstance();
+        //var_dump($in->export_init('http://aiyueyoo.oss-cn-shenzhen.aliyuncs.com/authentication/2018-3-5/15202226282400.png'));
         if(request()->isGet()){
 
             $this->assign('user_base_info',$this->model->user_base_info());
 
-            //var_dump(UserModel::user_privilege());exit;
-            $param_data = false;
-            if($param = request()->param('param_name')){
-                $param_data = session($param);
-            }
-            $this->assign('param_data',$param_data);
             return  $this->fetch();
         }
 
@@ -139,6 +135,12 @@ class Index extends Common
                 'phone'  => request()->post('phone'),
             ),
         );
+        //验证手机验证码
+        if(intval(request()->post('verify')) === session('verify_code')){
+            session('verify_code',null);
+        }else{
+            return json('验证码不正确');
+        }
         $validate = new Validate($rule['rule'], $rule['msg']);
         $result = $validate->check($rule['data']);
         if (!$result) {

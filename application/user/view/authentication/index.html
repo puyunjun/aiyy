@@ -1,10 +1,10 @@
-
 {extend name="layout"}
 
 {block name="page_title"}
 个人认证
 {/block}
 {block name="page_css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/oss-h5-upload-js-php/style.css"/>
 {/block}
 {block name="content"}
 <div id="cwby">
@@ -23,42 +23,57 @@
                     </p></li>
             </ul>
             <ul>
-                <li class="sfz">
-                    <p id="imgView" class="bg1" {if condition="($userInfo.sfz_font_img)"} style="background: url({$userInfo.sfz_font_img})"{/if}>
-                    <input id="uploadFile" type="file" name="sfz_font_img" value="" accept="image/jpeg,image/jpg,image/png">
-                    <em>上传身份证正面</em>
-                    </p>
-                    <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">
-                        <div id="progress-bar0" class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
-                    </div>
-                </li>
+                <!--<h4>您所选择的文件列表：</h4>-->
+                <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
 
-                <li class="sfz">
-                    <p id="imgView1" class="bg2" {if condition="($userInfo.sfz_back_img)"} style="background: url({$userInfo.sfz_back_img})"{/if}>
-                    <input type="file" id="uploadFile1" name="sfz_back_img" value="" accept="image/jpeg,image/jpg,image/png">
-                    <em>上传身份证反面</em>
-                    </p>
-                    <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">
-                        <div id="progress-bar1" class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
-                    </div>
-                </li>
-
-                <li class="sfz">
-                    <p id="imgView2" class="bg3" {if condition="($userInfo.sfz_hand_img)"} style="background: url({$userInfo.sfz_hand_img})"{/if}>
-                    <input type="file" id="uploadFile2" name="sfz_hand_img" value="" accept="image/jpeg,image/jpg,image/png">
-                    <em>上传手持身份证正面</em>
-                    </p>
-                    <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">
-                        <div id="progress-bar2" class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
-                    </div>
-                </li>
                 <br/>
+                <div id="containers1">
+                    <!--<a id="postfiles" href="javascript:void(0);" class='btn'>开始上传</a>-->
+                </div>
 
+                <pre id="console"></pre>
+                <div id="containers">
+                   <li class="sfz">
+                            <p id="selectfiles_preview" class="bg1" {if condition="($userInfo.sfz_font_img)"} style="background: url({$userInfo.sfz_font_img})"{/if}>
+                           <!-- <input id="uploadFile" type="file" name="sfz_font_img" value="" accept="image/jpeg,image/jpg,image/png">-->
+                            <!--<em>上传身份证正面</em>-->
+                            <a id="selectfiles" class="but_up"   href="javascript:void(0);">上传身份证正面</a>
+                       <br/>
+                            <a id="selectfiles_info"></a>
+                            </p>
+
+                    </li>
+                    <li class="sfz">
+                        <p id="selectfiles1_preview" class="bg1" {if condition="($userInfo.sfz_font_img)"} style="background: url({$userInfo.sfz_back_img})"{/if}>
+                        <!-- <input id="uploadFile" type="file" name="sfz_font_img" value="" accept="image/jpeg,image/jpg,image/png">-->
+                        <!--<em>上传身份证正面</em>-->
+                        <a id="selectfiles1" class="but_up"   href="javascript:void(0);">上传身份证反面</a>
+                        <br/>
+                        <a id="selectfiles1_info"></a>
+                        </p>
+
+                    </li>
+                    <li class="sfz">
+                        <p id="selectfiles2_preview" class="bg1" {if condition="($userInfo.sfz_font_img)"} style="background: url({$userInfo.sfz_hand_img})"{/if}>
+                        <!-- <input id="uploadFile" type="file" name="sfz_font_img" value="" accept="image/jpeg,image/jpg,image/png">-->
+                        <!--<em>上传身份证正面</em>-->
+                        <a id="selectfiles2"  class="but_up"  href="javascript:void(0);">上传手持身份证正面</a>
+                        <br/>
+                        <a id="selectfiles2_info"></a>
+                        </p>
+                    </li>
+                    <a id="selectfiles_postfiles" style="display: none" href="javascript:void(0);">开始上传</a>
+                    <a id="selectfiles1_postfiles" style="display: none" href="javascript:void(0);">开始上传</a>
+                    <a id="selectfiles2_postfiles" style="display: none" href="javascript:void(0);">开始上传</a>
+                </div>
+                <br/>
             </ul>
             <ul>
                 <!-- {if condition="$userInfo.status eq 3"}disabled value="认证中"{elseif condition="$userInfo.status eq 2"/}value="重新提交认证"{else/}value="认证成功"{/if} -->
                 <!--<li class="tt3"><input id="uploadFile_bt" name="tj" class="tj" value="提交认证" type="button" ></li>-->
-                <li class="tt3"><input id="uploadFile_bt" name="tj" class="tj" type="button" {if condition="$userInfo.status eq 3"}disabled value="认证中"{elseif condition="$userInfo.status eq 2"/}value="重新提交认证"{else/}value="认证成功"{/if}></li>
+                <!--<li class="tt3"><input id="uploadFile_bt" name="tj" class="tj" type="button" {if condition="$userInfo.status eq 3"}disabled value="认证中"{elseif condition="$userInfo.status eq 2"/}value="重新提交认证"{else/}value="认证成功"{/if}></li>-->
+                <a id="postfiles" href="javascript:void(0);" class='btn'>开始上传</a>
+
             </ul>
         </form>
     </div>
@@ -66,14 +81,55 @@
 
 </div>
 {/block}
-
 {block name="page_js"}
-<script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
-<script src="__STATIC__/ali-oss-master/dist/aliyun-oss-sdk.min.js"></script>
-<!--<script type="text/javascript" src="http://gosspublic.alicdn.com/aliyun-oss-sdk.min.js"></script>-->
-<script type="text/javascript" src="__STATIC__/oss-in-browser-master/app.js"></script>
-<script src="__HOME_JS__/user/authentication/index.js"> </script>
+<script type="text/javascript" src="__STATIC__/oss-h5-upload-js-php/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="__STATIC__/oss-h5-upload-js-php/upload.js"></script>
+<script>
+
+    var uid = '{$uid}'
+    //获取图片地址
+
+    var initIndex = 0;//定义默认初始化图片索引
+    var pictrue_src = []; //定义获取所有图片src数组
+
+
+
+        /*for(var x=0;x<$('.bg1').length;x++){
+            pictrue_src[x]=$('.bg1').eq(x).css('backgroundImage').replace('url(','').replace(')','');  //pc端调试要多去掉双引号"";
+        }*/
+        //alert(pictrue_src[0])
+        $('.bg1').click(function(){
+            for(var x=0;x<$('.bg1').length;x++){
+                pictrue_src[x]=$('.bg1').eq(x).css('backgroundImage').replace('url(','').replace(')','');  //pc端调试要多去掉双引号"";
+            }
+            initIndex = $(".bg1").index($(this));  //点击选择初始化图片
+            var pb2 = $.photoBrowser({
+                items: pictrue_src
+                ,
+                initIndex:initIndex});
+            pb2.open();
+            //图片居中
+            $('.photo-container').find('img').css('margin','auto')
+        })
+
+
+    $('#postfiles').click(function(){
+        empty_check(all_file);//检测是否选完图片
+        if(empty_check(all_file) || all_file.length<3){
+            layer.msg('请将照片信息添加完整');
+            return false;
+        }
+        if($('#id_card_num').val() ===''){
+            alert('请填写身份证号码');
+            return false;
+        }
+        $('#selectfiles_postfiles').click();
+        $('#selectfiles1_postfiles').click();
+        $('#selectfiles2_postfiles').click();
+    })
+
+</script>
+
+
 {/block}
-
-
 

@@ -62,7 +62,17 @@ class BecomeMember extends Common
     public function member_list(){
 
 
-        $member_info = User::where('id',UID)->field('id,nickname,head_img')->find();
+        $member_info = User::where('id',UID)->field('id,nickname,head_img,is_bind_phone,real_name')->find();
+
+        if(request()->isAjax()){
+            if(!$member_info->real_name || !$member_info->is_bind_phone){
+                return json(array('code'=>103,'msg'=>'请完成真实姓名和绑定手机'));
+            }
+        }
+        if(!$member_info->real_name || !$member_info->is_bind_phone){
+            //不满足条件直接跳转
+            $this->redirect('user/index/index');
+        }
         $this->assign('member_info',$member_info);
         $this->assign('member_group',(new PrivilegeGroup())->sel_need_fee());
           //var_dump((new PrivilegeGroup())->sel_need_fee());  exit;

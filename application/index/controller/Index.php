@@ -34,8 +34,6 @@ class Index extends Home
 
     public function index()
     {
-
-
         // 默认跳转模块
         if (config('home_default_module') != 'index') {
             $this->redirect(config('home_default_module'). '/index/index');

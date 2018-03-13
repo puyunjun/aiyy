@@ -20,7 +20,7 @@ $('#myform').submit(function () {
                 layer.msg('保存成功')
                 window.location.href="http://"+window.location.host+"/user/journey/index.html";
             }else{
-                layer.msg('保存失败')
+                layer.msg(res)
                 //window.location.href="http://www.aiyy.com/user/release/index.html"
             }
         },

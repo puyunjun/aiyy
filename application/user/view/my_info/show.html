@@ -37,7 +37,14 @@
             {elseif condition= "$id.id  eq 7" /}
                 <li><b>QQ</b>        <input type="" name="qq" class="bai1" placeholder="请输入" value="{$user.qq|urldecode}"/></li>
             {elseif condition= "$id.id  eq 8" /}
-                <li><b>手机</b>      <input type="" name="phone" class="bai1" placeholder="请输入" value="{$user.phone|urldecode}"/></li>
+                <li>
+                    <b>手机</b>
+                    <input type="" id="phone" name="phone" class="bai1" placeholder="请输入" value="{$user.phone|urldecode}"/>
+                </li>
+               <li>
+                <b id="get_verify_bt" onclick="get_verify($('#phone').val(),this);">获取验证码</b>
+                <input type="text" class="bai1" name="verify" id="verify"/>
+                </li>
             {elseif condition= "$id.id  eq 9" /}
                 <li><b>爱好</b>      <input type="" name="interest" class="like" placeholder="请输入" value="{$user.interest}" /></li>
             {elseif condition= "$id.id  eq 10" /}
