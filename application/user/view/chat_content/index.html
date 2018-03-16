@@ -1,0 +1,161 @@
+
+
+{extend name="layout"}
+
+{block name="page_title"}
+我的
+{/block}
+{block name="page_css"}
+<link rel="stylesheet" href="__HOME_CSS__/wapcssjsimg/cssjs/help.css">
+{/block}
+{block name="content"}
+<div id="duihua">
+    <div class="weui-pull-to-refresh__layer">
+        <div class='weui-pull-to-refresh__arrow'></div>
+        <div class='weui-pull-to-refresh__preloader'></div>
+        <div class="down">下拉刷新</div>
+        <div class="up">释放刷新</div>
+        <div class="refresh">正在刷新</div>
+    </div>
+    <div class="duihua-1">
+        <div class="lis">
+            {volist name="chat_data" id="vo"}
+                {if condition="$vo.send_uid eq $start_uid"}
+                    <div class="q2"><div class="pic"><img src="{$vo.s_head_img}"></div><div class="con">{$vo.content}</div></div>
+                {else/}
+                    <div class="q1"><div class="pic"><img src="{$vo.s_head_img}"></div><div class="con">{$vo.content}</div></div>
+                {/if}
+            <!--<div class="q1"><div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg"></div><div class="con">晚上7点，好吗？</div></div>
+            <div class="q2"><div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg"></div><div class="con">是的，很好。今晚见。<br>你想什么时候去？</div></div>
+            <div class="q1"><div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg"></div><div class="con">约翰，你今晚想喝咖啡吗？约翰，你今晚想喝咖啡吗？约翰，你今晚想喝咖啡吗？约翰，你今晚想喝咖啡吗？</div></div>
+            <div class="q2"><div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg"></div><div class="con">当然！你想什么时候去？</div></div>
+            <div class="q1"><div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg"></div><div class="con">晚上7点，好吗？</div></div>
+            <div class="q2"><div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/man-1.jpg"></div><div class="con">是的，很好。今晚见。<br>你想什么时候去？</div></div>
+            <div class="q1"><div class="pic"><img src="__HOME_CSS__/wapcssjsimg/images/tou1.jpg"></div><div class="con">约翰，你今晚想喝咖啡吗？约翰，你今晚想喝咖啡吗？约翰，你今晚想喝咖啡吗？约翰，你今晚想喝咖啡吗？</div></div>
+            -->{/volist}
+        </div>
+    </div>
+</div>
+{/block}
+{block name="foot_content"}
+<section id="foot_kong"></section>
+<div id="duihua-fa">
+    <div class="duihua-fa">
+        <dt><p></p></dt>
+        <div class="text"><input type="text" value="" name="content"></div>
+        <dd><p></p><p id="send_bt">发送</p></dd>
+    </div>
+</div>
+{/block}
+{block name="page_js"}
+<script>
+
+    //下拉刷新数据
+    var obj_uid ={$obj_uid};
+    var current_user_img = "{$current_user_img}";
+    var index =0; //定义页数，刷新一次增加一页
+    $("#duihua").pullToRefresh().on("pull-to-refresh", function() {
+        //do something
+        index++;
+        $.get('http://'+window.location.host+'/user/chat_content/index?page='+index,{obj_uid:obj_uid}, function(res){
+            //假设你的列表返回在data集合中
+            //判断是否游未读信息
+            if(res.has_no_read){
+                $('.lis').empty()
+                layui.each(res.data, function(index, item){
+                    //向底部添加对话框
+                    console.log(item)
+
+                    if(item.send_uid === obj_uid){
+                        $('.lis').append(
+                            '<div class="q1">' +
+                            '<div class="pic">' +
+                            '<img src="'+item.s_head_img+'">' +
+                            '</div>' +
+                            '<div class="con">' +item.content+'</div>' +
+                            '</div>')
+                    }else{
+                        $('.lis').append(
+                            '<div class="q2">' +
+                            '<div class="pic">' +
+                            '<img src="'+item.s_head_img+'">' +
+                            '</div>' +
+                            '<div class="con">' +item.content+'</div>' +
+                            '</div>')
+                    }
+                });
+                index = res.page;
+            }else{
+                //倒序排列信息对象，再向头部添加
+                var obj=[];
+                var total =res.data.length;
+                $.each(res.data,function(i) {
+                    obj.push(res.data[(total-1)-i]);
+                });
+                layui.each(obj, function(index, item){
+                    //向头部添加对话框
+
+                    if(item.send_uid === obj_uid){
+                        $('.lis').prepend(
+                            '<div class="q1">' +
+                            '<div class="pic">' +
+                            '<img src="'+item.s_head_img+'">' +
+                            '</div>' +
+                            '<div class="con">' +item.content+'</div>' +
+                            '</div>')
+                    }else{
+                        $('.lis').prepend(
+                            '<div class="q2">' +
+                            '<div class="pic">' +
+                            '<img src="'+item.s_head_img+'">' +
+                            '</div>' +
+                            '<div class="con">' +item.content+'</div>' +
+                            '</div>')
+                    }
+                });
+            }
+
+
+            //重置下拉刷新
+            $('#duihua').pullToRefreshDone();
+            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+        });
+    });
+</script>
+
+<script>
+
+    $('#send_bt').click(function () {
+       var send_content = $('input[name="content"]').val();
+
+         if(send_content.replace(/(^\s+)|(\s+$)/g, "") === ''){
+             return false;
+         }else{
+             $.ajax({
+
+                url:'http://'+window.location.host+'/user/chat_content/add_chat',
+                data:{content:send_content,receive_uid:obj_uid},
+                dataType:'JSON',
+                type:'POST',
+                success:function(res){
+                    if(res){
+                        $('.lis').append(
+                            '<div class="q2">' +
+                            '<div class="pic">' +
+                            '<img src="'+current_user_img+'">' +
+                            '</div>' +
+                            '<div class="con">' +send_content+'</div>' +
+                            '</div>')
+                        $('input[name="content"]').val('');
+                    }else{
+                        layer.msg('稍后再试');
+                    }
+                }
+             });
+         }
+
+    })
+
+
+</script>
+{/block}

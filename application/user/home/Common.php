@@ -15,7 +15,7 @@ use app\index\controller\Home;
  * */
 use app\user\model\home\UpgradeMember;
 use app\user\model\home\Recharge;
-
+use think\Db;
 class Common extends Home
 {
 
@@ -25,10 +25,15 @@ class Common extends Home
 
         // 判断是否登录，并定义用户ID常量
         defined('UID') or define('UID', $this->isLogin());
-        $map = ['uid'=>UID,'read_status'=>0];
+       /* $map = ['uid'=>UID,'read_status'=>0];
+        //查询用户消息数量
         $Upgrade_news_num = UpgradeMember::where($map)->count();
         $Recharge_news_num = Recharge::where($map)->count();
-        if($Upgrade_news_num || $Recharge_news_num){
+
+        //查询用户与伴游的消息数量 ,在此不构造用户消息参数,只加上数量即可
+        $chat_num = Db::name('chat_content_date')->where(['receive_uid'=>UID,'read_status'=>0])->count();
+
+        if($Upgrade_news_num || $Recharge_news_num || $chat_num){
               $data_no_read = array();
 
               $data_no_read['url_sql'] = '';
@@ -37,10 +42,10 @@ class Common extends Home
 
               if($Recharge_news_num)  $data_no_read['url_sql'] .= $data_no_read['url_sql'] ? '&Recharge='.$Recharge_news_num : '?Recharge='.$Recharge_news_num;;
 
-              $data_no_read['all_num'] = $Upgrade_news_num+$Recharge_news_num;
+              $data_no_read['all_num'] = $Upgrade_news_num+$Recharge_news_num+$chat_num;
 
               $this->assign('all_news_num',$data_no_read);
-        }
+        }*/
     }
 
 

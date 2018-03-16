@@ -128,6 +128,7 @@ class User extends Model
         $data['birthday'] = $escort_info[0]->birthday;
         $data['forword'] = $escort_info[0]->forword;
         $data['weight'] = $escort_info[0]->weight;
+        $data['id'] = $escort_info[0]->id;
 
         //计算生日
         $birthday_format = isset(getIDCardInfo($escort_info[0]->id_card_num)['birthday']) ? getIDCardInfo($escort_info[0]->id_card_num)['birthday']:0;

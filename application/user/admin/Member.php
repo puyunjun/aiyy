@@ -270,7 +270,7 @@ class Member extends Admin
             if(true !== $result) $this->error($result);
             $data['birthday'] = strtotime($data['birthday']);
 
-            //$data['head_img'] = get_file_path($data['head_img']);
+            $data['head_img'] = get_file_path($data['head_img']);
 
             if (UserModel::update($data)) {
                 Cache::clear();

@@ -11,6 +11,8 @@ use app\user\model\home\User As UserModel;
 use think\Session;
 use think\Validate;
 use app\user\admin\IdentifyVerify;
+use app\user\model\home\UpgradeMember;
+use app\user\model\home\Recharge;
 use think\Db;
 
 class Index extends Common
@@ -28,6 +30,29 @@ class Index extends Common
         //$in = IdentifyVerify::getinstance();
         //var_dump($in->export_init('http://aiyueyoo.oss-cn-shenzhen.aliyuncs.com/authentication/2018-3-5/15202226282400.png'));
         if(request()->isGet()){
+
+            $map = ['uid'=>UID,'read_status'=>0];
+            //查询用户消息数量
+            $Upgrade_news_num = UpgradeMember::where($map)->count();
+            $Recharge_news_num = Recharge::where($map)->count();
+
+            //查询用户与伴游的消息数量 ,在此不构造用户消息参数,只加上数量即可
+            $chat_num = Db::name('chat_content_date')->where(['receive_uid'=>UID,'read_status'=>0])->count();
+
+            if($Upgrade_news_num || $Recharge_news_num || $chat_num){
+                $data_no_read = array();
+
+                $data_no_read['url_sql'] = '';
+                //构造连接参数
+                if($Upgrade_news_num)   $data_no_read['url_sql'] .= $data_no_read['url_sql'] ? '&UpgradeMember='.$Upgrade_news_num : '?UpgradeMember='.$Upgrade_news_num;
+
+                if($Recharge_news_num)  $data_no_read['url_sql'] .= $data_no_read['url_sql'] ? '&Recharge='.$Recharge_news_num : '?Recharge='.$Recharge_news_num;;
+
+                $data_no_read['all_num'] = $Upgrade_news_num+$Recharge_news_num+$chat_num;
+
+                $this->assign('all_news_num',$data_no_read);
+            }
+
 
             $this->assign('user_base_info',$this->model->user_base_info());
 

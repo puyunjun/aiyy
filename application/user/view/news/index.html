@@ -34,6 +34,29 @@
                     </dl>
                 </a>
              {php}}{/php}
+            {volist name="chat_res" id="value"}
+            {if condition="$start_uid eq $value.send_uid"}
+            <a href="{:url('user/chat_content/index',['obj_uid'=>$value.receive_uid])}">
+                <dl><img src="{$value.head_img}" class="falai" >
+                    <dt>
+                        <b>{$value.nickname|urldecode}</b>
+                        <p>{$value.create_time|date='Y-m-d H:i',###} {if condition = "isset($value.cnum)"}({$value.cnum}条){/if}</p>
+                    </dt>
+                    <dd>{$value.content|mb_substr=0,5}...</dd>
+                </dl>
+            </a>
+            {else/}
+            <a href="{:url('user/chat_content/index',['obj_uid'=>$value.send_uid])}">
+                <dl><img src="{$value.head_img}" class="falai" >
+                    <dt>
+                        <b>{$value.nickname|urldecode}</b>
+                        <p>{$value.create_time|date='Y-m-d H:i',###} {if condition = "isset($value.cnum)"}({$value.cnum}条){/if}</p>
+                    </dt>
+                    <dd>{$value.content|mb_substr=0,5}...</dd>
+                </dl>
+            </a>
+            {/if}
+            {/volist}
         </div>
     </div>
 </div>

@@ -24,6 +24,7 @@ CREATE TABLE dp_user(
   `weight` VARCHAR(3) NOT NULL DEFAULT '' COMMENT '体重',
   `account` DECIMAL (8,2) DEFAULT 0.00 COMMENT '用户余额',
   `point` DECIMAL (8,2) UNSIGNED NOT NULL  DEFAULT 0.00 COMMENT '积分点数',
+  `forword` VARCHAR (255) NOT NULL DEFAULT '' COMMENT '伴游去向',
   `is_vip` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为vip用户,4=>非vip用户,1=>vip用户',
   `is_escort` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为伴游,4=>非伴游用户,1=>伴游用户',
   `is_bind_phone` TINYINT (1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户是否绑定手机号,0=>未绑定,1=>绑定',
@@ -225,4 +226,18 @@ CREATE TABLE dp_upgrade_member(
   `create_ip` VARCHAR(20) NOT NULL COMMENT '消费ip地址',
   `read_status` TINYINT (1) NOT NULL DEFAULT 0 COMMENT '用户是否读取,0=>未读，1=>已读'
 );
+
+
+/*
+留言信息表  按照日期时间分表（年月份）
+*/
+CREATE TABLE dp_chat_content_date(
+  `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+  `send_uid` INT(11)  UNSIGNED NOT NULL COMMENT '发送者用户id',
+  `receive_uid` INT(11)  UNSIGNED NOT NULL COMMENT '接收者用户id',
+  `content` VARCHAR (255) NOT NULL DEFAULT ' ' COMMENT '发送内容',
+  `create_time` CHAR(10) NOT NULL COMMENT '留言时间',
+  `read_status` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '用户是否读取,0=>未读，1=>已读'
+);
+
 

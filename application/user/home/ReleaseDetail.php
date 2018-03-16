@@ -30,6 +30,7 @@ class ReleaseDetail extends Common
             //判断是否过期  ,且非系统添加的会员
             $privilege_photo = $data->allow_priview_photo === 1 ? true : false;
             $privilege_video = $data->allow_priview_video === 1 ? true : false;
+            $privilege_chat = $data->allow_chat === 1 ? true : false;
             /*if($data->member_deadline >=time() && $data->sys_id != 0){
                 $privilege_photo = $data->allow_priview_photo === 1 ? true : false;
                 $privilege_video = $data->allow_priview_video === 1 ? true : false;
@@ -41,12 +42,14 @@ class ReleaseDetail extends Common
                     $member_deadline =  false;  //过期
                     $privilege_photo = false;
                     $privilege_video = false;
+                    $privilege_chat = false;
                 }
             }
 
             $privew_data = array(
                 'privilege_photo'=>$privilege_photo,
                 'privilege_video'=>$privilege_video,
+                'privilege_chat'=>$privilege_chat,
                 'member_deadline'=>$member_deadline,
             );
             //传值查看权限

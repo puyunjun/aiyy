@@ -28,7 +28,7 @@ class News extends Common
     public function index(){
 
         //echo "<script>alert('".lang('Parse error')."')</script>";   //测试语言包助手函数
-        //查询用户所有消息
+        //查询用户所有消费消息
 
         $model_name = array('Recharge','UpgradeMember');
         /*
@@ -58,7 +58,42 @@ class News extends Common
 
         $this->assign('data',$data($model_name));
         //var_dump($data($model_name));
+        //查询用户伴游未读消息数量
 
+        $chat_num = Db::name('chat_content_date')->where(['receive_uid'=>UID,'read_status'=>0])->count();
+
+        //传递用户信息
+        $chat_res= array();
+        if($chat_num){
+            //查询所有信息
+            $chat_res = Db::name('chat_content_date')
+                        ->alias('c')
+                        ->join('__USER__ u','u.id = c.send_uid','LEFT')
+                        ->where(['receive_uid'=>UID,'read_status'=>0])
+                        ->field('count(c.id) as cnum, c.receive_uid,c.content,c.send_uid,c.create_time,c.id,u.head_img,u.nickname')
+                        ->order('c.create_time desc')
+                        ->group('c.send_uid')
+                        ->select();
+        }else{
+            $chat_res = Db::name('chat_content_date')
+                ->alias('c')
+                ->join('__USER__ u','u.id = c.send_uid','LEFT')
+                ->where(['c.receive_uid'=>UID])
+                ->field('c.receive_uid,c.content,c.send_uid,c.create_time,c.id,u.head_img,u.nickname')
+                ->order('c.create_time desc')
+                ->group('c.send_uid')
+                ->select();
+        }
+
+        /*$sql = "select a.* from dp_chat_content_date a
+              where create_time = 
+              (select max(create_time) from dp_chat_content_date where send_uid = a.send_uid) 
+              order by a.create_time 
+              ";
+
+        var_dump(Db::query($sql));*/
+        $this->assign('chat_res',$chat_res);
+        $this->assign('start_uid',UID);
         return $this->fetch();
     }
 

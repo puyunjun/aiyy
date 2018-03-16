@@ -84,7 +84,7 @@
 <div id="boot1">
     <div class="boot1">
         <dl>
-            <dt><a href=""><p>聊天</p></a></dt>
+            <dt><a {if condition="$privew_privilege.privilege_chat eq true"} href="{:url('user/chat_content/index',['obj_uid'=>$escort_base_info.id])}" {else/} onclick="chat_tip()" {/if}><p>聊天</p></a></dt>
             <dd><a href=""><p>红包</p></a></dd>
         </dl>
     </div>
@@ -138,6 +138,12 @@
     //提示会员充值
     function tip_msg(){
         layer.msg('需要相应会员权限才可查看私密照，请充值升级会员')
+    }
+
+    //会员没有聊天权限
+
+    function chat_tip(){
+        layer.msg('需要相应会员权限才可与伴游聊天，请充值升级会员')
     }
 </script>
 
