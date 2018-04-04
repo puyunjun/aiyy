@@ -62,16 +62,20 @@ class IdentifyVerify
         return $response;
     }
 
-    public function export_init($img_url = ''){
+    /*
+     * @param string $img_url 图片连接
+     * @param string $forword 哪一面
+     * */
+    public function export_init($img_url = '',$forword = 'front'){
         $params = array(
             "image" =>  base64_encode(file_get_contents($img_url)),
             "key" => $this->appkey,//应用APPKEY(应用详细页查询)
-            "side"=>'front'
+            "side"=>$forword
         );
         $paramstring = http_build_query($params);
         $content = $this->juhecurl($this->url,$paramstring,1);
         $result = json_decode($content,true);
-        var_dump($result);
+        return $result;
     }
 
     private function __construct(){//声明私有构造方法为了防止外部代码使用new来创建对象。

@@ -279,4 +279,10 @@ class Signin extends Controller
     public function agreement(){
         return $this->fetch();
     }
+
+    //用户忘记密码页面
+    public function forget_pass(){
+        $this->assign('forget',1);
+        return $this->fetch();
+    }
 }

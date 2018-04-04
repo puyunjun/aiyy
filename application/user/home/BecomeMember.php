@@ -68,16 +68,24 @@ class BecomeMember extends Common
             if(!$member_info->real_name || !$member_info->is_bind_phone){
                 return json(array('code'=>103,'msg'=>'请完成真实姓名和绑定手机'));
             }
+            return json('1');
         }
-        if(!$member_info->real_name || !$member_info->is_bind_phone){
+        /*if(!$member_info->real_name || !$member_info->is_bind_phone){
             //不满足条件直接跳转
             $this->redirect('user/index/index');
-        }
+        }*/
         $this->assign('member_info',$member_info);
         $this->assign('member_group',(new PrivilegeGroup())->sel_need_fee());
           //var_dump((new PrivilegeGroup())->sel_need_fee());  exit;
         $this->view->engine->layout(false);
             return $this->fetch();
+    }
+
+    //判断用户是否绑定手机
+
+    public function is_bind(){
+        $re = User::where('id',UID)->value('is_bind_phone');
+        return json($re);
     }
 
 }

@@ -48,11 +48,12 @@ class User extends Model
             ->join(['dp_user_attention'=>'attentioned'],'attentioned.user_id=User.id','LEFT')
             ->join([$subsql_img=> 'img'],'img.uid=User.id','LEFT')
             ->join([$subsql_video=> 'video'],'video.uid=User.id','LEFT')
+            ->join('dp_user_group dg','dg.id=User.group_id','LEFT')
             ->group('User.id')
             ->field('count(DISTINCT attention.id) as attention_num ,count(DISTINCT attentioned.id) as attentioned_num')
             ->field('img.img_num')
             ->field('video.video_num')
-            ->field('User.nickname,User.head_img,User.sys_id,User.id,User.sex')
+            ->field('User.nickname,User.head_img,User.sys_id,User.id,User.sex,dg.icon')
             ->find();
 
             //解码用户昵称
@@ -79,7 +80,10 @@ class User extends Model
 
 
     //查询所有伴游用户信息
-    public function escort_info(){
+    /*
+     * @param int $page 请求分页数量
+     * */
+    public function escort_info($page = 0){
         /*
          * 图片数量
          * */
@@ -91,8 +95,9 @@ class User extends Model
 
 
         $re = $this->alias('User')
-            ->where('User.is_escort=1')
+            ->where('User.is_escort=1 and ua.status = 1')
             ->join([$subsql_img=> 'img'],'img.uid=User.id','LEFT')
+            ->join('user_auth ua','ua.uid = User.id')
             ->join([$subsql_video=> 'video'],'video.uid=User.id','LEFT')
             ->join('dp_user_identity Uit','Uit.uid=User.id','LEFT')
             ->group('User.id')
@@ -101,6 +106,7 @@ class User extends Model
             ->field('Uit.id_card_num')
             ->field('User.nickname,User.sys_id,User.birthday,User.real_name,User.head_img,User.address,User.id,User.sex,User.height,User.login_addr_x,User.login_addr_y')
             ->order('User.id desc')
+            ->limit($page*6,6)
             ->select();
        return $re;
     }

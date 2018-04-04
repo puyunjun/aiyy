@@ -14,6 +14,60 @@
     <meta name="description" content="约游">
 
     <link rel="stylesheet" href="__HOME_CSS__/wapcssjsimg/cssjs/css.css">
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <style type="text/css">
+        .tck_content_cent>.btn_box {
+            width: 88%;
+            height: 60px;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #333;
+            position: relative;
+        }
+        .btn_box input{
+            width: 100%;
+            height: 100%;
+            display: block;
+            font-size: 26px;
+            text-indent: 10px;
+            position: absolute;
+            left: 0;
+            top:0;
+            border: none;
+        }
+        .get_btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 99999;
+            height: 100%;
+            width: 150px;
+            border: none;
+            font-size: 21px;
+            color: #6d6d6d;
+        }
+        .get_btn button{
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .clearfix:after{
+            content: '';
+            display:block;
+            height:0;
+            clear: both;
+            visibility: hidden;
+        }
+        @keyframes abc {
+            0%{transform: rotate(0deg)}
+            100%{transform: rotate(360deg)}
+        }
+    </style>
+
+
 
 </head>
 <body>
@@ -42,7 +96,7 @@
             {if condition = "isset($vo.discount)"}
                 {foreach name="vo.discount" key="key" item="value"}
                 <dl>
-                    <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >{$value.group_name}</b>
+                    <dt><b><img src="{$value.icon}" >{$value.group_name}</b>
 
                         <p>
 
@@ -65,43 +119,42 @@
                             {/foreach}
                         </span>
                     </dt>
-                    <dd><a href="{:url('user/become_member/index',['id'=>$value.id,'price_type'=>$key])}">开通</a></dd>
+                    <dd><a onclick="jump_url(this);" href="{:url('user/become_member/index',['id'=>$value.id,'price_type'=>$key])}">开通</a></dd>
                 </dl>
                 {/foreach}
                 {else/}
                 <dl>
-                    <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-2.png" >{$vo.group_name}</b>
+                    <dt><b><img src="{$vo.icon}">{$vo.group_name}</b>
                         <p><em>预存{$vo.prestore|intval}送{$vo.gift_money|intval} </em> 会员实存{$vo.prestore+$vo.gift_money}</p><span>查看照片/视频/聊天（约TA）/保险/享受客服推荐</span>
                     </dt>
-                    <dd><a href="{:url('user/become_member/index',['id'=>$vo.id,'price_type'=>'prestore'])}">开通</a></dd>
+                    <dd><a onclick="jump_url(this);" href="{:url('user/become_member/index',['id'=>$vo.id,'price_type'=>'prestore'])}">开通</a></dd>
                 </dl>
             {/if}
         {/foreach}
-        <!--<dl>
-            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >白银会员</b><p><em>半年157元</em>（9折）</p><span>查看照片/视频/聊天（约TA）</span></dt>
-            <dd><a href="">开通</a></dd>
-        </dl>
-        <dl>
-            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-1.png" >白银会员</b><p><em>1年244元</em>（7折）</p><span>查看照片/视频/聊天（约TA）</span></dt>
-            <dd><a href="">开通</a></dd>
-        </dl>
-        <dl>
-            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-2.png" >白银会员</b><p><em>预存10000送2000 </em> 会员实存12000</p><span>查看照片/视频/聊天（约TA）/保险/享受客服推荐</span></dt>
-            <dd><a href="">开通</a></dd>
-        </dl>
-        <dl>
-            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-3.png" >白银会员</b><p><em>预存30000送8000 </em>会员实存38000</p><span>查看照片/视频/聊天（约TA）/真人视频/保险<br>享受客服推荐</span></dt>
-            <dd><a href="">开通</a></dd>
-        </dl>
-        <dl>
-            <dt><b><img src="__HOME_CSS__/wapcssjsimg/images/huiyuan-4.png" >白银会员</b><p><em>预存100000送50000 </em>会员实存150000</p><span>查看照片/视频/聊天（约TA）/真人视频/保险<br>享受客服推荐/真人见面3-5人</span></dt>
-            <dd><a href="">开通</a></dd>
-        </dl>-->
     </div>
 </div>
 
 
+<div class="tck">
+    <div class="tck_content" style="width:550px;height:404px;border-radius:30px;position: absolute;left:50%;top:50%;margin-left:-275px;margin-top:-202px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;">
+        <h1 style="color: white;font-size:38px;">检测提示</h1>
+        <div class="tck_content_cent" style="border-bottom: 1px solid #EFEFF4;">
+            <p>平台协议要求，需要绑定手机号码</p>
+            <input type="text" id="mobile_phone" name="" class="tck_content_input" placeholder="请输入手机号">
+            <div class="btn_box">
+                <div class="get_btn">
+                    <button class="get_verify_bt" id="get_verify_bt" onclick="get_verify($('#mobile_phone').val(),this);">获取验证码</button>
+                </div>
 
+                <input placeholder="输入验证码" type="text" id="verify" name="" class="tck_content_input" />
+            </div>
+        </div>
+        <div class="tck_content_botm">
+            <a href="javascript:void(0);" style="border-right:1px solid #EFEFF4;color: white;" class="tck_botm_a1">取 消</a>
+            <a href="javascript:void(0);" style="color: white;" class="tck_botm_a2">确 定</a>
+        </div>
+    </div>
+</div>
 
 
 
@@ -118,3 +171,10 @@
 
 </body>
 </html>
+<script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
+
+
+<!--layui组件-->
+<script src="__STATIC__/layer/layer.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+<script type="text/javascript" src="__HOME_JS__/user/member_list/bind_phone.js"></script>

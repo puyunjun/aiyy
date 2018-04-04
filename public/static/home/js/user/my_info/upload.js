@@ -147,13 +147,14 @@ function set_upload_param(up, filename, ret,type)
     up.start();
 }
 var p=0; //设置上传完成总进度初始值
-var up_data = []; //设置收录上传数据数据
+var up_data = {}; //设置收录上传数据数据
+var index_name ;   //设置上传id索引名
 var uploader = new plupload.Uploader({
     runtimes : 'html5,flash,silverlight,html4',
     browse_button : 'selectfiles',
     //multi_selection: false,
     unique_names:true,
-    container: document.getElementById('containers'),
+    container: 'containers',
     flash_swf_url : 'lib/plupload-2.1.2/js/Moxie.swf',
     silverlight_xap_url : 'lib/plupload-2.1.2/js/Moxie.xap',
     url : 'http://oss.aiyueyoo.com',
@@ -210,22 +211,28 @@ var uploader = new plupload.Uploader({
             if (info.status == 200)
             {
                 //收录上传数据
-                up_data[p]= host+'/'+get_uploaded_object_name(file.name);
+                //up_data.push(host+'/'+get_uploaded_object_name(file.name)) ;
+                up_data[file.id] = host+'/'+get_uploaded_object_name(file.name);
                 p++;
+                console.log(up_data)
                 if(p===up.files.length){
                     //添加数据
                     $.ajax({
                         url:'http://'+window.location.host+'/user/my_info/up_gr_photo',
                         dataType:'JSON',
-                        data:{up_data:up_data},
+                        data:up_data,
                         //processData: false,  // 不处理数据
                         //contentType: false,   // 不设置内容类型
                         type:'post',
                         success:function(res){
-
-                            if(res){
-
-                                layer.msg(res,function () {
+                            if(res.code==200){
+                                up_data={};
+                                index_name = res.id_data;
+                                $.each(index_name,function(index){
+                                    //赋值id
+                                    $(document.getElementById(index)).find('img').attr('avg_id',index_name[index]);
+                                })
+                                layer.msg(res.msg,function () {
                                     //window.location.href='http://'+window.location.host+'/user/index/index';
                                 });
                             }
@@ -233,7 +240,8 @@ var uploader = new plupload.Uploader({
                     });
 
                 }
-                //document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = 'upload to oss success, object name:' + get_uploaded_object_name(file.name);
+                //document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = host+'/'+get_uploaded_object_name(file.name);
+                $(document.getElementById(file.id)).find('img').attr('src',host+'/'+get_uploaded_object_name(file.name));
             }
             else
             {

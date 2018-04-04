@@ -380,17 +380,33 @@ class MyInfo extends Common
         if($this->request->isAjax()){
 
             //接受上传的数据
-            $up_data = request()->post()['up_data'];
+            $up_data = request()->post();
+            $create_time = request()->time();  //批量赋予固定时间
             $data = [];
+            $empty_arr = [];
+            $index_name =[];  //收录上传id名称  按添加照片顺序收录
             foreach ($up_data as $k=>$v){
-                $data[$k]['video_url'] = $v;
-                $data[$k]['video_type'] = 1;
-                $data[$k]['create_time'] = request()->time();
-                $data[$k]['uid'] = UID;
-                $data[$k]['upload_ip'] = get_client_ip(1);  //数字型ip地址
+                $empty_arr['video_url'] = $v;
+                $empty_arr['video_type'] = 1;
+                $empty_arr['create_time'] = $create_time;
+                $empty_arr['uid'] = UID;
+                $empty_arr['upload_ip'] = get_client_ip(1);  //数字型ip地址
+                $index_name[]=$k;
+                $data[] = $empty_arr;
             }
             //添加数据
-            if(Video::insertAll($data)) return  json('添加成功');
+            if(Video::insertAll($data)){
+                //查找刚才加入的数据，以添加的时间和用户id作为判断  并按id顺序获取
+                $res = Video::where(['uid'=>UID,'create_time'=>$create_time])
+                        ->field('id')
+                        ->order('id asc')
+                        ->select();
+                $ids = [];
+                foreach ($res as $k=>$value){
+                    $ids[$index_name[$k]]=$value->id;
+                }
+                return  json(array('id_data'=>$ids,'msg'=>'添加成功','code'=>200));
+            }
         }
 
     }

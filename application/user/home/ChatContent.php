@@ -56,6 +56,14 @@ class ChatContent extends Common
     public function add_chat(){
         $data =request()->post();
         $data['send_uid'] = UID;
+        $receive_uid = $data['receive_uid'];
+        //将两个id排序后生成md5会话标识
+        if($data['send_uid'] > $receive_uid){
+            $str = $receive_uid.'-'.$data['send_uid'];
+        }else{
+            $str = $data['send_uid'].'-'.$receive_uid;
+        }
+        $data['chat_sign'] = $str;
         $data['create_time'] = request()->time();
       $re  = ChatContentModel::insert($data);
       if($re){

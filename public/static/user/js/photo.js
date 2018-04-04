@@ -12,28 +12,20 @@ for(var i=0;i<p_obj.length;i++){
 * @param string status 审核状态 y=>成功，n=>拒绝通过
 * @param int id 主键id
 * */
-function check_sfz(status,id){
-    var c,code ;
-    if(status === 'y'){
-        c = '通过审核';
-        code = 1;   //保存数据库状态
-    }else if(status === 'n'){
-        c ='拒绝通过';
-        code = 2;
-    }
-    layer.confirm('确定执行'+c+'?',function(index){
+function check_sfz(id){
+    var c='审核';
+        var index = layer.load(1)
             $.ajax({
                 url:'http://'+window.location.host+'/admin.php/user/identify/verify_sfz',
-                data:{id:id,status:code},
+                data:{id:id},
                 dataType:'JSON',
                 type:'POST',
                 success:function(res){
                    layer.msg(res,function(){
+                       layer.close(index);
                        window.location.href=history.go(-1);
                    });
                 }
             });
-        layer.close(index);
-    });
 }
 

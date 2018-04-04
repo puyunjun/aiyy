@@ -29,8 +29,9 @@
                             {case value="2"}<img src="__HOME_CSS__/wapcssjsimg/images/sexw.png" >{/case}
                         {default /}
                         {/switch}
-
-                        <img src="__HOME_CSS__/wapcssjsimg/images/v.png" >
+                        {if condition="$user_base_info.icon != null"}
+                        <img height="20" width="20" src="{$user_base_info.icon}" >
+                        {/if}
                     </b>
                     <p>约游ID：{$user_base_info.sys_id}</p>
                 </dd>
@@ -105,26 +106,7 @@
                 })
             }else{
                 if(control_name === 'Escort'){
-                    layer.prompt({
-                        formType: 2,
-                        value: '验证码',
-                        title: '输入验证码',
-                        //area: ['800px', '350px'] //自定义文本域宽高
-                    }, function(value, index, elem){
-                        alert(value); //得到value
-                        $.ajax({
-                            url:'http://'+window.location.host+'/user/become_escort/check_verify',
-                            data:{verify:value},
-                            dataType:'JSON',
-                            type:'POST',
-                            success:function(res){
-                                layer.msg(res.msg,function(){
-                                    layer.close(index);
-                                });
-                            }
-                        });
-
-                    });
+                    window.location.href = 'http://'+window.location.host+'/user/become_escort/index.html';
                 }else{
                     window.location.href =  'http://'+window.location.host+'/User/Authentication/index';
                 }

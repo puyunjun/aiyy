@@ -1,0 +1,26 @@
+
+{extend name="layout"}
+{block name="page_title"}
+注册
+{/block}
+{block name="page_button"}
+<dt><a href="{:url('user/Login/index')}">登录</a></dt>
+{/block}
+{block name="content"}
+<div id="login">
+    <div class="login-1-zc">
+        <form action="" name="ff1" method="post" onsubmit="return sub_fun()">
+            <li class="tt1"><input id="mobile_phone" name="identifier" type="text" class="txt1" value="" placeholder="请输入手机号"></li>
+            <li class="tt2"><input id="check_verify"  name="check_verify" type="text" class="txt1" value="" placeholder="请输入验证码"><a onclick="get_verify($('#mobile_phone').val(),this,{$forget});">获取验证码</a></li>
+            <li class="tt1"><input id="password" name="password" type="password" class="txt1" placeholder="请输入密码（至少6位,字母和数字组合）" value=""></li>
+            <li class="tt3"><input name="tj" class="tj" type="submit" value="确认修改"></li>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="foot_content"}
+{/block}
+
+{block name="page_js"}
+<script src="__HOME_JS__/user/signin/forget_pass.js"></script>
+{/block}

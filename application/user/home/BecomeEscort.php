@@ -47,8 +47,38 @@ class BecomeEscort extends Common
                 return json(array('status' => false, 'msg' => '验证码不正确'));
             }else{
                 Session::delete('verify_code');
-                Db::name('user')->where('id',UID)->update(['is_escort' => 1]);
-                return json(array('status' => true, 'msg' => '签约成功'));
+                $forword  = request()->post('forword');
+                //查询是否已经申请过
+                $is_has_verify = Db::name('escort_user')->where('uid',UID)->value('status');
+                $data =array(
+                    'create_time'=>request()->time(),
+                    'uid'=>UID,
+                    'status'=>2
+                );
+                $data_sys_new = array(
+                    'uid'=>UID,
+                    'sys_news_create_time'=>request()->time(),
+                    'sys_news_content'=>'您正在申请成为本平台伴游，请等待管理员审核，注意查看消息提示',
+                );
+                Db::startTrans();
+                try{
+                    if($is_has_verify === 0){
+                        //审核未通过
+                        Db::name('escort_user')->where('uid',UID)->setField('status',2);
+                    }else{
+                        Db::name('escort_user')->insert($data);
+                    }
+                    //将系统消息发送给用户
+                    Db::name('member_sys_news')->insert($data_sys_new);
+                    Db::name('__user__')->where('id',UID)->setField('forword',$forword);
+                    Db::commit();
+                } catch (\Exception $e) {
+                    // 回滚事务
+                    Db::rollback();
+                }
+
+                //Db::name('user')->where('id',UID)->update(['is_escort' => 1]);
+                return json(array('status' => true, 'msg' => '申请成功，等待管理员审核'));
             }
             return json(array('status' => false, 'msg' => '服务器繁忙，稍后再试'));
 
@@ -74,7 +104,7 @@ class BecomeEscort extends Common
                 ));
             }
             //都通过，调用获取验证码方法
-            $this->get_verify(User::where('id',UID)->value('phone'));
+            //$this->get_verify(User::where('id',UID)->value('phone'));
             return json(array('code'=>200));
         }
 
@@ -83,7 +113,9 @@ class BecomeEscort extends Common
                 //不满足条件直接跳转回去;
                 $this->redirect('user/index/index');
             }
-            $data= Db::name('user')->where('id',UID)->find();
+            $data= Db::name('user')
+                ->where('id',UID)
+                ->find();
             $this->assign("data", $data);
             $this->assign("type", $type);
             $forgetPass = request()->param('forget') ? intval(1) : '';
@@ -95,9 +127,17 @@ class BecomeEscort extends Common
     public function get_verify($mobile_phone = '')
     {
         $id=UID;
-        $name= Db::name('user')->where("id=$id AND is_escort=1")->select();
-        if ($name) {
+        $name= Db::name('user')
+            ->alias('u')
+            ->where("u.id=$id")
+            ->join('dp_escort_user deu','deu.uid = u.id','LEFT')
+            ->field('u.is_escort,deu.status')
+            ->find();
+        if ($name['is_escort'] === 1) {
             return json(array('code' => 300, 'msg' => '您已成为伴游,请勿重复注册'));
+        }elseif($name['status'] === 2){
+
+            return json(array('code' => 301, 'msg' => '管理员正在审核'));
         }
 
         //调用短信接口  发送验证码，返回发送成功状态码
@@ -133,6 +173,4 @@ class BecomeEscort extends Common
 
         }
     }
-
-
 }

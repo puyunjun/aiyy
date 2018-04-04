@@ -87,6 +87,7 @@
                 <a href="{:url('user/MyInfo/show', ['id' =>'13'])}"><li><b>体重</b><input type="" readonly  name="weight" class="bai1" placeholder="请输入" value="{$base_info.weight}"/></li></a>
             </ul>
         </div>
+
         <div id="containers" class="container">
         <div class="mi-xx-zp">
             <div class="mi-xx-zp-1"><b>照片</b></div>
@@ -161,82 +162,6 @@
     $(".datetime-picker").datetimePicker();
     +function($){
         $.rawCitiesData = [
-            /*{
-                "name":"北京",
-                "code":"110000",
-                "sub": [
-                    {
-                        "name": "北京市",
-                        "code": "110000",
-                        "sub":[
-                            {
-                                "name":"东城区",
-                                "code":"110101"
-                            },
-                            {
-                                "name":"西城区",
-                                "code":"110102"
-                            },
-                            {
-                                "name":"朝阳区",
-                                "code":"110105"
-                            },
-                            {
-                                "name":"丰台区",
-                                "code":"110106"
-                            },
-                            {
-                                "name":"石景山区",
-                                "code":"110107"
-                            },
-                            {
-                                "name":"海淀区",
-                                "code":"110108"
-                            },
-                            {
-                                "name":"门头沟区",
-                                "code":"110109"
-                            },
-                            {
-                                "name":"房山区",
-                                "code":"110111"
-                            },
-                            {
-                                "name":"通州区",
-                                "code":"110112"
-                            },
-                            {
-                                "name":"顺义区",
-                                "code":"110113"
-                            },
-                            {
-                                "name":"昌平区",
-                                "code":"110114"
-                            },
-                            {
-                                "name":"大兴区",
-                                "code":"110115"
-                            },
-                            {
-                                "name":"怀柔区",
-                                "code":"110116"
-                            },
-                            {
-                                "name":"平谷区",
-                                "code":"110117"
-                            },
-                            {
-                                "name":"密云县",
-                                "code":"110228"
-                            },
-                            {
-                                "name":"延庆县",
-                                "code":"110229"
-                            }
-                        ]
-                    }
-                ]
-            },*/
             {"name":"\u5317\u4eac","code":"110000","sub":[{"name":"\u5317\u4eac\u5e02","code":"110000","sub":[{"name":"\u4e1c\u57ce\u533a","code":"110101"},{"name":"\u897f\u57ce\u533a","code":"110102"},{"name":"\u671d\u9633\u533a","code":"110105"},{"name":"\u4e30\u53f0\u533a","code":"110106"},{"name":"\u77f3\u666f\u5c71\u533a","code":"110107"},{"name":"\u6d77\u6dc0\u533a","code":"110108"},{"name":"\u95e8\u5934\u6c9f\u533a","code":"110109"},{"name":"\u623f\u5c71\u533a","code":"110111"},{"name":"\u901a\u5dde\u533a","code":"110112"},{"name":"\u987a\u4e49\u533a","code":"110113"},{"name":"\u660c\u5e73\u533a","code":"110114"},{"name":"\u5927\u5174\u533a","code":"110115"},{"name":"\u6000\u67d4\u533a","code":"110116"},{"name":"\u5e73\u8c37\u533a","code":"110117"},{"name":"\u5bc6\u4e91\u53bf","code":"110228"},{"name":"\u5ef6\u5e86\u53bf","code":"110229"}]}]}
         ];
     }($);
@@ -331,7 +256,7 @@
 
     var  a=0;
 
-    function imgChange(obj1, obj2) {
+   /* function imgChange(obj1, obj2) {
         //获取点击的文本框
         var file = document.getElementById("file");
         //存放图片的父级元素
@@ -394,7 +319,7 @@
 
         //var imgUrl = all_photo_object[[all_photo_object.length-1]][i];
         //console.log(all_photo_object)
-        /*$(function(){
+        /!*$(function(){
             $('.jqmeter-container').jQMeter({
                 goal:'$2,000',
                 raised:'$2,000',
@@ -402,8 +327,8 @@
                 height:'20px'
             });
             $('.iconfont.icon-cuowu').hide();
-        });*/
-    };
+        });*!/
+    };*/
     var object_name = [];   //使用批量删除  可做封装再使用  ,此处只删除一张 未封装
     function imgRemove() {
         var imgI = document.getElementsByClassName("iconfont icon-cuowu");

@@ -46,6 +46,8 @@ class Login extends Controller
     public function login_out(){
         Session::delete('user_auth_home');
         Session::delete('user_auth_sign_home');
+        cookie('uid_home', null);
+        cookie('signin_token_home', null);
         $this->redirect('index/Index/index');
     }
 

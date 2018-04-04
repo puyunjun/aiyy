@@ -25,8 +25,8 @@ CREATE TABLE dp_user(
   `account` DECIMAL (8,2) DEFAULT 0.00 COMMENT '用户余额',
   `point` DECIMAL (8,2) UNSIGNED NOT NULL  DEFAULT 0.00 COMMENT '积分点数',
   `forword` VARCHAR (255) NOT NULL DEFAULT '' COMMENT '伴游去向',
-  `is_vip` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为vip用户,4=>非vip用户,1=>vip用户',
-  `is_escort` TINYINT(1) UNSIGNED NOT NULL DEFAULT 4 COMMENT '是否为伴游,4=>非伴游用户,1=>伴游用户',
+  `is_vip` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否为vip用户,0=>非vip用户,1=>vip用户',
+  `is_escort` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否为伴游,0=>非伴游用户,1=>伴游用户',
   `is_bind_phone` TINYINT (1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户是否绑定手机号,0=>未绑定,1=>绑定',
   `login_time` CHAR(10) NOT NULL DEFAULT '' COMMENT '最后一次登陆时间',
   `login_ip` VARCHAR (30) NOT NULL DEFAULT '' COMMENT '最后一次登录用户电脑ip地址',
@@ -185,9 +185,11 @@ CREATE TABLE IF NOT EXISTS `dp_user_release`(
     `release_object` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT'1=>男,2=>女,0=>不限',
     `travel_start_time` INT(10) UNSIGNED NOT NULL COMMENT '出行时间',
     `travel_total_time` INT(10) UNSIGNED NOT NULL COMMENT '出行天数',
+    `travel_address` VARCHAR(50) NOT NULL DEFAULT  COMMENT '出行目的地',
     `travel_tool` VARCHAR(50) NOT NULL COMMENT '出行方式',
     `is_sincerity` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否交纳诚意金,0=>未交纳，1=>交纳',
     `sincerity_money` DECIMAL(8,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT '诚意金数额',
+    `verify_status` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '后台审核状态,0=>未审核，1=>审核通过,2=>审核未通过',
     `create_time` INT(10) UNSIGNED NOT NULL COMMENT '发布时间'
 );
 
@@ -237,7 +239,30 @@ CREATE TABLE dp_chat_content_date(
   `receive_uid` INT(11)  UNSIGNED NOT NULL COMMENT '接收者用户id',
   `content` VARCHAR (255) NOT NULL DEFAULT ' ' COMMENT '发送内容',
   `create_time` CHAR(10) NOT NULL COMMENT '留言时间',
+  `chat_sign` VARCHAR (100) NOT NULL COMMENT '对话标识，相同用户之间的标识相同,利用id排序生成md5',
   `read_status` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '用户是否读取,0=>未读，1=>已读'
 );
 
 
+/*
+伴游用户信息表
+*/
+CREATE TABLE dp_escort_user(
+  `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+  `uid` INT(11)  UNSIGNED NOT NULL COMMENT '申请用户id',
+  `create_time` CHAR(10) NOT NULL COMMENT '申请时间',
+  `verify_time` CHAR(10) NOT NULL DEFAULT ' ' COMMENT '审核时间',
+  `status` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否通过,0=>未通过，1=>通过,2=>审核中'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+/*
+会员系统信息表
+*/
+CREATE TABLE dp_member_sys_news(
+  `id` INT (11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+  `uid` INT(11)  UNSIGNED NOT NULL COMMENT '用户id',
+  `sys_news_create_time` CHAR(10) NOT NULL COMMENT '发系统送信息时间',
+  `sys_news_content` TEXT  NOT NULL  COMMENT '发送内容',
+  `read_status` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否通过,0=>未读，1=>已读'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

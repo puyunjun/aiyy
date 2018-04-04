@@ -32,7 +32,7 @@ class Member extends Admin
                 $map['u.sys_id']=0;
                 $map['u.member_deadline']=0;
             }
-            $order = $this->getOrder() ? $this->getOrder() : 'u.id asc';
+            $order = $this->getOrder() ? $this->getOrder() : 'u.id desc';
             // 数据列表
             $field_str = 'u.id,sys_id,group_id,member_deadline,city_id,
             phone,user_type,nickname,head_img,real_name,sex
@@ -223,6 +223,7 @@ class Member extends Admin
             'text' => ['title' => '编辑信息', 'url' => url('edit', ['id' => $id,'group' => 'text'])],
             'photo' => ['title' => '上传照片', 'url' => url('edit', ['id' => $id,'group' => 'photo'])],
             'video' => ['title' => '上传视频', 'url' => url('edit', ['id' => $id,'group' => 'video'])],
+            'release' => ['title' => '发布旅途', 'url' => url('edit', ['id' => $id,'group' => 'release'])],
         ];
 
         // 保存数据
@@ -266,12 +267,22 @@ class Member extends Admin
 
             }
             //基本信息部分
+              /*发布旅途部分
+               * */
+               if(request()->param('group') === 'release'){
+                   $data['create_time'] = request()->time();
+                   $data['travel_start_time'] = strtotime($data['travel_start_time']);
+                   Db::name('user_release')->insert($data);
+                   $this->success('添加成功', 'user/release/index');
+               }
             $result = $this->validate($data, 'UserAuth.edit');
             if(true !== $result) $this->error($result);
             $data['birthday'] = strtotime($data['birthday']);
-
-            $data['head_img'] = get_file_path($data['head_img']);
-
+            //判断是否修改照片
+           $db_img_url =  Db::name('__user__')->where('id',$id)->value('head_img');
+           if($db_img_url !== $data['head_img']){
+               $data['head_img'] = get_file_path($data['head_img']);
+           }
             if (UserModel::update($data)) {
                 Cache::clear();
                 // 记录行为
@@ -363,6 +374,22 @@ class Member extends Admin
                         ->addVideo('video_url','添加视频')
                         ->hideBtn('submit,back')
                         ->setFormData($info)
+                        ->fetch();
+                    break;
+                case 'release':
+                    //发布旅途
+                    return ZBuilder::make('form')
+                        ->addHidden('uid',$id)
+                        ->setTabNav($list_tab,$group)
+                        ->addFormItems([
+                            ['text','travel_total_time', '出行天数'],
+                            ['date','travel_start_time', '出行时间','<span class="text-danger">格式2018-01-01</span>'],
+                            ['text','sincerity_money', '诚意金数额','默认100',100],
+                            ['text','travel_tool', '出行方式','如私家车，徒步'],
+                            ['text','travel_address', '目的地','如重庆'],
+                            ['radio','release_object', '选择出行对象','',['1'=>'男','2'=>'女','0'=>'不限']],
+                            ['radio','is_sincerity', '是否交纳诚意金','',['0'=>'不交纳','1'=>'交纳']],
+                        ])
                         ->fetch();
                     break;
             }

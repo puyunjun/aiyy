@@ -92,12 +92,12 @@ class Login extends Model
         session('user_auth_home', $auth);
         session('user_auth_sign_home', $this->dataAuthSign($auth));
 
-        // 判断是否记住登录，下次自动登录
-        /*if ($rememberme) {
-            $signin_token = $user->username.$user->id.$user->last_login_time;
-            cookie('uid_home', $user->id, 24 * 3600 * 7);
-            cookie('signin_token_home', data_auth_sign($signin_token), 24 * 3600 * 7);
-        }*/
+        // 下次自动登录
+
+        $signin_token = $user->identifier.$user->id.$user_info['login_time'];
+        cookie('uid_home', $user->id, 24 * 3600 * 7);
+        cookie('signin_token_home', data_auth_sign($signin_token), 24 * 3600 * 7);
+
         return $user->id;  //用户登录标识主键id
     }
 
@@ -134,6 +134,19 @@ class Login extends Model
         $user = session('user_auth_home');
 
         if (empty($user)) {
+            if (cookie('?uid_home') && cookie('?signin_token_home')) {
+                $UserModel = new User();
+                $user = Model::name('user_auth')->where('id',cookie('uid_home'))->find();
+                $user_info= $UserModel::where('id',$user['uid'])->find();
+                if ($user) {
+                    $signin_token = data_auth_sign($user['identifier'].$user['id'].$user_info['login_time']);
+                    if (cookie('signin_token_home') == $signin_token) {
+                        // 自动登录
+                        $this->autoLogin($user,$user_info);
+                        return $user['id'];
+                    }
+                }
+            };
             return 0;
         }else{
             return session('user_auth_sign_home') == $this->dataAuthSign($user) ? $user['uid'] : 0;
@@ -151,7 +164,7 @@ class Login extends Model
      * */
     public function mobile_login($password = '',$user,$x = '',$y = ''){
         if (!Hash::check((string)$password, $user->credential)) {
-            return  json(array('status'=>false,'msg'=>'密码错误！'));
+            return  array('status'=>false,'msg'=>'密码错误！');
         } else {
 
             $uid = $user->uid;

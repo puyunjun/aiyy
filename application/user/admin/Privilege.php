@@ -88,7 +88,7 @@ class Privilege extends Admin
                 cache('cms_column_list', null);
                 // 记录行为
                 action_log('column_add', 'cms_column', $column['id'], UID, $data['group_id']);
-                $this->success('新增成功', 'index');
+                $this->success('新增成功', 'group');
             } else {
                 $this->error('新增失败');
             }

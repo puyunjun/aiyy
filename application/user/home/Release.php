@@ -50,6 +50,7 @@ class Release extends Common
                 'travel_start_time' => strtotime(request()->post('travel_start_time')),              //出行时间
                 'travel_total_time' => request()->post('travel_total_time'),   //出行天数
                 'travel_tool' => request()->post('travel_tool'),                    //出行方式
+                'travel_address' => request()->post('travel_address'),                    //出行目的地
                 'create_time' => time(),                         //发布时间
                 'is_sincerity' =>'0',                            //是否缴纳滞纳金
             ];
@@ -60,6 +61,7 @@ class Release extends Common
                 'travel_start_time' => strtotime(request()->post('travel_start_time')),              //出行时间
                 'travel_total_time' => request()->post('travel_total_time'),   //出行天数
                 'travel_tool' => request()->post('travel_tool'),                    //出行方式
+                'travel_address' => request()->post('travel_address'),                    //出行目的地
                 'sincerity_money' => '100',                      //诚意金数额
                 'create_time' => time(),                         //发布时间
                 'is_sincerity' =>'1',                            //是否缴纳滞纳金

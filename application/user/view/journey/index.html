@@ -19,9 +19,9 @@
                     </div>
                     <div class="gz">
                         {if condition = "$vo.attentioned eq 0"}
-                        <a id="attention" value="{$vo.uid}">+  关注</a>
+                        <a class="attention" value="{$vo.uid}">+  关注</a>
                         {else/}
-                        <a value="{$vo.uid}" style="background: url('')">  已关注</a>
+                        <a value="{$vo.uid}" style="background-image: url(__HOME_CSS__/wapcssjsimg/images/ygz.png)">  已关注</a>
                         {/if}
                     </div>
                 </div>
@@ -37,6 +37,7 @@
                                 <li>・邀约对象：不限</li>
                                 {/if}
                                 <li>・出行方式：{$vo.travel_tool}</li>
+                                <li>・目的地：{$vo.travel_address}</li>
                                 <li>・费&nbsp;&nbsp;&nbsp;&nbsp;用：100</li>
                             </ul>
                             <div class="date">{$vo.create_time|date='Y-m-d H:i:s',###}发布</div>
@@ -50,9 +51,36 @@
     </div>
 
 </div>
+
+<h1>
+    <input type="text" id="content" placeholder="输入聊天信息"/><button  id="send_info">发送</button>
+    <br>
+    <span id="receive_info">
+        这里是接受的消息
+    </span>
+</h1>
 {/block}
 
 {block name="page_js"}
 <script src="__HOME_JS__/user/journey/index.js"></script>
+
+<script>
+
+    $('#send_info').click(function(){
+        ws = new WebSocket("ws://dev.dophin.local:2346");
+        ws.onopen = function() {
+            alert("连接成功");
+            $send_value = $('#content').val();
+            ws.send($send_value);
+
+            alert("给服务端发送一个字符串：蒲云军");
+        };
+        ws.onmessage = function(e) {
+            $("#receive_info").html(e.data)
+            //alert("收到服务端的消息：" + e.data);
+        };
+    })
+</script>
+
 {/block}
 

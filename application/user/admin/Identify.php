@@ -14,6 +14,7 @@ namespace app\user\admin;
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
 use app\user\model\home\Identify As IdentifyModel;
+use app\user\admin\IdentifyVerify;
 use think\Db;
 class Identify extends Admin
 {
@@ -97,11 +98,59 @@ class Identify extends Admin
         if(request()->isAjax()){
             $data = request()->post();
 
+            //获取到审核的主键id
+            $user_info = Db::name('user_identity')->alias('i')
+                        ->where('i.id',$data['id'])
+                        ->join('__USER__ u','u.id = i.uid','LEFT')
+                        ->field('i.id,i.id_card_num,i.sfz_font_img,i.sfz_back_img,i.sfz_hand_img,u.real_name')
+                        ->find();
+            //点击审核，通过审核接口返回审核结果
+            $identify = IdentifyVerify::getinstance();
+            //获取需要识别的图片
+            $img_data = array();
+            $img_data[0]['img_url'] = $user_info['sfz_font_img']; //正面照
+            $img_data[0]['forword'] = 'front'; //正面标识
+            $img_data[1]['img_url'] = $user_info['sfz_back_img']; //背面照
+            $img_data[1]['forword'] = 'back'; //背面标识
+            //$res = $identify->export_init('http://aiyueyoo.oss-cn-shenzhen.aliyuncs.com/authentication/2018-3-5/15202226282400.png');
+            $code_msg = true;
+            foreach ($img_data as $v){
+                $res = $identify->export_init($v['img_url'],$v['forword']);
+                if($v['forword'] === 'front'){
+                    if($res['error_code'] !== 0){
+                        $code_msg = '无法识别的身份证';
+                        break;
+                    }
+                    if($res['result']['realname'] !== $user_info['real_name']){
+                        //真实姓名不匹配
+                        $code_msg = '真实姓名与填写资料不匹配';
+                        break;
+                    }
+                    if($res['result']['idcard'] !== $user_info['id_card_num']){
+                        //身份证号码不匹配
+                        $code_msg = '身份证号码不匹配';
+                        break;
+                    }
+                }else{
+                    if($res['error_code'] !== 0){
+                        $code_msg = '无法识别的身份证';
+                        break;
+                    }
+                }
+
+            }
             //修改审核状态
-            if($data['status'] == 2) $msg = '未通过审核';
-            else $msg = '通过审核';
+            if($code_msg!==true){
+            //审核失败
+                $data['status'] = 2; //审核状态正常
+                $msg = $code_msg;
+            }else{
+                $data['status'] = 1; //审核状态正常
+                $msg = '通过审核';
+            }
+
            $re = IdentifyModel::update($data);
-           if ($re) return json('操作成功,'.$msg);
+           if ($re) return json('审核完成,'.$msg);
            else     return json('操作失败，稍后再试');
         }
         $info = IdentifyModel::get($id);
@@ -117,8 +166,7 @@ class Identify extends Admin
             ])
             ->js('photo')
             ->hideBtn(['submit', 'back'])
-            ->addBtn('<button type="button" onclick="check_sfz(\'y\','.$id.')" class="btn btn-default">审核通过</button>')
-            ->addBtn('<button type="button" onclick="check_sfz(\'n\','.$id.')" class="btn btn-default">拒绝通过</button>')
+            ->addBtn('<button type="button" onclick="check_sfz('.$id.')" class="btn btn-default">智能审核</button>')
             ->setFormData($info)
             ->fetch();
     }

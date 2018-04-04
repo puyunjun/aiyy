@@ -8,6 +8,7 @@
 
 namespace app\user\home;
 
+use app\cms\admin\Model;
 use function foo\func;
 use think\Controller;
 use app\user\model\home\UpgradeMember;
@@ -92,6 +93,21 @@ class News extends Common
               ";
 
         var_dump(Db::query($sql));*/
+
+        //查询系统消息 显得出未读消息数量
+        $no_read_news = Db::name('member_sys_news')
+            ->where('uid',UID)
+            ->where('read_status = 0')
+            ->field('count(id) as no_read_num,id')
+            ->buildSql();
+        $sys_news_info = Db::name('member_sys_news')
+                    ->alias('ms')
+                    ->join([$no_read_news=>'no_read'],'no_read.id = ms.id','LEFT')
+                    ->where('ms.uid',UID)
+                    ->field('ms.id,ms.sys_news_create_time,ms.sys_news_content,no_read.no_read_num')
+                    ->order('ms.sys_news_content desc')
+                    ->find();
+        $this->assign('sys_news_info',$sys_news_info);
         $this->assign('chat_res',$chat_res);
         $this->assign('start_uid',UID);
         return $this->fetch();
@@ -131,6 +147,20 @@ class News extends Common
         $this->assign('user',$user);
         return $this->fetch();
 
+    }
+
+
+    //系统消息显示
+    public function sys_news(){
+        //将消息状态改为已读信息
+        Db::name('member_sys_news')->where('uid = '.UID.' AND read_status=0')->setField('read_status',1);
+        $sys_news_info = Db::name('member_sys_news')
+            ->where('uid',UID)
+            ->field('id,sys_news_create_time,sys_news_content')
+            ->order('sys_news_content desc')
+            ->select();
+        $this->assign('sys_news_info',$sys_news_info);
+        return $this->fetch();
     }
 
 }

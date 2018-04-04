@@ -53,7 +53,8 @@
             {volist name="$escort_base_info.video_url" id="video_v"}
             <div {if condition="$privew_privilege.privilege_video eq false"}class="lis on"{else/}{/if}>
             {if condition="$privew_privilege.privilege_video eq true"}
-            <video src="{$video_v}" width="750" height="420">
+            <video controls  width="289" height="180">
+                <source src="{$video_v}" type="video/mp4">
             </video>
             {/if}
             </div>

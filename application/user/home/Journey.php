@@ -25,6 +25,7 @@ class Journey extends Common
             ->alias('a')
             ->join('__USER_RELEASE__ w','a.id = w.uid')
             ->join('user_identity ui','ui.uid = a.id','LEFT')
+            ->where('w.verify_status = 1')
             ->field('a.*,ui.id_card_num,w.*')
             ->select();
 

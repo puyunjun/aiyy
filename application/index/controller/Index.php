@@ -13,6 +13,7 @@ namespace app\index\controller;
 use app\user\model\home\User;
 use think\cache\driver\Redis;
 use app\user\model\home\User As UserModel;
+use app\user\model\home\Login;
 use think\Session;
 use think\Db;
 
@@ -35,10 +36,16 @@ class Index extends Home
     public function index()
     {
         // 默认跳转模块
+        /*var_dump(urldecode('%E4%BB%96%E8%AF%B4%E4%BD%A0%E7%9A%84%E5%90%8D%E5%A'));
+        var_dump(urlencode('他说你的名字很美'));exit;*/
         if (config('home_default_module') != 'index') {
             $this->redirect(config('home_default_module'). '/index/index');
         }
 
+        //判断是否登录
+        if (!(new Login())->isLogin()) {
+            $this->redirect('user/Login/index');
+        }
         if(intval(request()->param('bindphone')) === 1){
             //提示用户需要绑定手机
             $this->assign('bindphone',intval(1));
@@ -64,7 +71,7 @@ class Index extends Home
         //取出地址
         if(request()->isGet()){
 
-
+            //上拉刷新请求页面分页数据
             $user = new User();
             $data = $user->escort_info();
 
@@ -88,183 +95,42 @@ class Index extends Home
         }
         //获取用户当前位置若未登录则不显示距离
 
+        //快捷按钮数据
+        //从session里面取出用户id
+        $uid = isset(session('user_auth_home')['uid'])?session('user_auth_home')['uid']:'';
+
+        //获取用户信息
+        if($uid){
+           $quick_user_info = Db::name('__user__')->alias('u')
+                                    ->where('u.id',$uid)
+                                    ->join('dp_user_identity dui','dui.uid = u.id','LEFT')
+                                    ->join('dp_user_group dug','dug.id = u.group_id','LEFT')
+                                    ->field('u.nickname,u.head_img,u.sex,u.sys_id,u.phone,u.is_bind_phone,u.is_escort')
+                                    ->field('dui.status')
+                                    ->field('dug.group_name')
+                                    ->find();
+           //资料进度
+            $progress_num = 0;
+           if($quick_user_info['is_bind_phone'] === 1){
+               $progress_num ++;
+           }
+           if($quick_user_info['is_escort'] === 1){
+               $progress_num ++;
+           }
+           if($quick_user_info['group_name'] !== null){
+               $progress_num ++;
+           }
+           if($quick_user_info['status'] === 1){
+               $progress_num ++;
+           }
+           $quick_user_info['progress_num'] = $progress_num;
+           $this->assign('quick_user_info',$quick_user_info);
+        }else{
+            //未登录状态
+            $this->assign('quick_user_info',array());
+        }
        return $this->fetch();
 
-    }
-
-
-    public function test(){
-
-
-       $a = '{
-    "name":"重庆",
-    "code":"500000",
-    "sub": [
-      {
-        "name": "重庆市",
-        "code": "500000",
-        "sub":[
-            {
-              "name":"万州区",
-              "code":"500101"
-            },
-            {
-              "name":"涪陵区",
-              "code":"500102"
-            },
-            {
-              "name":"渝中区",
-              "code":"500103"
-            },
-            {
-              "name":"大渡口区",
-              "code":"500104"
-            },
-            {
-              "name":"江北区",
-              "code":"500105"
-            },
-            {
-              "name":"沙坪坝区",
-              "code":"500106"
-            },
-            {
-              "name":"九龙坡区",
-              "code":"500107"
-            },
-            {
-              "name":"南岸区",
-              "code":"500108"
-            },
-            {
-              "name":"北碚区",
-              "code":"500109"
-            },
-            {
-              "name":"綦江区",
-              "code":"500110"
-            },
-            {
-              "name":"大足区",
-              "code":"500111"
-            },
-            {
-              "name":"渝北区",
-              "code":"500112"
-            },
-            {
-              "name":"巴南区",
-              "code":"500113"
-            },
-            {
-              "name":"黔江区",
-              "code":"500114"
-            },
-            {
-              "name":"长寿区",
-              "code":"500115"
-            },
-            {
-              "name":"江津区",
-              "code":"500116"
-            },
-            {
-              "name":"合川区",
-              "code":"500117"
-            },
-            {
-              "name":"永川区",
-              "code":"500118"
-            },
-            {
-              "name":"南川区",
-              "code":"500119"
-            },
-            {
-              "name":"璧山区",
-              "code":"500120"
-            },
-            {
-              "name":"铜梁区",
-              "code":"500151"
-            },
-            {
-              "name":"潼南县",
-              "code":"500223"
-            },
-            {
-              "name":"荣昌县",
-              "code":"500226"
-            },
-            {
-              "name":"梁平县",
-              "code":"500228"
-            },
-            {
-              "name":"城口县",
-              "code":"500229"
-            },
-            {
-              "name":"丰都县",
-              "code":"500230"
-            },
-            {
-              "name":"垫江县",
-              "code":"500231"
-            },
-            {
-              "name":"武隆县",
-              "code":"500232"
-            },
-            {
-              "name":"忠县",
-              "code":"500233"
-            },
-            {
-              "name":"开县",
-              "code":"500234"
-            },
-            {
-              "name":"云阳县",
-              "code":"500235"
-            },
-            {
-              "name":"奉节县",
-              "code":"500236"
-            },
-            {
-              "name":"巫山县",
-              "code":"500237"
-            },
-            {
-              "name":"巫溪县",
-              "code":"500238"
-            },
-            {
-              "name":"石柱土家族自治县",
-              "code":"500240"
-            },
-            {
-              "name":"秀山土家族苗族自治县",
-              "code":"500241"
-            },
-            {
-              "name":"酉阳土家族苗族自治县",
-              "code":"500242"
-            },
-            {
-              "name":"彭水苗族土家族自治县",
-              "code":"500243"
-            }
-        ]
-      }
-    ]
-  }';
-
-      $m = json_decode($a,true);
-       echo json_encode($m);
-
-      exit;
     }
 
 
@@ -277,6 +143,34 @@ class Index extends Home
         //调用搭建的服务函数获取临时帐号
       $ossup =  new StsServer();
       $ossup->index();
+    }
+
+    public function test_up(){
+        return $this->fetch();
+    }
+
+    public function get_page_data(){
+        $page = request()->param('page') ? request()->param('page') :0;
+        $user = new User();
+        $data = $user->escort_info($page);
+
+        foreach( $data as $k=>$v1 )
+        {
+
+            $birthday_format = isset(getIDCardInfo($v1->id_card_num)['birthday']) ? getIDCardInfo($v1->id_card_num)['birthday']:0;
+            //若为系统添加伴游,直接通过伴游生日计算
+            if($v1->sys_id === 0){
+                $birthday_format =date('Y',$v1->birthday);
+            }
+            $a = date('Y', time());
+            $b = date('Y', strtotime($birthday_format));    //求出年龄
+            $data[$k]['id_card_num'] = $birthday_format ? abs($a - $b) : 0;
+
+            $str=$v1["address"];
+            $arr_str=explode(" ",$str);//以空格为拆分条件
+            $data[$k]['address'] = $arr_str[0];
+        }
+        return json($data);
     }
 
 }

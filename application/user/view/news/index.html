@@ -57,6 +57,22 @@
             </a>
             {/if}
             {/volist}
+            {php} if($sys_news_info){{/php}
+            <a href="sys_news.html">
+                <dl><img src="__HOME_CSS__/wapcssjsimg/images/xiaoxi-1.png" class="falai" >
+                    <dt>
+                        <b>系统消息</b>
+                        <p>{php}
+                            echo date('Y-m-d H:i',$sys_news_info['sys_news_create_time']);
+                            if($sys_news_info['no_read_num']){
+                                echo '('.$sys_news_info['no_read_num'].'条)';
+                            }
+                            {/php}</p>
+                    </dt>
+                    <dd>系统消息查看:{php} echo mb_substr($sys_news_info['sys_news_content'],0,10).'...';{/php}</dd>
+                </dl>
+            </a>
+            {php}}{/php}
         </div>
     </div>
 </div>

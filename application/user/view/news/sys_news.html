@@ -1,0 +1,27 @@
+{extend name="layout"}
+{block name="page_title"}
+系统消息助手
+{/block}
+{block name="page_css"}
+<link rel="stylesheet" href="__HOME_CSS__/wapcssjsimg/cssjs/help.css">
+{/block}
+{block name="content"}
+<div id="duihua">
+    <div class="duihua-1">
+        <div class="lis">
+        {volist name="sys_news_info" id="vo"}
+            <div class="q1">
+                <div class="pic">
+                    <img src="__HOME_CSS__/wapcssjsimg/images/xiaoxi-1.png">
+                </div>
+                <div class="con">{$vo.sys_news_content}</div>
+            </div>
+        {/volist}
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="page_js"}
+<script type="text/javascript" src="__HOME_JS__/user/common.js"></script>
+{/block}

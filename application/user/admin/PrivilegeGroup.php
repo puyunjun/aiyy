@@ -46,7 +46,7 @@ class PrivilegeGroup extends Admin
                 ['discount_m', '半年费折扣','text.edit'],
                 ['discount_a', '年费折扣','text.edit'],
                 ['discount_pre', '预存制折扣','text.edit'],
-                ['icon', '会员图标','picture'],
+                ['icon', '会员图标','img_url'],
                 ['usernamecolor', '会员名字颜色','callback',function($value){
                 return "<span style='color: ".$value."'>会员名字</span>";
                 }],
@@ -93,9 +93,8 @@ class PrivilegeGroup extends Admin
             }
             if(true !== $result) $this->error($result);
 
-            //$data['icon']  = get_file_path($data['icon']);
+            $data['icon']  = get_file_path($data['icon']);
             //本站直接存附件id  查询表 attachment即可
-
 
             if ($column = PrivilegeGroupModel::create($data)) {
                 cache('cms_column_list', null);
@@ -147,6 +146,7 @@ class PrivilegeGroup extends Admin
 
             $data['update_time'] = request()->time();
             // 验证
+            $data['icon'] = get_file_path($data['icon']);
 
             $result = $this->validate($data, 'PrivilegeGroup.edit');
             if(true !== $result) $this->error($result);
@@ -186,6 +186,7 @@ class PrivilegeGroup extends Admin
                 ['text', 'description', '相关描述'],
                 ['text', 'sort', '排序'],
             ])
+            ->js('privilege_edit')
             ->setTrigger('member_type', '1', 'price_y,price_m,price_a,discount_y,discount_m,discount_a')
             ->setTrigger('member_type', '2', 'prestore,gift_money,discount_pre')    /*  设置触发器*/
             ->setFormData($info)
