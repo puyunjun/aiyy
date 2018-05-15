@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="__STATIC__/broker/css/index.css" type="text/css" rel="stylesheet" />
+    <link href="__STATIC__/broker/css/shared.css" type="text/css" rel="stylesheet" />
+    <!--layer组件css-->
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <!-- <script src="__STATIC__/broker/js/jquery.1.4.2-min.js" type="text/javascript"></script>-->
+    <script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
+    <!--layui组件-->
+    <script src="__STATIC__/layer/layer.js"></script>
+    <script src="__STATIC__/layui/layui.js"></script>
+    <script src="__STATIC__/broker/js/jQuery.textSlider.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body style="overflow-y: hidden">
+<!--头部-->
+<header class="land-head">
+    <img src="__STATIC__/broker/img/logo.png" />
+    <h3>邀请注册赚钱</h3>
+</header>
+<!--内容-->
+<section class="loginboxs">
+    <form>
+        <ul>
+            <li>
+                <div class="logintel">
+                    <i class="cellPhone fl"></i>
+                    <label class="flex1 bl">
+                        <input type="text" placeholder="请输入手机号码" id="numbe"/>
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="logintel">
+                    <i class="cellPhone1 fl"></i>
+                    <label class="flex1 bl">
+                        <input type="password" placeholder="请输入密码" id="password"/>
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="logintel loginte2">
+                    <a href="{:url('broker/signin/index')}" class="fl">免费注册</a>
+                    <a href="#" class="fr">忘记密码</a>
+                </div>
+            </li>
+            <li style="margin-bottom: 50px;">
+                <div class="logintel" style="border: none;">
+                    <a href="#">
+                        <button id="logIn">登录</button>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </form>
+</section>
+<div id="scrollDiv">
+    <h3>成功提现</h3>
+    <div class="landing-withdraw">
+        <ul>
+            <li>
+                <span>xxx会员</span>
+                <time>2018-4-11</time>
+                <time>200元</time>
+            </li>
+            <li>
+                <span>xxx会员</span>
+                <time>2018-4-11</time>
+                <time>400元</time>
+            </li>
+            <li>
+                <span>xxx会员</span>
+                <time>2018-4-11</time>
+                <time>400元</time>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+
+</html>
+<script src="__STATIC__/broker/js/login/index.js" type="text/javascript"></script>
+<script>
+    /*文字上下滚动*/
+    $(document).ready(function() {
+        $("#scrollDiv").textSlider({
+            line: 1,
+            speed: 500,
+            timer: 3000
+        });
+    });
+</script>

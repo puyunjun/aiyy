@@ -25,6 +25,11 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
         array (
             'Workerman\\' => 10,
         ),
+        'G' => 
+        array (
+            'GatewayWorker\\' => 14,
+            'GatewayClient\\' => 14,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -53,6 +58,14 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
         array (
             0 => __DIR__ . '/..' . '/workerman/workerman',
             1 => __DIR__ . '/..' . '/workerman/workerman-for-win',
+        ),
+        'GatewayWorker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/gateway-worker-for-win/src',
+        ),
+        'GatewayClient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/gatewayclient',
         ),
     );
 

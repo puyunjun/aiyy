@@ -1,0 +1,25 @@
+@charset "utf-8";
+body h3,h4,h5,h6,hr,p,dl,dt,dd,ul,ol,li,pre,form,button,input,textarea,i,b { font-style:normal;font-weight: 500;list-style: none; margin: 0;padding: 0;font: 16px 'Microsoft Yahei',Tahoma,Simsun}
+body { margin: 0 auto;font: 16px 'Microsoft Yahei',Tahoma,Simsun; background: #fff;overflow-x: hidden;}
+* {word-wrap: break-word;margin: 0px;padding: 0px;}
+i,em {font-style: normal}
+a {text-decoration: none;color: #303030;font-size: 16px;}
+a:link,a:visited {outline: 0}
+img,a img {border: 0;border: none;}
+.fl{float: left;}
+.fr{float: right;}
+a, button, input, option, select, textarea {
+    outline: 0;
+    font-family: "Microsoft YaHei";
+   outline: none;
+	/*-webkit-appearance: none;*/
+	border-radius: 0;
+}
+.middl{
+	vertical-align: middle;
+}
+.cente{
+	text-align: center;
+}
+.cff{color: #FFFFFF;}
+input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}

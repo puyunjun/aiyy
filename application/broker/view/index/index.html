@@ -1,0 +1,211 @@
+{extend name="layout"}
+{block name="page_title"}爱约游经纪人管理平台{/block}
+{block name="page_css"}
+<!--layer组件css-->
+<link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+{/block}
+{block name="page_header"}
+<!--头部-->
+<div class="share">
+    <img src="__STATIC__/broker/img/share.png" />
+    <img src="__STATIC__/broker/img/ok.png" onclick="share(this)" />
+</div>
+<header class="management">
+    <h2 class="cff">爱约游经纪人管理平台</h2>
+    <em class="cff">我的推广ID:{$invite_code}</em>
+    <img src="{$code_img}"/>
+</header>
+{/block}
+<!--内容-->
+
+{block name="content"}
+<section class="management-box">
+    <section class="management-inpu">
+        <ul>
+            <li>
+                <div class="management-coding">
+                    <div class="fl flex1" id="input">{$url}</div>
+                    <span class="fr" onclick="copyText()">复制</span>
+                </div>
+            </li>
+            <li>
+                <div class="management-coding" onclick="partake(this)">
+                    <button class="yes-addTo flex1">我要分享赚钱</button>
+                </div>
+            </li>
+            <!--<li>
+                <div class="management-coding">
+                    <div class="fl flex1">邀请码&nbsp;:<em>123456</em></div>
+                    <span class="fr management-invite">邀请成为经济人</span>
+                </div>
+            </li>-->
+        </ul>
+    </section>
+    <section class="management-data">
+        <ul>
+            <li>
+                <a href="{:url('broker/my_info/index')}">
+                    <div class="fl">个人资料</div>
+                    <img src="__STATIC__/broker/img/Arrow.png" class="fr"/>
+                </a>
+            </li>
+            <li>
+                <a href="{:url('broker/account/index')}">
+                    <div class="fl">打款账号</div>
+                    <img src="__STATIC__/broker/img/Arrow.png" class="fr"/>
+                </a>
+            </li>
+            <li>
+                <a href="{:url('broker/withdraw/index')}">
+                    <div class="fl">账户详情</div>
+                    <img src="__STATIC__/broker/img/Arrow.png" class="fr"/>
+                </a>
+            </li>
+            <li>
+                <a href="{:url('broker/Help/index')}">
+                    <div class="fl">分销帮助</div>
+                    <img src="__STATIC__/broker/img/Arrow.png" class="fr"/>
+                </a>
+            </li>
+            <li style="margin-bottom: 60px;">
+                <a href="#">
+                    <div class="fl">联系客服</div>
+                    <img src="__STATIC__/broker/img/Arrow.png" class="fr"/>
+                </a>
+            </li>
+        </ul>
+    </section>
+</section>
+{/block}
+<!--底部-->
+{block name="page_js"}
+<script src="__STATIC__/layer/layer.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+    /*
+     * 注意：
+     * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+     * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+     * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+     *
+     * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+     * 邮箱地址：weixin-open@qq.com
+     * 邮件主题：【微信JS-SDK反馈】具体问题
+     * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+     */
+    wx.config({
+        debug: false,
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone'
+        ]
+    });
+    wx.ready(function () {
+        // 在这里调用 API
+        // 朋友圈
+        wx.onMenuShareTimeline({
+            title: '爱约游，你的寂寞伴侣', // 分享标题
+            link: '{$url}', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'http://'+window.location.host+'/static/broker/{$code_img_aiyoo}', // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                alert('分享成功');
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+                // alert('分享取消')
+            }
+        });
+
+        // 好友
+        wx.onMenuShareAppMessage({
+            title: '爱约游，你的寂寞伴侣', // 分享标题
+            link: '{$url}', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'http://'+window.location.host+'/static/broker/{$code_img_aiyoo}', // 分享图标
+            desc: '一个邀约你心仪的TA一起旅行、K歌、看电影、吃鸡等的平台，好友都在玩。', // 分享描述
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+                // alert('分享成功');
+            },
+            cancel: function () {
+                // alert('分享取消')
+            }
+        });
+
+        // QQ
+        wx.onMenuShareQQ({
+            title: '爱约游，你的寂寞伴侣', // 分享标题
+            link: '{$url}', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'http://'+window.location.host+'/static/broker/{$code_img_aiyoo}', // 分享图标
+            desc: '一个邀约你心仪的TA一起旅行、K歌、看电影、吃鸡等的平台，好友都在玩。', // 分享描述
+            success: function () {
+                // alert('分享成功');
+            },
+            cancel: function () {
+                // alert('分享取消')
+            }
+        });
+
+        // QQ空间
+        wx.onMenuShareQZone({
+            title: '爱约游，你的寂寞伴侣', // 分享标题
+            link: '{$url}', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'http://'+window.location.host+'/static/broker/{$code_img_aiyoo}', // 分享图标
+            desc: '一个邀约你心仪的TA一起旅行、K歌、看电影、吃鸡等的平台，好友都在玩。', // 分享描述
+            success: function () {
+                // alert('分享成功');
+            },
+            cancel: function () {
+                // alert('分享取消')
+            }
+        });
+
+    });
+</script>
+
+<script>
+    //复制文本
+    function copyText() {
+        selectText('input')  //选中文本
+        document.execCommand("copy"); // 执行浏览器复制命令
+        layer.msg("复制成功");
+    }
+    function selectText(element) {
+        var text = document.getElementById(element);
+        if (document.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(text);
+            range.select();
+        } else if (window.getSelection) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(text);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            /*if(selection.setBaseAndExtent){
+                selection.setBaseAndExtent(text, 0, text, 1);
+            }*/
+        } else {
+            alert("none");
+        }
+    }
+
+    ;
+
+</script>
+<script>
+    function share(obj) {
+        $('.share').hide();
+    }
+    function partake(obj){
+        $(".share").show()
+    }
+</script>
+{/block}
+

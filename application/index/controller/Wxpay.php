@@ -55,6 +55,12 @@ class Wxpay  extends Controller
         //更新用户积分点数
         //事物
         $user = Db::name('user');
+
+        //获取当前用户的推荐用户的id
+
+        $invite_id =  Db::name('broker_user_relation')->where('uid',$uid)->value('invite_uid');
+
+
         //更新用户权限组
         $price_type = $attach_info->price_type;
         if($price_type === 'price_y'){
@@ -91,6 +97,25 @@ class Wxpay  extends Controller
             $up_member_re = Db::name('upgrade_member')->insert($up_data);
             $re = $user->where('id',"$uid")
                 ->update(array('group_id'=>$group_id,'member_deadline'=>$member_deadline));
+
+
+            //若有推荐用户,修改推荐用户余额并添加分销记录
+            if($invite_id){
+                //每充值一个增加五元
+                Db::name('user_broker')->where('ubid',$invite_id)->setInc('account',5);
+                $b_data = array(
+                    'buid'=>$invite_id,
+                    'uid'=>$uid,
+                    'old_group_id'=>$old_group_id,
+                    'group_id'=>$group_id,
+                    'get_money'=>5.00,
+                    'create_time'=>request()->time()
+                );
+                //添加分销记录
+                Db::name('broker_sales_record')->insert($b_data);
+            }
+
+
             //预存金额修改用户余额数,加上赠送金额
             if($price_type === 'prestore'){
                 $gift_money = Db::name('user_group')->where('id',$group_id)->value('gift_money');

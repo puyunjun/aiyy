@@ -36,15 +36,28 @@ class Index extends Home
     public function index()
     {
         // 默认跳转模块
-        /*var_dump(urldecode('%E4%BB%96%E8%AF%B4%E4%BD%A0%E7%9A%84%E5%90%8D%E5%A'));
-        var_dump(urlencode('他说你的名字很美'));exit;*/
         if (config('home_default_module') != 'index') {
             $this->redirect(config('home_default_module'). '/index/index');
         }
 
         //判断是否登录
-        if (!(new Login())->isLogin()) {
-            $this->redirect('user/Login/index');
+        $login_model = new Login();
+        $is_login_uid = $login_model->isLogin();
+        if(request()->param('invite_code')){
+            //是否通过推荐人点击入的
+            Session::set('broker_code_uid',request()->param('invite_code'));
+        }
+        if(session('broker_code_uid') && $is_login_uid){
+            //用户再推荐人引导进入网页的时候登录网站 , 记录会员和推荐人关系
+            $is_exist = Db::name('broker_user_relation')->where('uid',$is_login_uid)->find();
+            if(!$is_exist){
+                Db::name('broker_user_relation')
+                    ->insert(array('invite_uid'=>session('broker_code_uid'),
+                        'uid'=>$is_login_uid,
+                        'create_time'=>request()->time()
+                    ));
+            }
+            Session::set('broker_code_uid',null);
         }
         if(intval(request()->param('bindphone')) === 1){
             //提示用户需要绑定手机

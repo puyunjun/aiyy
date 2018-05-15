@@ -1,0 +1,55 @@
+{extend name="layout"}
+{block name="page_title"}可提现{/block}
+{block name="page_header"}
+<header class="management management1">
+    <h2 class="cff">爱约游经纪人管理平台</h2>
+    <h3 class="cff">我的收入</h3>
+    <i  class="cff">￥{$my_account}</i>
+    <label class="cff">可提现:￥{$my_account}</label>
+    <div class="withdraw">
+        <a href="{:url('broker/account/withdraw_to')}">
+            <button class="cff fl">提现</button>
+        </a>
+        <a href="{:url('broker/my_info/sale_record')}">
+            <button class="fr details">明细</button>
+        </a>
+    </div>
+</header>
+{/block}
+{block name="content"}
+<section style="margin-bottom: 60px;">
+    <section class="withdraw-folk">
+        <img src="__STATIC__/broker/img/expert.png" /><i class="withdraw-size">{$people_num}</i>人
+    </section>
+    <section class="withdraw-details">
+        <h3>注册明细</h3>
+        <div style="margin: 0px 20px;">
+            <table>
+                <tr>
+                    <th>编号</th>
+                    <th>微信名</th>
+                    <th>注册时间</th>
+                    <th>收入</th>
+                </tr>
+                {volist name="sign_user" id="vo"}
+                <tr>
+                    <td>{$vo.sys_id}</td>
+                    <td>{$vo.nickname|urldecode}</td>
+                    <td>{$vo.create_time|date="Y-d-m",###}</td>
+                    <td>{$vo.get_money}</td>
+                </tr>
+                {/volist}
+            </table>
+        </div>
+
+    </section>
+</section>
+
+{/block}
+
+{block name="page_js"}
+<script>
+
+</script>
+
+{/block}

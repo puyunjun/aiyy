@@ -142,8 +142,8 @@ class Login extends Model
                     $signin_token = data_auth_sign($user['identifier'].$user['id'].$user_info['login_time']);
                     if (cookie('signin_token_home') == $signin_token) {
                         // 自动登录
-                        $this->autoLogin($user,$user_info);
-                        return $user['id'];
+                        $uid_key = $this->autoLogin($user,$user_info);
+                        return $user['uid'];
                     }
                 }
             };

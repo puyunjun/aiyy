@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>忘记密码</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="__STATIC__/broker/css/index.css" type="text/css" rel="stylesheet" />
+    <link href="__STATIC__/broker/css/shared.css" type="text/css" rel="stylesheet" />
+    <!--layer组件css-->
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <!-- <script src="__STATIC__/broker/js/jquery.1.4.2-min.js" type="text/javascript"></script>-->
+    <script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
+
+    <!--layui组件-->
+    <script src="__STATIC__/layer/layer.js"></script>
+    <script src="__STATIC__/layui/layui.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<!--头部-->
+<header class="header">
+    <div class="nesting">
+        <a class="header-btn"><img src="__STATIC__/broker/img/left.png" /></a>
+        <div class="align-content">
+            <h2 class="align-text" style="color: #FFFFFF;">忘记密码</h2>
+        </div>
+        <a href="#" class="header-btn header-btn1"></a>
+    </div>
+</header>
+<!--内容-->
+<section class="loginboxs" style="margin-top: 13px;">
+    <form>
+        <ul>
+            <li>
+                <div class="logintel">
+                    <i class="fl jia-bor">
+                        <a class="shouji">
+                            <img src="__STATIC__/broker/img/cellPhone.png" class="middl"/>
+                        </a>
+                        <div class="align-content">+86</div>
+                        <a class="shouji">
+                            <img src="__STATIC__/broker/img/top.png" style="width: 15px;"/>
+                        </a>
+                    </i>
+                    <input type="text" id="numbe" placeholder="请输入手机号码" class="jia-number"/>
+                </div>
+            </li>
+            <li>
+                <div class="logintel loginte3">
+                    <i class=" fl jia-bor2">
+                        <a>
+                            <input type="button" id="btn" value="免费获取验证码" class="obtain"/>
+                        </a>
+                    </i>
+                    <input type="text" id="verify_code" placeholder="验证码" class="verification fr"/>
+                </div>
+            </li>
+            <li>
+                <div class="logintel">
+                    <i class="cellPhone1  cellPhone fl"></i>
+                    <input type="password" id="password" placeholder="请输入新密码" class="password"/>
+                </div>
+            </li>
+            <li>
+                <div class="logintel" style="border: none;">
+                    <a>
+                        <button id="logIn" class=" a" style="background: #f79cc7;">完成</button>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </form>
+</section>
+
+</body>
+
+</html>
+<script src="__STATIC__/broker/js/my_info/forget.js" type="text/javascript"></script>
+<script>
+    //时间倒计时
+    function time_conut(index, obj) {
+        if(index > 0) {
+            index--;
+            setTimeout(function() {
+                $(obj).val('等待' + index + '秒重新获取');
+                time_conut(index, obj);
+            }, 1000);
+            $(obj).attr('disabled',true);
+            sessionStorage.setItem("key", index);
+        } else {
+            $(obj).val('获取验证码');
+            $(obj).removeAttr('disabled');
+            sessionStorage.removeItem("key");
+        }
+    }
+
+    if(sessionStorage.getItem('key') > 0) {
+        time_conut(sessionStorage.getItem('key'), $('#btn'))
+    }
+    document.getElementById("btn").onclick = function() {
+        /*手机号码*/
+        if(!(/^1[34578]\d{9}$/.test($("#numbe").val()))) {
+            layer.msg('请输入正确手机号码');
+            return false;
+        }
+        get_code($("#numbe").val());
+        sessionStorage.setItem('key',60);
+        time_conut(sessionStorage.getItem('key'),this);
+    }
+
+</script>

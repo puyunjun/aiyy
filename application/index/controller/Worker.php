@@ -12,8 +12,7 @@ use think\worker\Server;
 use think\db;
 class Worker extends Server
 {
-    protected $socket = 'websocket://dev.dophin.local:2346';
-
+    protected $socket = 'websocket://dev.dophin.local:8282';
     /**
      * 收到信息
      * @param $connection
@@ -21,15 +20,6 @@ class Worker extends Server
      */
     public function onMessage($connection, $data)
     {
-        $msg_arr = array(
-            'send_uid'=>1,
-            'receive_uid'=>2,
-            'content'=>$data,
-            'create_time'=>request()->time(),
-            'read_status'=>0,
-            'chat_sign'=>'1-2'
-        );
-        Db::name('chat_content_date')->insert($msg_arr);
         $connection->send($data);
     }
 

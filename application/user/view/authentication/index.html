@@ -5,8 +5,17 @@
 {/block}
 {block name="page_css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/oss-h5-upload-js-php/style.css"/>
+<style type="text/css">
+	.weui-photo-browser-modal{
+		z-index: 99999999999999;
+	}
+	#cwby .cwby-1 li.sfz{
+		padding:70px 50px;
+	}
+</style>
 {/block}
 {block name="content"}
+
 <div id="cwby">
     <div class="cwby-1">
         <form action="" name="ff1" method="post" id="form">
@@ -33,33 +42,38 @@
 
                 <pre id="console"></pre>
                 <div id="containers">
-                   <li class="sfz">
-                            <p id="selectfiles_preview" class="bg1" {if condition="($userInfo.sfz_font_img)"} style="background: url({$userInfo.sfz_font_img})"{/if}>
-                           <!-- <input id="uploadFile" type="file" name="sfz_font_img" value="" accept="image/jpeg,image/jpg,image/png">-->
-                            <!--<em>上传身份证正面</em>-->
-                            <a id="selectfiles" class="but_up"   href="javascript:void(0);">上传身份证正面</a>
-                       <br/>
-                            <a id="selectfiles_info"></a>
-                            </p>
-
+                    <li class="sfz">
+                   		<div style="text-align: center;">
+							<a id="selectfiles" style="font-size: 35px;" class="but_up" href="javascript:void(0);">上传身份证正面</a>		
+                        </div>
+                        <p id="selectfiles_preview" class="bg1" {if condition="($userInfo.sfz_font_img)"} value="{$userInfo.sfz_font_img}" style="background: url({$userInfo.sfz_font_img}) no-repeat center;background-size: cover;"{/if}>
+                       <!-- <input id="uploadFile" type="file" name="sfz_font_img" value="" accept="image/jpeg,image/jpg,image/png">-->
+                        <!--<em>上传身份证正面</em>-->
+                       		<br/>
+                            <a class="list_a" style="display: block;width: 100%;height:100%;position: absolute;left:0;top:0;" id="selectfiles_info"></a>
+                        </p>
                     </li>
                     <li class="sfz">
-                        <p id="selectfiles1_preview" class="bg1" {if condition="($userInfo.sfz_font_img)"} style="background: url({$userInfo.sfz_back_img})"{/if}>
+                    	<div style="text-align: center;">
+							<a id="selectfiles1" style="font-size: 35px;" class="but_up"   href="javascript:void(0);">上传身份证反面</a>	
+                        </div>
+                        <p id="selectfiles1_preview" class="bg2" {if condition="($userInfo.sfz_font_img)"} value="{$userInfo.sfz_back_img}" style="background: url({$userInfo.sfz_back_img}) no-repeat center;background-size: cover;"{/if}>
                         <!-- <input id="uploadFile" type="file" name="sfz_font_img" value="" accept="image/jpeg,image/jpg,image/png">-->
                         <!--<em>上传身份证正面</em>-->
-                        <a id="selectfiles1" class="but_up"   href="javascript:void(0);">上传身份证反面</a>
                         <br/>
-                        <a id="selectfiles1_info"></a>
+                        <a class="list_a" style="display: block;width: 100%;height:100%;position: absolute;left:0;top:0;" id="selectfiles1_info"></a>
                         </p>
 
                     </li>
                     <li class="sfz">
-                        <p id="selectfiles2_preview" class="bg1" {if condition="($userInfo.sfz_font_img)"} style="background: url({$userInfo.sfz_hand_img})"{/if}>
+                    	<div style="text-align: center;">
+							<a id="selectfiles2" style="font-size: 35px;"  class="but_up"  href="javascript:void(0);">上传手持身份证正面</a>
+                        </div>
+                        <p id="selectfiles2_preview" class="bg3" {if condition="($userInfo.sfz_font_img)"} value="{$userInfo.sfz_hand_img}" style="background: url({$userInfo.sfz_hand_img}) no-repeat center;background-size: cover;"{/if}>
                         <!-- <input id="uploadFile" type="file" name="sfz_font_img" value="" accept="image/jpeg,image/jpg,image/png">-->
                         <!--<em>上传身份证正面</em>-->
-                        <a id="selectfiles2"  class="but_up"  href="javascript:void(0);">上传手持身份证正面</a>
                         <br/>
-                        <a id="selectfiles2_info"></a>
+                        <a class="list_a" style="display: block;width: 100%;height:100%;position: absolute;left:0;top:0;" id="selectfiles2_info"></a>
                         </p>
                     </li>
                     <a id="selectfiles_postfiles" style="display: none" href="javascript:void(0);">开始上传</a>
@@ -72,14 +86,22 @@
                 <!-- {if condition="$userInfo.status eq 3"}disabled value="认证中"{elseif condition="$userInfo.status eq 2"/}value="重新提交认证"{else/}value="认证成功"{/if} -->
                 <!--<li class="tt3"><input id="uploadFile_bt" name="tj" class="tj" value="提交认证" type="button" ></li>-->
                 <!--<li class="tt3"><input id="uploadFile_bt" name="tj" class="tj" type="button" {if condition="$userInfo.status eq 3"}disabled value="认证中"{elseif condition="$userInfo.status eq 2"/}value="重新提交认证"{else/}value="认证成功"{/if}></li>-->
-                <a id="postfiles" href="javascript:void(0);" class='btn'>开始上传</a>
-
+                {if condition="$userInfo.status eq 3"}
+                <a href="javascript:void(0);" style="margin: 0 auto;margin-top: 20px;display: block;width:300px;height:90px;line-height: 90px;font-size: 30px;border-radius: 45px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size:100% auto;">审核中</a>
+                {elseif condition="$userInfo.status eq 1"/}
+                <a  href="javascript:void(0);" style="margin: 0 auto;margin-top: 20px;display: block;width:300px;height:90px;line-height: 90px;font-size: 30px;border-radius: 45px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size:100% auto;">认证成功</a>
+                {else/}
+                <a id="postfiles" href="javascript:void(0);" style="margin: 0 auto;margin-top: 20px;display: block;width:300px;height:90px;line-height: 90px;font-size: 30px;border-radius: 45px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size:100% auto;">开始上传</a>
+                {/if}
             </ul>
         </form>
     </div>
 
 
 </div>
+
+<!--<div class="box_2" style="width:100%;position:fixed;bottom:300px;left:0;z-index:9999999999999999;background:white;color:black;"></div>-->
+
 {/block}
 {block name="page_js"}
 <script type="text/javascript" src="__STATIC__/oss-h5-upload-js-php/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
@@ -100,7 +122,8 @@
         //alert(pictrue_src[0])
         $('.bg1').click(function(){
             for(var x=0;x<$('.bg1').length;x++){
-                pictrue_src[x]=$('.bg1').eq(x).css('backgroundImage').replace('url(','').replace(')','');  //pc端调试要多去掉双引号"";
+                //pictrue_src[x]=$('.bg1').eq(x).css('backgroundImage').replace('url(','').replace(')','');  //pc端调试要多去掉双引号"";
+                pictrue_src[x]=$('.bg1').eq(x).attr('value');  //pc端调试要多去掉双引号"";
             }
             initIndex = $(".bg1").index($(this));  //点击选择初始化图片
             var pb2 = $.photoBrowser({

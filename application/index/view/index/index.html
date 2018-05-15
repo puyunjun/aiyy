@@ -1,4 +1,4 @@
-
+﻿
 {layout name="layout"/}
 
 {extend name="layout"}
@@ -9,47 +9,48 @@
 <link rel="stylesheet" href="__STATIC__/jquery-weui/lib/weui.min.css">
 
 <link rel="stylesheet" href="__STATIC__/jquery-weui/css/jquery-weui.min.css">
+<link rel="stylesheet" href="__STATIC__/mui/mui.min.css">
 {/block}
 {block name="content"}
 <style type="text/css">
-    .tck_content_cent>.btn_box {
-        width: 88%;
-        height: 60px;
-        display: block;
-        margin: 20px auto;
-        border: 1px solid #333;
-        position: relative;
-    }
-    .btn_box input{
-        width: 100%;
-        height: 100%;
-        display: block;
-        font-size: 26px;
-        text-indent: 10px;
-        position: absolute;
-        left: 0;
-        top:0;
-        border: none;
-    }
-    .get_btn {
-        position: absolute;
-        right: 0;
-        top: 0;
-        z-index: 99999;
-        height: 100%;
-        width: 180px;
-        border: none;
-        font-size: 21px;
-        color: #6d6d6d;
-    }
-    .get_btn button{
-        display: block;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
+	.tck_content_cent>.btn_box {
+	    width: 88%;
+	    height: 60px;
+	    display: block;
+	    margin: 20px auto;
+	    border: 1px solid #333;
+	    position: relative;
+	}
+	.btn_box input{
+		width: 100%;
+	    height: 100%;
+	    display: block;
+	    font-size: 26px;
+	    text-indent: 10px;
+	    position: absolute;
+	    left: 0;
+	    top:0;
+	    border: none;
+	}
+	.get_btn {
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    z-index: 99999;
+	    height: 100%;
+	    width: 180px;
+	    border: none;
+	    font-size: 21px;
+	    color: #6d6d6d;
+	}
+	.get_btn button{
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+	    left: 0;
+	    top: 0;
+	}
     .clearfix:after{
         content: '';
         display:block;
@@ -62,10 +63,10 @@
         100%{transform: rotate(360deg)}
     }
     #list-index .list-index-lis{
-        padding:0;
+    	padding:0;
     }
     .btn_quick{
-        animation: vip 3s infinite linear;
+    	animation: vip 3s infinite linear;
     }
     @keyframes vip {
         0%{transform: rotate(0deg)}
@@ -76,55 +77,56 @@
 <div class="btn_quick" style="width:90px;height:90px;border-radius: 100%;background: url(__HOME_CSS__/wapcssjsimg/images/vip_quick.png)  no-repeat center;position: fixed;bottom:200px;left:30px;z-index: 99999999;"></div>
 <div class="shade" style="display:none;background: rgba(0,0,0,0.5);position: fixed;top:0;bottom: 0;left: 0;right: 0;z-index: 99999999;"></div>
 <div class="quick_window" style="display:none;background: #F0F0F0;position:fixed;top:50px;padding-bottom:50px;left: 80px;right:80px;z-index: 999999999999;font-size: 24px;border-radius: 10px;overflow: hidden;">
-    {if condition = "($Think.session.user_auth_home.uid)"}
-    <div style="background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;color: white;padding-bottom: 50px;">
-        <div class="clearfix" style="width:500px;margin:0 auto;padding-top:50px;">
-            <font style="float: left;width:120px;height:120px;border-radius: 100%;border: 1px solid #999;background:url({$quick_user_info.head_img}) no-repeat center;background-size: cover;"></font>
-            <div style="float: left;margin-left: 30px;color:white;margin-top:18px;">
-                <p class="clearfix" style="text-align: left;">
-                    <span style="font-size:30px;">{$quick_user_info.nickname}</span>
-                    {if condition = "$quick_user_info.sex eq 1"}
-                    <img src="__HOME_CSS__/wapcssjsimg/images/sex2.png" style="width: 25px;height:25px;"/>
-                    {else/}
-                    <img src="__HOME_CSS__/wapcssjsimg/images/sexw.png" style="width: 25px;height:25px;"/>
-                    {/if}
+	{if condition = "($Think.session.user_auth_home.uid)"}
+	<i style="display: block;width:50px;height:50px;line-height: 50px;text-align: center;font-size: 50px;color: white;position: absolute;right: 10px;top:10px;font-style: normal;">&times;</i>
+	<div style="background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;color: white;padding-bottom: 50px;">
+		<div class="clearfix" style="width:500px;margin:0 auto;padding-top:50px;">
+			<font style="float: left;width:120px;height:120px;border-radius: 100%;border: 1px solid #999;background:url({$quick_user_info.head_img}) no-repeat center;background-size: cover;"></font>
+			<div style="float: left;margin-left: 30px;color:white;margin-top:18px;">
+				<p class="clearfix" style="text-align: left;">
+					<span style="font-size:30px;">{$quick_user_info.nickname|urldecode}</span>
+					{if condition = "$quick_user_info.sex eq 1"}
+					<img src="__HOME_CSS__/wapcssjsimg/images/sex2.png" style="width: 25px;height:25px;"/>
+					{else/}
+					<img src="__HOME_CSS__/wapcssjsimg/images/sexw.png" style="width: 25px;height:25px;"/>
+					{/if}
 
-                </p>
-                <p style="margin-top:5px;">约游ID：{$quick_user_info.sys_id}</p>
-            </div>
-        </div>
-        <p style="width:500px;margin:0 auto;color:white;text-align: left;margin-top: 20px;">当前资料完成率</p>
-        <div style="margin: 0 30px;margin-top:100px;">
-            <div style="width:500px;height:30px;border-radius: 15px;margin: 0 auto;background:#DEE9FB;box-shadow:0 2px 5px #ccc inset;position: relative;">
-                <div style="width:{$quick_user_info.progress_num * 125 }px;height:30px;border-radius: 15px;background:#D491E1;position: absolute;left: 0;top: 0;">
-                    <p style="width:100px;height:50px;line-height: 50px;text-align: center;background: white;border-radius: 5px;position: absolute;right: -50px;top:-80px;">
-                        <i style="border-top: 10px solid white;border-right: 10px solid transparent;border-left: 10px solid transparent;position: absolute;left:50%;bottom: -9px;margin-left: -9px;"></i>
-                        <span style="color:#E4469C;">{$quick_user_info.progress_num * 25}%</span>
-                    </p>
-                </div>
-            </div>
-            <div class="clearfix" style="width: 500px;margin: 0 auto;margin-top:10px;">
-                <span style="float: left;">0%</span>
-                <span style="float: right;">100%</span>
-            </div>
-        </div>
-    </div>
+				</p>
+				<p style="margin-top:5px;">约游ID：{$quick_user_info.sys_id}</p>
+			</div>
+		</div>
+		<p style="width:500px;margin:0 auto;color:white;text-align: left;margin-top: 20px;">当前资料完成率</p>
+		<div style="margin: 0 30px;margin-top:100px;">
+			<div style="width:500px;height:30px;border-radius: 15px;margin: 0 auto;background:#DEE9FB;box-shadow:0 2px 5px #ccc inset;position: relative;">
+				<div style="width:{$quick_user_info.progress_num * 125 }px;height:30px;border-radius: 15px;background:#D491E1;position: absolute;left: 0;top: 0;">
+					<p style="width:100px;height:50px;line-height: 50px;text-align: center;background: white;border-radius: 5px;position: absolute;right: -50px;top:-80px;">
+						<i style="border-top: 10px solid white;border-right: 10px solid transparent;border-left: 10px solid transparent;position: absolute;left:50%;bottom: -9px;margin-left: -9px;"></i>
+						<span style="color:#E4469C;">{$quick_user_info.progress_num * 25}%</span>
+					</p>
+				</div>
+			</div>
+			<div class="clearfix" style="width: 500px;margin: 0 auto;margin-top:10px;">
+				<span style="float: left;">0%</span>
+				<span style="float: right;">100%</span>
+			</div>
+		</div>
+	</div>
 
-    <div style="color:#626262;font-size:28px;background: white;">
-        <div class="clearfix" style="height: 80px;line-height: 80px;border-bottom: 1px solid #D4DBED;">
-            <font style="float: left;margin-left: 50px;">手机号</font>
-            <img src="__HOME_CSS__/wapcssjsimg/images/quick_right.png" style="height:20px;float: right;margin-right: 50px;margin-top: 30px;"/>
-            <span style="float: right;margin-right: 50px;color: #9F9F9F;margin-right: 10px;">{if condition="$quick_user_info.is_bind_phone eq 1"}{$quick_user_info.phone}{else/}未绑定{/if}</span>
-        </div>
-        <div class="clearfix" style="height: 80px;line-height: 80px;border-bottom: 1px solid #D4DBED;">
-            <font style="float: left;margin-left: 50px;">VIP会员</font>
-            <img src="__HOME_CSS__/wapcssjsimg/images/quick_right.png" style="height:20px;float: right;margin-right: 50px;margin-top: 30px;"/>
-            <span style="float: right;margin-right: 50px;color: #9F9F9F;margin-right: 10px;">{if condition="$quick_user_info.group_name eq null"}未开通{else/}{$quick_user_info.group_name}{/if}</span>
-        </div>
-        <div class="clearfix" style="height: 80px;line-height: 80px;border-bottom: 1px solid #D4DBED;">
-            <font style="float: left;margin-left: 50px;">实名认证</font>
-            <img src="__HOME_CSS__/wapcssjsimg/images/quick_right.png" style="height:20px;float: right;margin-right: 50px;margin-top: 30px;"/>
-            <span style="float: right;margin-right: 50px;color: #9F9F9F;margin-right: 10px;">{if condition="$quick_user_info.status eq 1"}
+	<div style="color:#626262;font-size:28px;background: white;">
+		<div onclick="window.location.href='http://'+window.location.host+'/user/my_info/show/id/8.html'" class="clearfix" style="height: 80px;line-height: 80px;border-bottom: 1px solid #D4DBED;">
+			<font style="float: left;margin-left: 50px;">手机号</font>
+			<img src="__HOME_CSS__/wapcssjsimg/images/quick_right.png" style="height:20px;float: right;margin-right: 50px;margin-top: 30px;"/>
+			<span style="float: right;margin-right: 50px;color: #9F9F9F;margin-right: 10px;">{if condition="$quick_user_info.is_bind_phone eq 1"}{$quick_user_info.phone}{else/}未绑定{/if}</span>
+		</div>
+		<div onclick="window.location.href='http://'+window.location.host+'/user/become_member/member_list'" class="clearfix" style="height: 80px;line-height: 80px;border-bottom: 1px solid #D4DBED;">
+			<font style="float: left;margin-left: 50px;">VIP会员</font>
+			<img src="__HOME_CSS__/wapcssjsimg/images/quick_right.png" style="height:20px;float: right;margin-right: 50px;margin-top: 30px;"/>
+			<span style="float: right;margin-right: 50px;color: #9F9F9F;margin-right: 10px;">{if condition="$quick_user_info.group_name eq null"}未开通{else/}{$quick_user_info.group_name}{/if}</span>
+		</div>
+		<div onclick="window.location.href='http://'+window.location.host+'/user/index/index'" class="clearfix" style="height: 80px;line-height: 80px;border-bottom: 1px solid #D4DBED;">
+			<font style="float: left;margin-left: 50px;">实名认证</font>
+			<img src="__HOME_CSS__/wapcssjsimg/images/quick_right.png" style="height:20px;float: right;margin-right: 50px;margin-top: 30px;"/>
+			<span style="float: right;margin-right: 50px;color: #9F9F9F;margin-right: 10px;">{if condition="$quick_user_info.status eq 1"}
                 认证成功
                 {elseif condition="$quick_user_info.status eq 3"/}
                 认证中
@@ -134,120 +136,115 @@
                 未认证
                 {/if}
             </span>
-        </div>
-        <div class="clearfix" style="height: 80px;line-height: 80px;border-bottom: 1px solid #D4DBED;">
-            <font style="float: left;margin-left: 50px;">成为伴游</font>
-            <img src="__HOME_CSS__/wapcssjsimg/images/quick_right.png" style="height:20px;float: right;margin-right: 50px;margin-top: 30px;"/>
-            <span style="float: right;margin-right: 50px;color: #9F9F9F;margin-right: 10px;">{if condition="$quick_user_info.is_escort eq 1"}
+		</div>
+		<div onclick="window.location.href='http://'+window.location.host+'/user/index/index'" class="clearfix" style="height: 80px;line-height: 80px;border-bottom: 1px solid #D4DBED;">
+			<font style="float: left;margin-left: 50px;">成为伴游</font>
+			<img src="__HOME_CSS__/wapcssjsimg/images/quick_right.png" style="height:20px;float: right;margin-right: 50px;margin-top: 30px;"/>
+			<span style="float: right;margin-right: 50px;color: #9F9F9F;margin-right: 10px;">{if condition="$quick_user_info.is_escort eq 1"}
                                 伴游
                         {/if}
             </span>
-        </div>
-        <!--<div style="width:300px;height:80px;line-height: 80px;text-align: center;border-radius: 40px;background:whitesmoke;background-size: cover;color:#999999;margin-top: 20px;box-shadow: 0 1px 6px #ccc;">手机已绑定</div>
+		</div>
+		<!--<div style="width:300px;height:80px;line-height: 80px;text-align: center;border-radius: 40px;background:whitesmoke;background-size: cover;color:#999999;margin-top: 20px;box-shadow: 0 1px 6px #ccc;">手机已绑定</div>
         <div style="width:300px;height:80px;line-height: 80px;text-align: center;border-radius: 40px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;color:white;margin-top: 20px;box-shadow: 0 1px 6px #ccc;">注册VIP</div>
         <div style="width:300px;height:80px;line-height: 80px;text-align: center;border-radius: 40px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;color:white;margin-top: 20px;box-shadow: 0 1px 6px #ccc;">未实名认证</div>
         <div style="width:300px;height:80px;line-height: 80px;text-align: center;border-radius: 40px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;color:white;margin-top: 20px;box-shadow: 0 1px 6px #ccc;">成为伴游</div>-->
-    </div>
-    <p style="text-align: center;padding:50px 0;color: #BB3D8E;">
-        提示：完善以上资料能让您享受更多服务
-    </p>
-    <div style="width:300px;height:90px;line-height: 90px;text-align: center;margin: 0 auto;color: white;border-radius: 45px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;">
-        在线客服
-    </div>
-    {/if}
-    <!--<div class="btn_hide" style="width:90px;height:90px;line-height:90px;text-align: center;border-radius: 100%;background: #EFEFF4;color:#999;position: absolute;bottom:-120px;left: 50%;margin-left: -45px;font-size:50px;">&times;</div>-->
+	</div>
+	<p style="text-align: center;padding:50px 0;color: #BB3D8E;">
+		提示：完善以上资料能让您享受更多服务
+	</p>
+	<div onclick="window.location.href='http://56053551.im.m.weimob.com'" style="width:300px;height:90px;line-height: 90px;text-align: center;margin: 0 auto;color: white;border-radius: 45px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;">
+		在线客服
+	</div>
+	{/if}
+	<!--<div class="btn_hide" style="width:90px;height:90px;line-height:90px;text-align: center;border-radius: 100%;background: #EFEFF4;color:#999;position: absolute;bottom:-120px;left: 50%;margin-left: -45px;font-size:50px;">&times;</div>-->
 </div>
 
 
 <div class="tck">
-    <div class="tck_content">
-        <h1>提示!</h1>
-        <div class="tck_content_cent">
-            <p>请绑定手机号!</p>
+    <div class="tck_content" style="width:550px;height:382px;border-radius:30px;position: absolute;left:50%;top:50%;margin-left:-275px;margin-top:-202px;background: url(__HOME_CSS__/wapcssjsimg/images/c-sp.jpg) no-repeat center;background-size: cover;">
+        <h1 style="color: white;font-weight: normal;color:#DADADA;">请绑定手机</h1>
+        <div class="tck_content_cent" style="border-bottom: 1px solid #EFEFF4;">
+            <!--<p style="color:white;">绑定手机号!</p>-->
             <input type="text" id="mobile_phone" name="" class="tck_content_input" placeholder="请输入手机号">
-            <button class="get_verify_bt" id="get_verify_bt" onclick="get_verify($('#mobile_phone').val(),this);">获取验证码</button>
-            <input placeholder="输入验证码" type="text" id="verify" name="" class="tck_content_input" >
+            <div class="btn_box">
+            	<div class="get_btn">
+            		<button class="get_verify_bt" id="get_verify_bt" onclick="get_verify($('#mobile_phone').val(),this);">获取验证码</button>
+            	</div>
+
+            	<input placeholder="输入验证码" type="text" id="verify" name="" class="tck_content_input" />
+            </div>
         </div>
         <div class="tck_content_botm">
-            <a href="javascript:void(0);" class="tck_botm_a1">取消</a>
-            <a href="javascript:void(0);" class="tck_botm_a2">确定</a>
+            <a href="javascript:void(0);" style="border-right:1px solid #EFEFF4;color: white;" class="tck_botm_a1">取 消</a>
+            <a href="javascript:void(0);" style="color: white;" class="tck_botm_a2">确 定</a>
         </div>
     </div>
 </div>
-<!--  原来的
-<div id="list-index">
-    <div class="list-index-tt"><span><a href="" class="hover">推荐</a><a href="">认证</a><a href="">新人</a></span><p class="ioc1-3"><a href="">筛选</a></p></div>
-    <div class="list-index-lis" id="escort_data">
 
-        {volist name="data" id="vo"}
-            <div class="jj">
-                <div class="pic">
-                    <a href="{:url('user/ReleaseDetail/index',['id'=>$vo.id])}">
-                        <img src="{$vo.head_img}" >
-                    </a>
-                </div>
-                <div class="tt1"><p>{$vo.real_name}</p><span class="sex1"></span><p>{$vo.id_card_num}岁</p></div>
-                <div class="tt2"><p>{$vo.address}</p>  <p>{$vo.height}cm</p>
-                    {if condition = "($Think.session.user_auth_home.uid)"}
-                    <span name="juli" avg_id="{$vo.id}" avg_x="{$vo.login_addr_x}" avg_y="{$vo.login_addr_y}"></span>
-                    {/if}
-                </div>
-                <div class="tt3"><p>{$vo.img_num ? $vo.img_num : 0}</p><span>{$vo.video_num ? $vo.video_num : 0}</span></div>
-            </div>
-        {/volist}
-    </div>
-</div>
--->
 <div id="list-index">
-    <div class="list-index-tt"><span><a href="" class="hover">推荐</a><a href="">认证</a><a href="">新人</a></span><p class="ioc1-3"><a href="">筛选</a></p></div>
-    <div class="list-index-lis" id="escort_data" style="width:100%;position:fixed;top:170px;bottom:110px;">
-        <div id="scroller">
-            <div id="pullDown" style="display:none;" >
-                <span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
-            </div>
-            {volist name="data" id="vo"}
+    <div class="list-index-tt"><span><a href="" class="hover">推荐</a><a href="" style="display: none">认证</a><a href="" style="display: none">新人</a></span><p class="ioc1-3"><a href="">筛选</a></p></div>
+
+    <!--&lt;!&ndash;下拉刷新容器&ndash;&gt;
+    <div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="position:fixed;top:100px;bottom:0;">
+        <div class="mui-scroll">
+            &lt;!&ndash;数据列表&ndash;&gt;
+            <ul class="mui-table-view mui-table-view-chevron items">
+
+            </ul>
+        </div>
+    </div>-->
+	<style type="text/css">
+		.mui-pull-caption{
+		    height: 50px;
+		    line-height: 50px;
+		    font-size: 20px;
+		    color:#999999;
+		}
+		.mui-pull-caption-refresh{
+			height:100px;
+			padding-top:20px;
+		}
+	</style>
+    <div class="list-index-lis" id="pullrefresh" style="width:100%;position: fixed;top: 180px;bottom: 100px;">
+        <div class="mui-scroll" >
+            <div style="width:720px;margin:0 auto;" class="mui-table-view mui-table-view-chevron items clearfix">
+                {volist name="data" id="vo"}
                 <div class="jj">
                     <div class="pic">
-                        <a class="list" href="{:url('user/ReleaseDetail/index',['id'=>$vo.id])}">
+                        <a class="list" onclick="window.location.href='{:url(\'user/ReleaseDetail/index\',[\'id\'=>$vo.id])}'">
                             <img src="{$vo.head_img}" >
                         </a>
                     </div>
-                    <div class="tt1"><p>{$vo.real_name}</p><span class="sex1"></span><p>{$vo.id_card_num}岁</p></div>
+                    <div class="tt1"><p>{$vo.nickname|urldecode}</p><span class="sex1"></span><p>{$vo.id_card_num}岁</p></div>
                     <div class="tt2"><p>{$vo.address}</p>  <p>{$vo.height}cm</p>
                         {if condition = "($Think.session.user_auth_home.uid)"}
-                        <span name="juli" avg_id="{$vo.id}" avg_x="{$vo.login_addr_x}" avg_y="{$vo.login_addr_y}"></span>
+                        <span name="juli" data-avgid="{$vo.id}" data-avgx="{$vo.login_addr_x}" data-avgy="{$vo.login_addr_y}"></span>
                         {/if}
                     </div>
                     <div class="tt3"><p>{$vo.img_num ? $vo.img_num : 0}</p><span>{$vo.video_num ? $vo.video_num : 0}</span></div>
                 </div>
-            {/volist}
-            <div id="pullUp" style="display:none;" >
-                <span class="pullUpIcon"></span><span class="pullUpLabel">上拉获取更多...</span>
+                {/volist}
             </div>
         </div>
     </div>
 </div>
 
 <div id="allmap" style="display:none;"></div>
-
 {/block}
 
 {block name="page_js"}
-<script type="text/javascript" src="__HOME_JS__/index/index.js"></script>
-
-<script type="text/javascript" src="__STATIC__/iscroll/iscroll.js"></script>
+    <script type="text/javascript" src="__HOME_JS__/index/index.js"></script>
 <script>
     var bindphone = '{$bindphone}';
     if(bindphone){
         $('.tck').css('display','block');
     }
 </script>
-<!--用户登录后获取登录的位置，计算得出距离-->
 <!--layui组件-->
 <script src="__STATIC__/layer/layer.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
-<!-- 引入jquery weui js组件-->
-<script src="__STATIC__/jquery-weui/js/jquery-weui.js"></script>
+<!--用户登录后获取登录的位置，计算得出距离-->
 {if condition = "($Think.session.user_auth_home.uid)"}
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=r2QRGELPU7lF35I6ttxbKGgCPbFjSVNN"></script>
 <script type="text/javascript">
@@ -261,24 +258,29 @@
         //map.addOverlay(polyline);     //添加折线到地图上
         var pointB = new BMap.Point(current_x,current_y);  // 创建点坐标B--江北区
         for(var f=0;f<juli_obj.length;f++){
-            var escort_x = juli_obj[f].getAttribute('avg_x')?juli_obj[f].getAttribute('avg_x'): '106.53063501',
-                escort_y = juli_obj[f].getAttribute('avg_y')?juli_obj[f].getAttribute('avg_y'):'29.54460611';
+        	
+            var escort_x = juli_obj[f].getAttribute('data-avgx')!=''?juli_obj[f].getAttribute('data-avgx'):106.53063501+parseFloat(Math.random()*0.1),
+                escort_y = juli_obj[f].getAttribute('data-avgy')!=''?juli_obj[f].getAttribute('data-avgy'):29.54460611+parseFloat(Math.random()*0.1);
             //获取伴游的坐标位置，默认系统添加位置
+           
             var pointA = new BMap.Point(escort_x,escort_y);  // 创建点坐标A--大渡口区
 
             //alert((map.getDistance(pointA,pointB)).toFixed(2)+' 米。');
-            var final_juli = (map.getDistance(pointA,pointB)).toFixed(2)==='NaN' ? 0 : (map.getDistance(pointA,pointB)).toFixed(2);
-            juli_obj[f].innerHTML = Math.floor(final_juli/1000)+'km'
+            //var final_juli = (map.getDistance(pointA,pointB)).toFixed(2)==='NaN' ? Math.random()*15*1000 : (map.getDistance(pointA,pointB)).toFixed(2);
+            var final_juli = (map.getDistance(pointA,pointB)).toFixed(2)==='NaN' ? '10.1': Math.floor((map.getDistance(pointA,pointB)).toFixed(2)/1000);
+            juli_obj[f].innerHTML = final_juli+'km'
 
             //获取不同伴游id储存距离到本地
-            //localStorage.setItem('distances'+juli_obj[f].getAttribute('avg_id'),Math.floor(final_juli/1000));
+            localStorage.setItem('distances'+juli_obj[f].getAttribute('data-avgid'),Math.floor(final_juli));
         }
     }
+
     get_juli();
 </script>
-
+<!-- 引入jquery weui js组件-->
+<script src="__STATIC__/jquery-weui/js/jquery-weui.js"></script>
 <script>
-
+	
     $('.tck_botm_a1').click(function(){
         $('.tck').remove();
     })
@@ -326,14 +328,23 @@
     }
 </script>
 {/if}
-
+<script src="__STATIC__/mui/mui.min.js"></script>
 <script>
+	csh();//初始化数据随机排列
+	function  csh(){
+        var arr = $('.items').children('div');
+        arr.sort(randomsort);
+        
+        for(var i=0;i<arr.length;i++){
+        	$('.items').append(arr[i]);
+        }
+	}
+	
+	
     var aImg = $(document.getElementsByClassName('pic')).find('img');
 
-    //$(aImg[0]).width();
     var image = new Image()
     for(var i=0; i<aImg.length; i++){
-//			aImg[i].index = i;
         image.src = $(aImg).eq(i).attr('src')
         if(image.width > image.height){
             $(aImg[i]).height('100%');
@@ -343,149 +354,107 @@
             $(aImg[i]).height('auto');
         }
     }
-</script>
 
-<script type="text/javascript">
+    var pagenum=0;
 
-    var myScroll,
-        pullDownEl,
-        pullDownOffset,
-        pullUpEl,
-        pullUpOffset,
-        page = 0,
-        generatedCount = 0;
 
-    function pullDownAction () {
-        setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
-            var el, li, i;
-            //location.reload();
-            document.getElementById("pullUp").style.display="";
-            myScroll.refresh();
-        }, 1000);
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            up: {
+                height:100,
+                auto:false,//true时自动刷新一次
+                contentrefresh: '<img style="width:50px;height:50px;display:inline-block;' +
+                'animation:abc .6s infinite linear;"' +
+                ' src="__HOME_CSS__/wapcssjsimg/images/shuaxin.png"/>',
+                contentnomore:'暂无更多数据',
+                callback: pullupRefresh
+            }
+        }
+    });
+
+    function pullupRefresh() {
+        pagenum++;
+        setTimeout(function(){
+            post();
+        },1000)
     }
 
-    function pullUpAction () {
-        setTimeout(function () {
-            var el, li, i;
-            el = document.getElementById('scroller');
-            $.ajax({
-                url:'http://'+window.location.host+'/index/index/get_page_data',
-                data:{page:page},
-                dataType:'JSON',
-                type:'GET',
-                success:function(data){
-                    page++;
-                    for (i=0; i<data.length; i++) {
-                        var a = data[i].id
-                        el.innerHTML +=
-                            '<div class="jj">' +
-                            '   <div class="pic">' +
-                            '       <a href="/user/release_detail/index/id/'+a+'.html">' +
-                            '          <img src="'+data[i].head_img+'" >' +
-                            '       </a>' +
-                            '   </div>' +
-                            '   <div class="tt1"><p>'+data[i].real_name+'</p><span class="sex1"></span><p>'+data[i].id_card_num+'岁</p></div>' +
-                            '   <div class="tt2"><p>'+data[i].address+'</p>  <p>'+data[i].height+'cm</p>' +
-                            '       {if condition = "($Think.session.user_auth_home.uid)"}' +
-                            '            <span name="juli" avg_id="'+data[i].id+'" avg_x="'+data[i].login_addr_x+'" avg_y="'+data[i].login_addr_y+'"></span>' +
-                            '        {/if}' +
-                            '    </div>' +
-                            '    <div class="tt3"><p>'+(data[i].img_num?data[i].img_num:0)+'</p><span>'+(data[i].video_num?data[i].video_num:0)+'</span></div>' +
-                            '</div>';
-                    }
-                    //判断是否登录，获取定位距离
+    mui("#pullrefresh").on('tap', '.list', function (event) {
+        this.click();
+        event.stopPropagation();//阻止li事件的点击
+    });
+    function post(){
+    	var arr_person=[];
+       var el = document.getElementsByClassName('items')[0];
+        $.ajax({
+            url:'http://'+window.location.host+'/index/index/get_page_data',
+            data:{page:pagenum},
+            dataType:'JSON',
+            type:'GET',
+            success:function(data){
+                mui('#pullrefresh').pullRefresh().refresh(true);//重启
+                for (var i=0; i<data.length; i++) {
+                    var a = data[i].id;
+                    var str =
+                        '<div class="jj">' +
+                        '   <div class="pic">' +
+                        '       <a class="list" style="display:block;width:100%;height:100%;" onclick="window.location.href=\'/user/release_detail/index/id/'+a+'.html\'">' +
+                        '          <img src="'+data[i].head_img+'" >' +
+                        '       </a>' +
+                        '   </div>' +
+                        '   <div class="tt1"><p>'+data[i].real_name+'</p><span class="sex1"></span><p>'+data[i].id_card_num+'岁</p></div>' +
+                        '   <div class="tt2"><p>'+data[i].address+'</p>  <p>'+data[i].height+'cm</p>' +
+                        '       {if condition = "($Think.session.user_auth_home.uid)"}' +
+                        '            <span name="juli" data-avgid="'+data[i].id+'" data-avgx="'+data[i].login_addr_x+'" data-avgy="'+data[i].login_addr_y+'"></span>' +
+                        '        {/if}' +
+                        '    </div>' +
+                        '    <div class="tt3"><p>'+(data[i].img_num?data[i].img_num:0)+'</p><span>'+(data[i].video_num?data[i].video_num:0)+'</span></div>' +
+                        '</div>';
+                    arr_person.push(str);
+                }
+                arr_person.sort(randomsort);
+                for(var j=0;j<arr_person.length;j++){
+                	el.innerHTML+=arr_person[j];
+                }
+                //mui('#pullrefresh').pullRefresh().endPullupToRefresh(pagenum>1000);
+                mui('#pullrefresh').pullRefresh().endPullupToRefresh(data.length>0?false:true);
+                //判断是否登录，获取定位距离
                     {if condition = "($Think.session.user_auth_home.uid)"}
-                    get_juli();
+                        get_juli();
                     {/if}
                 }
             });
-            myScroll.refresh();
-        }, 1000);
+
+        //pullupRefresh();
+        }
+    
+    function randomsort(a,b){
+    	return Math.random()>0.5?-1:1;
     }
-
-    function loaded() {
-        pullDownEl = document.getElementById('pullDown');
-        pullDownOffset = pullDownEl.offsetHeight;
-        pullUpEl = document.getElementById('pullUp');
-        pullUpOffset = 10;
-        //pullUpOffset = pullUpEl.offsetHeight;
-        myScroll = new iScroll('escort_data', {
-            useTransition: true,
-            topOffset: pullDownOffset,
-            onRefresh: function () {
-                if (pullDownEl.className.match('loading')) {
-                    pullDownEl.className = '';
-                    pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';}
-                if (pullUpEl.className.match('loading')) {
-                    pullUpEl.className = '';
-                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
-                }
-                document.getElementById("pullUp").style.display="none";
-            },
-            onScrollMove: function () {
-                if (this.y > 0) {
-                    pullDownEl.className = 'flip';
-                    pullDownEl.querySelector('.pullDownLabel').innerHTML = '正在刷新...';
-                    this.minScrollY = 0;
-                }
-                if (this.y < 0 && pullDownEl.className.match('flip')) {
-                    pullDownEl.className = '';
-                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh...';
-                    this.minScrollY = -pullDownOffset;
-                }
-
-                if ( this.scrollerH < this.wrapperH && this.y < (this.minScrollY-pullUpOffset) || this.scrollerH > this.wrapperH && this.y < (this.maxScrollY - pullUpOffset) ) {
-                    document.getElementById("pullUp").style.display="";
-                    pullUpEl.className = 'flip';
-                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '获取数据中...';
-                }
-                if (this.scrollerH < this.wrapperH && this.y > (this.minScrollY-pullUpOffset) && pullUpEl.className.match('flip') || this.scrollerH > this.wrapperH && this.y > (this.maxScrollY - pullUpOffset) && pullUpEl.className.match('flip')) {
-                    document.getElementById("pullUp").style.display="none";
-                    pullUpEl.className = '';
-                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
-                }
-            },
-            onScrollEnd: function () {
-
-                if (pullDownEl.className.match('flip')) {
-                    pullDownEl.className = 'loading';
-                    pullDownEl.querySelector('.pullDownLabel').innerHTML = '加载中...';
-                    pullDownAction();	// Execute custom function (ajax call?)
-                }
-                if (pullUpEl.className.match('flip')) {
-                    pullUpEl.className = 'loading';
-                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载中..';
-                    pullUpAction();	// Execute custom function (ajax call?)
-                }
-            }
-        });
-
-        //setTimeout(function () { document.getElementById('escort_data').style.left = '0'; }, 800);
-    }
-
-    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-
-    document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
-
-
+    
+    
     $('.btn_quick').click(function(){
         {php}
         if($quick_user_info === array()){
-        {/php}
-            layer.msg('请先登录');
-        {php}
-        }else{
-        {/php}
-            $('.shade').show();
-            $('.quick_window').show();
-        {php}
-        }
-        {/php}
+            {/php}
+                layer.msg('请先登录');
+                {php}
+            }else{
+                {/php}
+                    $('.shade').show();
+                    $('.quick_window').show();
+                    {php}
+                }
+                {/php}
     })
     $('.shade').click(function(){
-        $('.shade').hide();
-        $('.quick_window').hide();
+    	$('.shade').hide();
+    	$('.quick_window').hide();
+    })
+    $('.quick_window i').click(function(){
+    	$('.shade').hide();
+    	$('.quick_window').hide();
     })
 </script>
-
 {/block}

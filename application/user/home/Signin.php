@@ -9,6 +9,7 @@
 namespace app\user\home;
 
 use app\index\controller\Aliyun;
+use app\index\controller\Wxapi;
 use think\Controller;
 use think\Session;
 use app\user\model\home\Sign as SignInModel;
@@ -161,20 +162,20 @@ class Signin extends Controller
 
     public function third_party_sign($x = '',$y = ''){
         //微信登录授权
-        $wx = new JsApiPay();
+        $wx = new Wxapi();
         //获取微信详细信息
         //传入经纬度坐标数组，利用state传递json参数
         $point_array = array(
             "point_lng"=>$x,
             "point_lat"=>$y
         );
-        $userInfo = $wx->_getUserInfo($point_array);
+        $userInfo = $wx->get_code($point_array);
         $openId = isset($userInfo['openid']) ? $userInfo['openid'] : '';
         $access_token = isset($userInfo['token']['access_token']) ? $userInfo['token']['access_token'] : '';
         //过期时间
         $exp_time = isset($userInfo['token']['expires_in']) ? $userInfo['token']['expires_in']: '';
         //取出经纬度数组
-        $point_info = $userInfo['state'];
+        $point_info = json_decode(request()->param('state'),true);
         //var_dump($point_info);exit;
         if(!$openId){
             //获取到openid

@@ -1,0 +1,40 @@
+{extend name="layout"}
+{block name="page_title"}账户详情{/block}
+{block name="page_css"}
+<!--layer组件css-->
+<link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+{/block}
+{block name="page_header"}
+<!--头部-->
+<header class="header">
+    <div class="nesting">
+        <a class="header-btn" onclick="history.go(-1)"><img src="__STATIC__/broker/img/left.png" /></a>
+        <div class="align-content">
+            <h2 class="align-text" style="color: #FFFFFF;">打款账号</h2>
+        </div>
+        <a onclick="sub_form()" class="header-btn header-btn1" style="color: #FFFFFF;">保存</a>
+    </div>
+</header>
+{/block}
+<!--内容-->
+{block name="content"}
+<section class="section">
+    <form id="form">
+        <ul class="user-wrap-style1">
+            <li class="mui-dis-flex">
+                <span class="text">支付宝账号</span>
+                <input class="flex1" {if condition="($info.alipay_num != '0')"} value=" {$info.alipay_num}"{/if} type="text" name="alipay_num" placeholder="请输入支付宝账号" />
+            </li>
+            <li class="mui-dis-flex">
+                <span class="text">支付宝姓名</span>
+                <input class="flex1" value="{$info.alipay_name}" type="text" name="alipay_name" placeholder="请输入支付宝名称" />
+            </li>
+        </ul>
+    </form>
+</section>
+{/block}
+{block name="page_js"}
+<script src="__STATIC__/layer/layer.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+<script src="__STATIC__/broker/js/my_info/account.js"></script>
+{/block}

@@ -52,7 +52,7 @@ class Member extends Admin
                 ->setPageTitle('会员列表') // 设置页面标题
                 ->setTableName('user') // 设置数据表名
                 ->setTabNav($list_tab,  $group)
-                ->setSearch(['id' => 'ID', 'username' => '用户名']) // 设置搜索参数
+                ->setSearch(['id' => 'ID', 'phone' => '电话']) // 设置搜索参数
                 ->addColumns([ // 批量添加列
                     ['id', 'ID'],
                     ['group_name', '权限组','text'],
@@ -101,7 +101,7 @@ class Member extends Admin
                         }
                     }],
                     ['login_time','最后登陆时间','datetime'],
-                    ['login_ip','最后登陆ip(v4)地址','text'],
+                    ['login_ip','最后登陆ip(v4)地址','callback',function($data){return long2ip($data);}],
                     ['status','用户状态','status'],
                     ['right_button','操作','btn']
                 ])

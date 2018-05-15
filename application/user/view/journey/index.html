@@ -53,7 +53,7 @@
 </div>
 
 <h1>
-    <input type="text" id="content" placeholder="输入聊天信息"/><button  id="send_info">发送</button>
+    <input type="text" value="bbb" id="content" placeholder="输入聊天信息"/><button  id="send_info">发送</button>
     <br>
     <span id="receive_info">
         这里是接受的消息
@@ -65,20 +65,41 @@
 <script src="__HOME_JS__/user/journey/index.js"></script>
 
 <script>
+    var  c_id ;
+   var  ws = new WebSocket("ws://127.0.0.1:8282");
+
+    // 服务端主动推送消息时会触发这里的onmessage
+
+    ws.onmessage = function(e){
+        // json数据转换成js对象
+        var bindUrl = "{:url('push/index/BindClientId')}";
+        console.log(e.data);
+
+        var data = eval("("+e.data+")");
+        c_id = data.client_id;
+        var type = data.type || '';
+        switch(type){
+            // Events.php中返回的init类型的消息，将client_id发给后台进行uid绑定
+            case 'init':
+                // 利用jquery发起ajax请求，将client_id发给后端进行uid绑定
+                $.post(bindUrl, {client_id: data.client_id,message:$('#content').val()}, function(data){
+
+                }, 'json');
+                break;
+            // 当mvc框架调用GatewayClient发消息时直接alert出来
+            default :
+                var text = e.data;
+                var str = '<li style="width:100%; height:60px; border:1px solid #000">' +text +'</li>';
+                $('#receive_info').append(str);
+             //alert(e.data);
+        }
+    };
 
     $('#send_info').click(function(){
-        ws = new WebSocket("ws://dev.dophin.local:2346");
-        ws.onopen = function() {
-            alert("连接成功");
-            $send_value = $('#content').val();
-            ws.send($send_value);
+        var bindUrl = "{:url('push/index/AjaxSendMessage')}";
+        $.post(bindUrl, {uid: 2,message:$('#content').val()}, function(data){
 
-            alert("给服务端发送一个字符串：蒲云军");
-        };
-        ws.onmessage = function(e) {
-            $("#receive_info").html(e.data)
-            //alert("收到服务端的消息：" + e.data);
-        };
+        }, 'json');
     })
 </script>
 

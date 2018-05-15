@@ -17,6 +17,9 @@ class Wxapi
         if($this->checkSignature()){
             echo $echoStr;
             exit;
+        }else{
+            //平时的消息推送处理
+            $this->responseMsg();
         }
     }
     private function checkSignature() {
@@ -118,12 +121,33 @@ function make_menu(){
         //第三步:根据全局access_token和openid查询用户信息
         $access_token = $token["access_token"];
         $openid = $oauth2['openid'];
+
         $get_user_info_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access_token&openid=$openid&lang=zh_CN";
         $userinfo = $this->getJson($get_user_info_url);
         var_dump($userinfo);
      }
 
 
+     //网页授权，公众号外部，没有关注的时候也可以获取信息
+     public function get_new_info(){
+         //获取code
+         $code = $_GET["code"];
+         $appid = "wx1800872e18acc8f7";
+         $secret = "03b564744dffd2cc239250437ee139db";
+
+
+         //第一步:取全局access_token
+         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code";
+         $token = $this->getJson($url);
+
+         //第三步:根据全局access_token和openid查询用户信息
+         $access_token = $token["access_token"];
+         $openid = $token['openid'];
+
+         $get_user_info_url = "https://api.weixin.qq.com/sns/userinfo?access_token=$access_token&openid=$openid";
+         $userinfo = $this->getJson($get_user_info_url);
+         return $userinfo;
+     }
     public function getJson($url){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -135,16 +159,109 @@ function make_menu(){
         return json_decode($output, true);
     }
 
-    public function get_code(){
+    public function get_code($order_info = array()){
+        if(!isset($_GET['code'])){
+
         //$scope='snsapi_userinfo';//需要授权
         $appid='wx1800872e18acc8f7';
-        $redirect_uri = urlencode('http://m.aiyueyoo.com/index/Wxapi/get_code_openid');
+        $redirect_uri =  urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+
         //https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-        $url ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
-
+        $url ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        $state = json_encode($order_info);
+        $url = $order_info ? str_replace("STATE", $state, $url) : $url;
         header("Location:".$url);
-
         exit;
+        }else{
+            $code = $_GET["code"];
+            $appid = "wx1800872e18acc8f7";
+            $secret = "03b564744dffd2cc239250437ee139db";
+
+            //第一步:取全局access_token
+            $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code";
+            $token = $this->getJson($url);
+            //第三步:根据全局access_token和openid查询用户信息
+            $access_token = $token["access_token"];
+            $openid = $token['openid'];
+
+            $get_user_info_url = "https://api.weixin.qq.com/sns/userinfo?access_token=$access_token&openid=$openid";
+            $userinfo = $this->getJson($get_user_info_url);
+            $userinfo['token']['access_token'] = $access_token;
+            return $userinfo;
+        }
+
+
+    }
+    public function get_that(){
+        var_dump($this->get_code());
+    }
+
+    public function responseMsg()
+    {
+        //get post data, May be due to the different environments
+        $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        //extract post data
+
+
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $fromUsername = $postObj->FromUserName;
+            $toUsername = $postObj->ToUserName;
+            $keyword = trim($postObj->Content);
+            $time = time();
+            $textTpl = "<xml>
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[%s]]></MsgType>
+                    <Content><![CDATA[%s]]></Content>
+                    <FuncFlag>0</FuncFlag>
+                    </xml>";
+
+               /* "<xml>
+                    <ToUserName>< ![CDATA[%s] ]></ToUserName> 
+                    <FromUserName>< ![CDATA[%s] ]></FromUserName> 
+                    <CreateTime>%s</CreateTime> 
+                    <MsgType>< ![CDATA[%s] ]></MsgType> 
+                    <Event>< ![CDATA[%s] ]></Event> 
+                    <EventKey>< ![CDATA[%s] ]></EventKey> 
+                    <Ticket>< ![CDATA[%s] ]></Ticket> 
+                </xml>";*/
+            $Ticket =   isset($postObj->Ticket)?$postObj->Ticket:'';
+            $EventKey = trim((string)$postObj->EventKey);
+            $keyArray = explode("_", $EventKey);
+            if($Ticket){
+                if (count($keyArray) == 1){
+                    //已关注者扫描
+                    $msgType = "text";
+                    $contentStr = "<a href='http://m.aiyueyoo.com/index/index/index/invite_code/".$postObj->EventKey.".html'>爱约游扫码入口!!</a>";
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                    echo $resultStr;
+                }else{
+                    //未关注者关注后推送事件
+                    $msgType = "text";
+                    $contentStr = "<a href='http://m.aiyueyoo.com'>爱约游扫码入口!!$postObj->EventKey</a>";
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                    echo $resultStr;
+                }
+            }else{
+                //非扫码入口
+                //未关注者关注后推送事件
+                $msgType = "text";
+                $contentStr = "<a href='http://m.aiyueyoo.com'>爱约游!!$postObj->EventKey</a>";
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                echo $resultStr;
+            }
+
+           /* if(!empty( $keyword ))
+            {
+                $msgType = "text";
+                $contentStr = "<a href='http://m.aiyueyoo.com'>Welcome to Welcome to 爱约游!!</a>";
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                echo $resultStr;
+            }else{
+                echo "Input something...";
+            }*/
+
     }
 
 }

@@ -1,0 +1,48 @@
+{extend name="layout"}
+{block name="page_title"}提现{/block}
+{block name="page_css"}
+<!--layer组件css-->
+<link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+{/block}
+{block name="page_header"}
+<!--头部-->
+<header class="header">
+    <div class="nesting">
+        <a class="header-btn" onclick="history.go(-1)"><img src="__STATIC__/broker/img/left.png" /></a>
+        <div class="align-content">
+            <h2 class="align-text" style="color: #FFFFFF;">提现</h2>
+        </div>
+        <a href="#" class="header-btn header-btn1"></a>
+    </div>
+</header>
+{/block}
+<!--内容-->
+{block name="content"}
+<section class="withdrawTo">
+    <header class="withdrawTo-head">
+        <a href="{:url('broker/account/index')}">
+            <label class="fl">提现至</label>
+            <label class="fr">支付宝<img src="__STATIC__/broker/img/Arrow.png" class="middl"/></label>
+        </a>
+    </header>
+    <section class="withdrawTo-sum">
+        <em>提现金额</em>
+        <label>
+            <i>￥</i>
+            <input type="text" name="" class="align-content" id="amount"/>
+        </label>
+    </section>
+    <footer class="withdrawTo-head withdrawTo-button">
+        <label class="fl">可提现余额&nbsp;￥<i id="account_money">{$broker_info.account}</i></label>
+        <a class="fr" id="all_money">全部提现</a>
+    </footer>
+    <button class="withdrawTo-bu" id="withdrawTo-bu">2小时到账,确认提现</button>
+    <!--<button class="withdrawTo-bu1">2小时到账,确认提现</button>-->
+</section>
+{/block}
+{block name="page_js"}
+<script src="__STATIC__/layer/layer.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+<script src="__STATIC__/broker/js/my_info/withdraw_to.js"></script>
+<script src="__STATIC__/broker/js/index.js"></script>
+{/block}

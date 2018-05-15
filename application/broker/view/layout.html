@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{block name="page_title"}{/block}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="__STATIC__/broker/css/index.css" type="text/css" rel="stylesheet" />
+    <link href="__STATIC__/broker/css/shared.css" type="text/css" rel="stylesheet" />
+    {block name="page_css"}
+
+    {/block}
+
+    <script type="text/javascript" src="__HOME_CSS__/wapcssjsimg/cssjs/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+    <!--layui组件-->
+</head>
+
+<body>
+<!--头部-->
+{block name="page_header"}
+
+{/block}
+<!--内容-->
+{block name="content"}
+
+{/block}
+<!--底部-->
+<footer class="footer">
+    <dl>
+        <dt>
+            <a href="{:url('broker/my_info/sale_record')}">
+                <span><img src="__STATIC__/broker/img/mine.png"/>我的分销</span>
+            </a>
+        </dt>
+        <dd>
+            <a href="{:url('broker/index/index')}">
+                <span><img src="__STATIC__/broker/img/i.png"/>我的</span>
+            </a>
+        </dd>
+    </dl>
+</footer>
+</body>
+
+</html>
+
+<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+{block name="page_js"}
+
+{/block}

@@ -132,21 +132,18 @@
              return false;
          }else{
              $.ajax({
-
                 url:'http://'+window.location.host+'/user/chat_content/add_chat',
                 data:{content:send_content,receive_uid:obj_uid},
                 dataType:'JSON',
                 type:'POST',
                 success:function(res){
                     if(res){
-                        $('.lis').append(
-                            '<div class="q2">' +
-                            '<div class="pic">' +
-                            '<img src="'+current_user_img+'">' +
-                            '</div>' +
-                            '<div class="con">' +send_content+'</div>' +
-                            '</div>')
-                        $('input[name="content"]').val('');
+
+                        var bindUrl = "{:url('push/index/AjaxSendMessage')}";
+                        $.post(bindUrl, {uid: obj_uid,message:$('input[name="content"]').val()}, function(data){
+                        }, 'json');
+
+                        layer.msg('发送成功')
                     }else{
                         layer.msg('稍后再试');
                     }
@@ -158,4 +155,63 @@
 
 
 </script>
+
+
+<script>
+    var  c_id ;
+    var current_uid = {$Think.session.user_auth_home.uid};
+    var  ws = new WebSocket("ws://127.0.0.1:8282");
+
+    // 服务端主动推送消息时会触发这里的onmessage
+    ws.onmessage = function(e){
+        // json数据转换成js对象
+        var bindUrl = "{:url('push/index/BindClientId')}";
+        console.log(e.data);
+
+        var data = eval("("+e.data+")");
+        c_id = data.client_id;
+        var type = data.type || '';
+        switch(type){
+            // Events.php中返回的init类型的消息，将client_id发给后台进行uid绑定
+            case 'init':
+                // 利用jquery发起ajax请求，将client_id发给后端进行uid绑定
+                $.post(bindUrl, {client_id: data.client_id,message:$('input[name="content"]').val(),uid:obj_uid}, function(data){
+
+                }, 'json');
+                break;
+            // 当mvc框架调用GatewayClient发消息时直接alert出来
+            default :
+                //var text = e.data;
+                //var str = '<li style="width:100%; height:60px; border:1px solid #000">' +text +'</li>';
+                if(data.send_uid === obj_uid){
+                    $('.lis').append(
+                        '<div class="q1">' +
+                        '<div class="pic">' +
+                        '<img src="'+current_user_img+'">' +
+                        '</div>' +
+                        '<div class="con">' +data.message+'</div>' +
+                        '</div>')
+                    $('input[name="content"]').val('');
+                }else if(data.send_uid === current_uid){
+                    $('.lis').append(
+                        '<div class="q2">' +
+                        '<div class="pic">' +
+                        '<img src="'+current_user_img+'">' +
+                        '</div>' +
+                        '<div class="con">' +data.message+'</div>' +
+                        '</div>')
+                    $('input[name="content"]').val('');
+                }
+               // $('.lis').append(str);
+            //alert(e.data);
+        }
+    };
+
+    /*$('#send_bt').click(function(){
+        var bindUrl = "{:url('push/index/AjaxSendMessage')}";
+        $.post(bindUrl, {uid: obj_uid,message:$('input[name="content"]').val()}, function(data){
+        }, 'json');
+    })*/
+</script>
+
 {/block}

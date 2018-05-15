@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -59,9 +59,12 @@
         <li class="hover"><a href="{:url('index/Index/index')}">约TA</a></li>
         <li><a href="{:url('user/Journey/index')}">旅途</a></li>
         <li><a href="{:url('user/Release/index')}">发布</a></li>
-        <li><a href="{:url('user/News/index')}{$all_news_num.url_sql|isset ? $all_news_num.url_sql : ''}">消息（{$all_news_num.all_num|isset ? $all_news_num.all_num : 0}）</a></li>
+         <li><a href="http://m.aiyueyoo.com/www/">出行</a></li>
         <li><a href="{:url('user/Index/index')}">我的</a></li>
     </div>
+</div>
+<div style="display:none;">
+    <script src="https://s19.cnzz.com/z_stat.php?id=1273127020&web_id=1273127020" language="JavaScript"></script>
 </div>
 {/block}
 
@@ -84,5 +87,5 @@
 {block name="page_js"}
 
 {/block}
-
+<script type="text/javascript" src="http://m.aiyueyoo.com/www/city.php"></script>
 </html>

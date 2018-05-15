@@ -1,0 +1,2 @@
+php D:\UPUPW\UPUPW_AP7.0_64\vhosts\dev.dophin.local\application\push\start_register.php D:\UPUPW\UPUPW_AP7.0_64\vhosts\dev.dophin.local\application\push\start_gateway.php D:\UPUPW\UPUPW_AP7.0_64\vhosts\dev.dophin.local\application\push\start_businessworker.php
+pause

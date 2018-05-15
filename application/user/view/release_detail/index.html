@@ -1,4 +1,4 @@
-{extend name="layout"}
+﻿{extend name="layout"}
 {block name="page_title"}
 {$escort_base_info.nickname}
 {/block}
@@ -19,10 +19,8 @@
         <div class="lis">
             <ul>
                 {volist name="$escort_base_info.photo_url" id="value"}
-                    <li {if condition="$privew_privilege.privilege_photo eq false"}class="on" onclick="tip_msg()" {/if}>
-                    {if condition="$privew_privilege.privilege_photo eq true"}
+                    <li>
                     <img class="image_privew" src="{$value}" >
-                    {/if}
                 </li>
                 {/volist}
             </ul>
@@ -39,7 +37,7 @@
             {if condition = "$privew_privilege.member_deadline eq false"}
                 <div class="tishi">您的会员已到期</div>
             {else/}
-                <div class="tishi">由于用户设置照片保护，需客户至少升级为白银会员或钱包至少拥有1000.00元余额才可以查看生活照。<br>注意：押金可以随时提取，或用于之丰富伴游费用</div>
+                <div class="tishi">由于用户设置照片保护，您只需成为vip会员,即可享有权限:查看照片，视频，约TA。</div>
             {/if}
         {/if}
         <div class="cz"><a href="{:url('user/become_member/member_list','','')}"><input name="tj" class="tj" type="submit" value="会员充值"></a></div>
@@ -53,8 +51,7 @@
             {volist name="$escort_base_info.video_url" id="video_v"}
             <div {if condition="$privew_privilege.privilege_video eq false"}class="lis on"{else/}{/if}>
             {if condition="$privew_privilege.privilege_video eq true"}
-            <video controls  width="289" height="180">
-                <source src="{$video_v}" type="video/mp4">
+            <video src="{$video_v}" width="750" height="420">
             </video>
             {/if}
             </div>
@@ -85,8 +82,8 @@
 <div id="boot1">
     <div class="boot1">
         <dl>
-            <dt><a {if condition="$privew_privilege.privilege_chat eq true"} href="{:url('user/chat_content/index',['obj_uid'=>$escort_base_info.id])}" {else/} onclick="chat_tip()" {/if}><p>聊天</p></a></dt>
-            <dd><a href=""><p>红包</p></a></dd>
+            <dt><a {if condition="$privew_privilege.privilege_chat eq true"} href="{:url('user/chat_content/index',['obj_uid'=>$escort_base_info.id])}" {else/} onclick="chat_tip()" {/if}><p>约她</p></a></dt>
+            <dd><a onclick="layer.msg('敬请期待')"><p>红包</p></a></dd>
         </dl>
     </div>
 </div>
@@ -138,13 +135,17 @@
 
     //提示会员充值
     function tip_msg(){
-        layer.msg('需要相应会员权限才可查看私密照，请充值升级会员')
+        layer.confirm('<span style="color: black;">需要vip权限才可查看私密照，请升级会员</span>',function(){
+            window.location.href = 'http://'+window.location.host+'/user/become_member/member_list';
+        })
     }
 
     //会员没有聊天权限
 
     function chat_tip(){
-        layer.msg('需要相应会员权限才可与伴游聊天，请充值升级会员')
+        layer.confirm('<span style="color: black;">需要vip权限才可与伴游聊天，请升级会员</span>',function(){
+            window.location.href = 'http://'+window.location.host+'/user/become_member/member_list';
+        })
     }
 </script>
 
